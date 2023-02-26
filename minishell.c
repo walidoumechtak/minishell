@@ -21,7 +21,7 @@ int main()
     while (1)
     {
         str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-        minishell();
+        //minishell();
         add_history(str); // ==> add to cammand history
         printf("%s \n", str);
     }
