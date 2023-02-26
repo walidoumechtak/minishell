@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:49:11 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/25 11:29:19 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/02/26 15:46:25 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-
+#include "libc.h"
+#include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
