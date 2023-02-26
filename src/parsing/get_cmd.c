@@ -6,11 +6,11 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 11:16:39 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/26 13:32:27 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/02/26 16:46:03 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 char    **get_cmd(t_minishell *ptr)
 {

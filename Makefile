@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/02/26 15:56:37 by woumecht         ###   ########.fr        #
+#    Updated: 2023/02/26 16:39:55 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,12 @@ LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
 
-SRC= main.c \
-	 src/minishell.c \
-	 
+# SRC= main.c \
+# 	 src/minishell.c \
+
+SRCP= test.c
+
+SRC = $(addprefix ./src/parsing/, $(SRCP)) 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -41,8 +44,9 @@ clean:
 	@echo "cleaninig..."
 	@sleep 0.5
 	@rm -f $(OBJ)
-	make clean -C ./libft
+	@make clean -C ./libft
 	@echo "Done."
 fclean: clean
 	@rm -f $(NAME) $(LIBFT)
 
+re:fclean all

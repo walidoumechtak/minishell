@@ -2,7 +2,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "libc.h"
+#include "libft.h"
 #include "get_next_line.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -17,13 +17,11 @@
 # define GRAY "\033[2;37m"
 # define ITALIC "\033[3m"
 
-typedef struct s_list
+typedef struct s_node
 {
 	char			**cmd;
-	struct s_node	*next;
-	int				index_pipe;
-}					t_list;
-
+	int				i_pipe;
+}					t_node;
 
 
 typedef struct s_mini
@@ -32,5 +30,4 @@ typedef struct s_mini
 	char			**splited_pipe;
 	char			**splited_redirection;
 }					t_minishell;
-
 #endif

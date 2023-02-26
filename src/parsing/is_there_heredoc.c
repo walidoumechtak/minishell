@@ -6,11 +6,11 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:20:10 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/26 12:23:27 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/02/26 16:46:12 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int is_there_heredoc(t_minishell *ptr)
 {
