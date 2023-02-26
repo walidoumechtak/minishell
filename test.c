@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <signal.h>
+#include <unistd.h>
 
-void signal_handler(int signum) {
-    printf("Received signal %d\n", signum);
-}
+int main(int ac, char **av, char **env)
+{
 
-int main(void) {
-    signal(SIGINT, signal_handler);
-    
-    printf("Press Ctrl-C to send an interrupt signal\n");
-    
-    while (1) {
-        // Main program loop
-    }
-    
-    return 0;
+    (void) ac;
+    (void) av;
+
+    char *path = "/bin/cat";
+    char *cmd = "cat";
+    char *arg = "-e";
+    char *arg2 = "main.c";
+    char *cmds[] = {cmd, arg, NULL, NULL};
+
+    execve(path, cmds, env);
 }
