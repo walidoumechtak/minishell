@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/02/26 15:48:24 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/02/26 17:46:10 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,10 @@ HEADER		= -I./inc -I./libft/inc
 LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
+BUILTINS = ft_echo.c
 
 SRC= minishell.c \
+	$(addprefix ./src/execution/builtins/, $(BUILTINS))
 
 OBJ = $(SRC:.c=.o)
 
@@ -32,7 +34,6 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(HEADER) $(CLIB) $(OBJ) -lreadline -o $(NAME)
-	
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
 	@make all -C ./libft

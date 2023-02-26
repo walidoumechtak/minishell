@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:49:11 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/26 15:46:25 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/02/26 17:43:52 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ typedef struct s_mini
     
 }           t_mini;
 
+/*Builtins*/
+void	ft_echo(char *str, char flag);
 
 #endif
