@@ -6,14 +6,14 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:49:11 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/26 17:43:52 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:38:14 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-#include "libc.h"
+#include "libft.h"
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -37,6 +37,6 @@ typedef struct s_mini
 }           t_mini;
 
 /*Builtins*/
-void	ft_echo(char *str, char flag);
+int	ft_echo(char **args, char *flag);
 
 #endif

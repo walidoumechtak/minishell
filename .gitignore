@@ -1,5 +1,5 @@
 *.DS_Store
 *.o
 *.vscode/setting.json
-*a.out
+*a.out*
 *mainhamza.c

@@ -1,9 +1,15 @@
 #include "minishell.h"
 
-void	ft_echo(char *str, char flag)
+int	ft_echo(char **args, char *flag)
 {
-	if (flag == 'n')
-		printf("%s\n", str);
-	else
-		printf("%s", str);
+	while (args && *args)
+	{
+		printf("%s", *args);
+		args++;
+		if (args && *args)
+			printf(" ");
+	}
+	if (!flag || !*flag || !ft_strncmp(flag, "-n", 2))
+		printf("\n");
+	return (0);
 }
