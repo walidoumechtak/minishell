@@ -1,1 +1,5 @@
 .DS_Store
+*.a
+*.vscode*
+minishell
+*a.out.dSYM/
