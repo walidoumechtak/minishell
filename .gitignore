@@ -1,7 +1,8 @@
 *.DS_Store
 *.o
 *.vscode*
-*a.out*
+*a.out
 *mainhamza.c
 minishell
 libft/libft.a
+*a.out.dSYM/
