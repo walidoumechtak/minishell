@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "../../libft/inc/libft.h"
 
 // int main(void)
 // {
@@ -25,10 +25,12 @@
 //     }
 // }
 
-int main()
-{
-    char *cmd[] = {"alias", "ccc=clear", NULL};
-    char *path = "/usr/bin/alias";
+//int main()
+//{
+    // char *cmd[] = {"alias", "ccc=clear", NULL};
+    // char *path = "/usr/bin/alias";
 
-    execve(path, cmd, NULL);
-}
+    // execve(path, cmd, NULL);
+
+//}
+

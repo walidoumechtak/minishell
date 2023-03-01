@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/02/28 11:48:58 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/01 16:40:28 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,13 @@ CLIB		=  -L./libft -lft
 # 	 src/minishell.c \
 
 SRCP= build_linked_list_v1.c is_there_in_redirection.c is_there_out_redirection.c handle_quotes.c \
+	is_there_append.c\
+
+SRCS= parsing.c init_struct.c ft_perror.c \
 
 SRC = $(addprefix ./src/parsing/, $(SRCP)) \
-	main.c \
-	src/parsing.c \
-	src/init_struct.c \
-	src/ft_perror.c \
+	  $(addprefix ./src/, $(SRCS)) \
+	  main.c \
 	
 OBJ = $(SRC:.c=.o)
 
