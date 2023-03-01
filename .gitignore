@@ -1,2 +1,5 @@
 .DS_Store
 src/parsing/test.c
+.vscode
+a.out
+minishell
