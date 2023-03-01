@@ -6,13 +6,13 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:14:58 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/26 16:46:18 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:51:33 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_there_in_redirection(t_minishell *ptr)
+int is_there_out_redirection(t_minishell *ptr)
 {
     int i;
     int cpt;
