@@ -10,6 +10,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+# include <fcntl.h>
+#	include <sys/wait.h>
+
 #define NONE "\033[0m"
 #define GREEN "\033[32m"
 #define RED "\033[91m"
