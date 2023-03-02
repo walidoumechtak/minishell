@@ -6,13 +6,13 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:14:58 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/01 16:43:00 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:37:29 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_it(char *str)
+int is_there_out_redirection(char *str)
 {
     int i;
     int cpt;
@@ -21,45 +21,15 @@ int check_it(char *str)
     cpt = 0;
     while (str[i])
     {
-        if (str[i] == '>')
+        if (str[i] == '>' && str[i + 1] != '>' &&
+            (i >= 0 && str[i - 1] != '>'))
         {
-            cpt++;   
-            i++;
-            continue;
-        }
-        i++;
-    }
-    return (cpt);
-}
-
-int is_there_out_redirection(char *str)
-{
-    int i;
-    
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '\"')
-        {
-            i++;
-            while (str[i] != '\"')
-            {
-                str[i] = '_';
-                i++;
-            }
+            cpt++;
             i++;
             continue ;
         }
-        else if (str[i] == '\'')
-        {
+        else
             i++;
-            while (str[i] != '\'')
-            {
-                str[i] = '_';
-                i++;
-            }
-        }
-        i++;
     }
-    return (check_it(str));
+    return (cpt);
 }
