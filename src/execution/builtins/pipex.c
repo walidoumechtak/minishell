@@ -1,7 +1,5 @@
 
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdio.h>
+#include "minishell.h"
 
 int	main(int ac, char **argv)
 {
@@ -9,8 +7,8 @@ int	main(int ac, char **argv)
 	int i;
 
 	i = 0;
-	/*				 cmd1      arg   |     cmd2         agrs             */
-	char *av[] = {"/bin/ls", NULL, "/usr/bin/echo", "Hello hamza", NULL};
+	/*				 cmd1      arg   	 |     cmd2         agrs             */
+	char *av[] = {"/bin/cat", "ft_echo.c", "/bin/echo", "Hello world", NULL};
 	ac = 5;
 
 	if (ac == 1)
@@ -20,7 +18,7 @@ int	main(int ac, char **argv)
 	int outfile = STDOUT_FILENO;
 	/* Duplicate the file descriptor you want to read from*/
 	dup2(infile, STDIN_FILENO);
-	while (av[i] && i <= ac / 2)
+	while (av[i])
 	{
 		char *args[] = {av[i], av[i + 1], NULL};
 		/*Create a pip*/
@@ -37,14 +35,12 @@ int	main(int ac, char **argv)
 			close(fd[0]);
 			execve(av[i], args, NULL);
 		}
-		else /*The parent process*/
-		{
+		 /*The parent process*/
 			/* Duplicate the file descriptor you want to read from*/
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[1]);
 			close(fd[0]);
 			i = i + 2;
-		}
 	}
 	wait(NULL);
 	return (0);
