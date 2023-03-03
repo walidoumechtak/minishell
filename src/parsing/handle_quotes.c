@@ -78,7 +78,7 @@ int check_is_quotes_close(t_minishell *ptr)
     return (0);
 }
 
-void    fill_sapce_with(char *str, char c)
+void    fill_sapce_with(char *str,char old, char c)
 {
     int i;
 
@@ -92,7 +92,7 @@ void    fill_sapce_with(char *str, char c)
             i++;
             while (str[i] != '\"')
             {
-                if (str[i] == ' ')
+                if (str[i] == old)
                     str[i] = c;
                 i++;
             }
@@ -103,7 +103,7 @@ void    fill_sapce_with(char *str, char c)
             i++;
             while (str[i] != '\'')
             {
-                if (str[i] == ' ')
+                if (str[i] == old)
                     str[i] = c;
                 i++;
             }
@@ -124,85 +124,56 @@ void    add_space_double(char **str)
     
     i = 0;
     j = -1;
-    size = is_there_append(*str) * 2 + is_there_heredoc(*str) * 2;
+    size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2;
     temp = malloc((ft_strlen(*str) + size) * sizeof(char));
     iter = *str;
     while (iter[i])
     {
-        if (iter[i] == '\"' || iter[i] == '\'')
+         if (iter[i] == '\"')
         {
+            temp[++j] = iter[i];
             i++;
-            while (iter[i] && (iter[i] != '\"' || iter[i] != '\''))
+            while (iter[i] && iter[i] != '\"')
                 temp[++j] = iter[i++];
+            temp[++j] = iter[i];
+        }
+        else if (iter[i] == '\'')
+        {
+            temp[++j] = iter[i];
+            i++;
+            while (iter[i] && iter[i] != '\'')
+                temp[++j] = iter[i++];
+            temp[++j] = iter[i];
         }
         else
         {
             if (iter[i] != '>' && iter[i] != '<')
                 temp[++j] = iter[i];
-            else if (iter[i] == '>' && iter[i] && iter[i + 1] == '>')
+            else
             {
+                if (iter[i] == '>')
+                {
+                    temp[++j] = ' ';
+                    while (iter[i] == '>')
+                        temp[++j] = iter[i++];
+                }
+                else if (iter[i] == '<')
+                {
+                    temp[++j] = ' ';
+                    while (iter[i] == '<')
+                        temp[++j] = iter[i++];
+                    
+                }
+                i--;
                 temp[++j] = ' ';
-                temp[++j] = '>';
-                temp[++j] = '>';
-                temp[++j] = ' ';
-                i += 2;
-                continue ;
-            }
-            else if (iter[i] == '<' && iter[i] && iter[i + 1] == '<')
-            {
-                temp[++j] = ' ';
-                temp[++j] = '<';
-                temp[++j] = '<';
-                temp[++j] = ' ';
-                i += 2;
-                continue ;
             }
         }
         i++;
     }
+    temp[++j] = '\0';
+    free(*str);
+    *str = temp;
 }
-
-// void    add_space_double(char **str)
-// {
-//     char *temp;
-//     char *iter;
-//     int size;
-//     int i;
-//     int j;
-    
-//     i = 0;
-//     j = -1;
-//     size = is_there_append(*str) * 2 + is_there_heredoc(*str) * 2;
-//     temp = malloc((ft_strlen(*str) + size) * sizeof(char));
-//     iter = *str;
-//     while (iter[i])
-//     {
-//         if (iter[i] != '>' && iter[i] != '<')
-//             temp[++j] = iter[i];
-//         else if (iter[i] == '>' && iter[i] && iter[i + 1] == '>')
-//         {
-//             temp[++j] = ' ';
-//             temp[++j] = '>';
-//             temp[++j] = '>';
-//             temp[++j] = ' ';
-//             i += 2;
-//             continue ;
-//         }
-//         else if (iter[i] == '<' && iter[i] && iter[i + 1] == '<')
-//         {
-//              temp[++j] = ' ';
-//             temp[++j] = '<';
-//             temp[++j] = '<';
-//             temp[++j] = ' ';
-//             i += 2;
-//             continue ;
-//         }
-//         i++;
-//     }
-    
-//     free(iter);
-//     *str = temp;
-// }
 
 void    add_space_one(char **str)
 {
@@ -219,11 +190,21 @@ void    add_space_one(char **str)
     iter = *str;
     while (iter[i])
     {
-        if (iter[i] == '\"' || iter[i] == '\'')
+        if (iter[i] == '\"')
         {
+            temp[++j] = iter[i];
             i++;
-            while (iter[i] && (iter[i] != '\"' || iter[i] != '\''))
+            while (iter[i] && iter[i] != '\"')
                 temp[++j] = iter[i++];
+            temp[++j] = iter[i];
+        }
+        else if (iter[i] == '\'')
+        {
+            temp[++j] = iter[i];
+            i++;
+            while (iter[i] && iter[i] != '\'')
+                temp[++j] = iter[i++];
+            temp[++j] = iter[i];
         }
         else
         {
@@ -244,59 +225,22 @@ void    add_space_one(char **str)
         }
         i++;
     }
+    temp[++j] = '\0';
     free(*str);
     *str = temp;
 }
 
 
-// void    remove_empty_quotes(char *str)
-// {
-//     int len;
-//     int i;
 
-//     i = 0;
-//     len = ft_strlen(str) - 1;
-//     while (str[i])
-//     {
-//         if (str[i] == '\"')
-//         {
-            
-//         }
-//     }
-// }
 
-// void    shift_to_left(char *str)
-// {
-
-// }
-
-void    add_space_to_redirec(t_minishell *ptr)
-{
-    int i;
-    
-    i = 0;
-    while (ptr->splited_pipe[i])
-    {
-        if (is_there_heredoc(ptr->splited_pipe[i]) != 0 ||
-            is_there_append(ptr->splited_pipe[i]) != 0)
-            add_space_double(&ptr->splited_pipe[i]);
-        if (is_there_in_redirection(ptr->splited_pipe[i]) != 0 ||
-            is_there_out_redirection(ptr->splited_pipe[i]) != 0)
-            add_space_one(&ptr->splited_pipe[i]);
-        i++;
-    }
-}
 
 void    remove_quotes(t_minishell *ptr, char *str)
 {
-    // char *temp;
     int i;
     int j;
 
     i = 0;
     j = 0;
-    // len = ft_strlen(str);
-    fill_sapce_with(str, ';'); // fill spaces inside double or singl quotes
     ptr->splited_space = ft_split(str, ' ');
     while (ptr->splited_space[j])
     {
@@ -304,27 +248,20 @@ void    remove_quotes(t_minishell *ptr, char *str)
         j++;
     }
     printf("-------------------------------------------\n");
-    // while (ptr->splited_space[i])
-    // {
-    // }
 }
 
 
 void    handle_quotes(t_minishell *ptr)
 {
-    int count_double_q;
-    int count_singl_q;
     int i;
 
     if(check_is_quotes_close(ptr) == 1)
         ft_perror("Error : Sysntax Error\n", 1);
-    add_space_to_redirec(ptr);
     i = 0;
     while (ptr->splited_pipe[i])
     {
+        add_space_double(&ptr->splited_pipe[i]);
         printf("-- before : %s\n", ptr->splited_pipe[i]);
-        count_double_q = count_double_quotes(ptr->splited_pipe[i]);
-        count_singl_q = count_singl_quotes(ptr->splited_pipe[i]);
         remove_quotes(ptr, ptr->splited_pipe[i]);
         i++;
     }

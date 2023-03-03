@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/02 10:59:23 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/03 15:59:29 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CLIB		=  -L./libft -lft
 SRCP= build_linked_list_v1.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c\
 
-SRCS= parsing.c init_struct.c ft_perror.c \
+SRCS= parsing.c init_struct.c ft_perror.c free_splite.c\
 
 SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(SRCS)) \

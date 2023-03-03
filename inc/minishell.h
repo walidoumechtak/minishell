@@ -55,4 +55,7 @@ void		handle_quotes(t_minishell *ptr);
 
 void		ft_perror(char *str, int status);
 
+/*  ===== free function ===== */
+
+void    free_spilte(char    **str);
 #endif
