@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:14:58 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/02 13:37:23 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:23:01 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int is_there_in_redirection(char *str)
     while (str[i])
     {
         if (str[i] == '<' && str[i + 1] != '<' 
-            && (i >= 0 && str[i - 1] != '<'))
+            && (i == 0 || str[i - 1] != '>'))
         {
             cpt++;
             i++;

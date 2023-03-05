@@ -5,7 +5,7 @@ void    ft_putchar_error(char c)
     write(2, &c, 1);
 }
 
-void    ft_perror(char *str, int status)
+int    ft_perror(char *str, int status)
 {
     int i;
 
@@ -16,6 +16,7 @@ void    ft_perror(char *str, int status)
         i++;
     }
     STAT = status;
-    exit(status);
+    return(status);
+    //exit(status);
     // return (status);
 }

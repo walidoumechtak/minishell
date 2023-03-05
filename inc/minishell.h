@@ -21,41 +21,62 @@
 int			STAT;
 
 /* ===== STRUCT ===== */
-typedef struct s_command
+
+typedef	struct s_repare_cmd
+{
+	char    *result;
+    char *iter;
+    char    *temp;
+    char    *sub;
+    int i;
+    int s;
+    int e;
+}			t_repare_cmd;
+
+typedef struct s_command_v1
 {
 	char	**cmd;
-	char	**redir;
-	int		i_pipe;
-}			t_cmd;
+	int		fd_in;
+	int		fd_out;
+}			t_cmd_v1;
+
+typedef struct s_env
+{
+	char	*envStr;
+}			t_env;
 
 typedef struct s_mini
 {
 	t_list	*list_v1;
 	t_list	*list_v2;
+	t_list  *env_head;
+	char **env;
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
-	char	**splited_in_redirection;
-	char	**splited_out_redirection;
 }			t_minishell;
 
 void		init_struct(t_minishell *ptr);
-void		parsing(t_minishell *ptr);
+int			parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
+int			handle_quotes(t_minishell *ptr);
+void    ft_exapaind(t_minishell *ptr, char **str);
+void    fill_with(char *str,char old, char c);
 
-void		build_linked_list_v1(t_minishell *ptr);
-int is_there_in_redirection(char *str);
-int is_there_out_redirection(char *str);
+int			build_linked_list(t_minishell *ptr);
+int			build_list_1(t_minishell *ptr);
+
+int			is_there_in_redirection(char *str);
+int			is_there_out_redirection(char *str);
 int			is_there_heredoc(char *str);
-int is_there_append(char *str);
-void		handle_quotes(t_minishell *ptr);
+int			is_there_append(char *str);
 
 /*  ===== Error function ===== */
 
-void		ft_perror(char *str, int status);
+int		ft_perror(char *str, int status);
 
 /*  ===== free function ===== */
 
-void    free_spilte(char    **str);
+void		free_spilte(char **str);
 #endif

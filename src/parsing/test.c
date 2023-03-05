@@ -34,3 +34,9 @@
 
 //}
 
+int main()
+{
+    char *s3 = "walid";
+    char *sub = ft_substr(s3, 0,0);
+    printf("%s\n", ft_strjoin(s3, sub));
+}

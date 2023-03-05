@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:20:10 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/02 16:06:02 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:22:25 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int is_there_append(char *str)
     while (str[i])
     {
         // if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
-         if (str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] != '>' && str[i - 1] != '>')
+         if (str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] != '>' && (i == 0 || str[i - 1] != '>'))
         {
             cpt++;   
             i += 2;

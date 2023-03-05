@@ -6,12 +6,12 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/03 15:59:29 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/05 18:29:27 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-CFLAGS=-Wall -Wextra -Werror 
+CFLAGS=-Wall -Wextra -Werror -fsanitize=address
 NAME=minishell
 
 LIBREADLINE=-L .brew/opt/readline/lib
@@ -24,8 +24,8 @@ CLIB		=  -L./libft -lft
 # SRC= main.c \
 # 	 src/minishell.c \
 
-SRCP= build_linked_list_v1.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
-	is_there_append.c\
+SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
+	is_there_append.c ft_expaind.c build_list_1.c fill_with.c\
 
 SRCS= parsing.c init_struct.c ft_perror.c free_splite.c\
 

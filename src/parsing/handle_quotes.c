@@ -78,43 +78,7 @@ int check_is_quotes_close(t_minishell *ptr)
     return (0);
 }
 
-void    fill_sapce_with(char *str,char old, char c)
-{
-    int i;
-
-    if (!str)
-        return ;
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '\"')
-        {
-            i++;
-            while (str[i] != '\"')
-            {
-                if (str[i] == old)
-                    str[i] = c;
-                i++;
-            }
-            // i++;
-        }
-        else if (str[i] == '\'')
-        {
-            i++;
-            while (str[i] != '\'')
-            {
-                if (str[i] == old)
-                    str[i] = c;
-                i++;
-            }
-            // i++;
-        }
-        i++;
-    }
-
-}
-
-void    add_space_double(char **str)
+void    add_space_redirection(char **str)
 {
     char *temp;
     char *iter;
@@ -124,12 +88,14 @@ void    add_space_double(char **str)
     
     i = 0;
     j = -1;
+    if (!str || !*str)
+        return;
     size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2;
-    temp = malloc((ft_strlen(*str) + size) * sizeof(char));
+    temp = malloc((ft_strlen(*str) + size + 1) * sizeof(char));
     iter = *str;
     while (iter[i])
     {
-         if (iter[i] == '\"')
+        if (iter[i] == '\"')
         {
             temp[++j] = iter[i];
             i++;
@@ -230,39 +196,39 @@ void    add_space_one(char **str)
     *str = temp;
 }
 
+// void    remove_quotes(t_minishell *ptr, char *str)
+// {
+//     int i;
+//     int j;
+
+//     i = 0;
+//     j = 0;
+//     ptr->splited_space = ft_split(str, ' ');
+//     while (ptr->splited_space[j])
+//     {
+//         fill_with(ptr->splited_space[i], '\t', ' ');
+//         printf("==>%s\n", ptr->splited_space[j]);
+//         j++;
+//     }
+//     printf("-------------------------------------------\n");
+// }
 
 
-
-
-void    remove_quotes(t_minishell *ptr, char *str)
-{
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    ptr->splited_space = ft_split(str, ' ');
-    while (ptr->splited_space[j])
-    {
-        printf("==>%s\n", ptr->splited_space[j]);
-        j++;
-    }
-    printf("-------------------------------------------\n");
-}
-
-
-void    handle_quotes(t_minishell *ptr)
+int    handle_quotes(t_minishell *ptr)
 {
     int i;
 
     if(check_is_quotes_close(ptr) == 1)
-        ft_perror("Error : Sysntax Error\n", 1);
+        // return(ft_perror("Error : Sysntax Error\n", 1));
+        return (1);
     i = 0;
     while (ptr->splited_pipe[i])
     {
-        add_space_double(&ptr->splited_pipe[i]);
-        printf("-- before : %s\n", ptr->splited_pipe[i]);
-        remove_quotes(ptr, ptr->splited_pipe[i]);
+        fill_with(ptr->splited_pipe[i], ' ', '\t');
+        add_space_redirection(&ptr->splited_pipe[i]);
+        // remove_quotes(ptr, ptr->splited_pipe[i]);
         i++;
     }
+    //builed_list(ptr);
+    return (0);
 }
