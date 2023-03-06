@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/02/25 18:13:42 by woumecht         ###   ########.fr       */
+/*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/05 12:48:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+// char *error_syntax(t_minishell *ptr)
+// {
+    
+// }
+
+int    parsing(t_minishell *ptr)
 {
-    char *str;
-
-    str = NULL;
-
-    while (1)
-    {
-        str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-        //minishell();
-        add_history(str); // ==> add to cammand history
-        printf("%s \n", str);
-    }
-    free(str);
+    int state;
+    
+    init_struct(ptr);
+    state = build_linked_list(ptr);
+    if (state != 0)
+        return (state);
+    return (0);
 }

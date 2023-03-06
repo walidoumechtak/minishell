@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   is_there_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 14:41:53 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/05 19:06:11 by woumecht         ###   ########.fr       */
+/*   Created: 2023/02/26 12:11:47 by woumecht          #+#    #+#             */
+/*   Updated: 2023/02/26 16:46:21 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int is_there_pipe(t_minishell *ptr)
 {
-	char	*buff;
-	size_t	len;
+    int i;
+    int cpt;
 
-	if (!s2 && !s1)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	buff = (char *)malloc(len);
-	if (!buff)
-		return (NULL);
-	ft_strlcpy(buff, s1, len);
-	ft_strlcat(buff, s2, len);
-	return (buff);
+    i = 0;
+    cpt = 0;
+    while (ptr->str[i])
+    {
+        if (ptr->str[i] == '|')
+            cpt++;
+        i++;
+    }
+    return (cpt);
 }

@@ -6,12 +6,12 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/02/26 17:46:10 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/06 15:45:50 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-CFLAGS=-Wall -Wextra -Werror 
+CFLAGS=-Wall -Wextra -Werror -fsanitize=address
 NAME=minishell
 
 LIBREADLINE=-L .brew/opt/readline/lib
@@ -22,9 +22,15 @@ CLIB		=  -L./libft -lft
 
 BUILTINS = ft_echo.c
 
-SRC= minishell.c \
-	$(addprefix ./src/execution/builtins/, $(BUILTINS))
+SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
+	is_there_append.c ft_expaind.c build_list_1.c fill_with.c\
 
+SRCS= parsing.c init_struct.c ft_perror.c free_splite.c\
+
+SRC = $(addprefix ./src/parsing/, $(SRCP)) \
+	  $(addprefix ./src/, $(SRCS)) \
+	  main.c \
+	
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -41,8 +47,9 @@ clean:
 	@echo "cleaninig..."
 	@sleep 0.5
 	@rm -f $(OBJ)
-	make clean -C ./libft
+	@make clean -C ./libft
 	@echo "Done."
 fclean: clean
 	@rm -f $(NAME) $(LIBFT)
 
+re:fclean all
