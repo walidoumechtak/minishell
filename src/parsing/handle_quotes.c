@@ -49,6 +49,8 @@ int check_is_quotes_close(t_minishell *ptr)
             if (ptr->splited_pipe[i][j] == '\"')
             {
                 j++;
+                if (ptr->splited_pipe[i][j] == '\0')
+                    return (1);
                 while (ptr->splited_pipe[i][j] != '\"')
                 {
                     j++;
@@ -62,6 +64,8 @@ int check_is_quotes_close(t_minishell *ptr)
             else if (ptr->splited_pipe[i][j] == '\'')
             {
                 j++;
+                if (ptr->splited_pipe[i][j] == '\0')
+                    return (1);
                 while (ptr->splited_pipe[i][j] != '\'')
                 {
                     j++;
@@ -219,8 +223,8 @@ int    handle_quotes(t_minishell *ptr)
     int i;
 
     if(check_is_quotes_close(ptr) == 1)
-        // return(ft_perror("Error : Sysntax Error\n", 1));
         return (1);
+        // return(ft_perror("Error : Sysntax Error\n", 1));
     i = 0;
     while (ptr->splited_pipe[i])
     {

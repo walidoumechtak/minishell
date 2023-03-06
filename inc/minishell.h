@@ -36,16 +36,21 @@ typedef	struct s_repare_cmd
 typedef struct s_command_v1
 {
 	char	**cmd;
-	int		fd_in;
-	int		fd_out;
 }			t_cmd_v1;
+
+typedef struct s_command
+{
+	char	**cmd;
+	int	fd_in;
+	int	fd_out;
+}			t_cmd;
 
 typedef struct s_env
 {
 	char	*envStr;
 }			t_env;
 
-typedef struct s_mini
+typedef struct s_minishell
 {
 	t_list	*list_v1;
 	t_list	*list_v2;

@@ -9,7 +9,7 @@ void    fill_with(char *str,char old, char c)
     i = 0;
     while (str[i])
     {
-        if (str[i] == '\"')
+        if (str[i] == '\"' && str[i + 1] != '\0')
         {
             i++;
             while (str[i] != '\"')
@@ -20,7 +20,7 @@ void    fill_with(char *str,char old, char c)
             }
             // i++;
         }
-        else if (str[i] == '\'')
+        else if (str[i] == '\'' && str[i + 1] != '\0')
         {
             i++;
             while (str[i] != '\'')
