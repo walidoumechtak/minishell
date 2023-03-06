@@ -85,8 +85,10 @@ int			is_there_append(char *str);
 
 int		ft_perror(char *str, int status);
 
-/*Builtins*/
+/* =====  Builtins  ===== */
 int	ft_echo(char **args, char *flag);
+int	ft_pipe(t_list *lst);
+
 /*  ===== free function ===== */
 
 void		free_spilte(char **str);
