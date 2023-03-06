@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../libft/inc/libft.h"
+ #include <strings.h>
 
 // int main(void)
 // {
@@ -36,7 +37,9 @@
 
 int main()
 {
-    char *s3 = "walid";
-    char *sub = ft_substr(s3, 0,0);
-    printf("%s\n", ft_strjoin(s3, sub));
+    char *s3 = "wa";
+    ft_bzero(s3, ft_strlen(s3));
+    printf("%s\n", s3);
+    // char *sub = ft_substr(s3, 0,0);
+    // printf("%s\n", ft_strjoin(s3, sub));
 }

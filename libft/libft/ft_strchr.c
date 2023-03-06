@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 13:29:52 by hbenfadd          #+#    #+#             */
-/*   Updated: 2022/10/15 16:04:35 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/06 09:48:10 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strchr(const char *s, int c)
 	size_t	len;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	len = ft_strlen(s);
 	while (i <= len)
 	{

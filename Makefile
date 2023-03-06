@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/06 15:45:50 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/06 15:59:29 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
 BUILTINS = ft_echo.c
+
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c ft_expaind.c build_list_1.c fill_with.c\

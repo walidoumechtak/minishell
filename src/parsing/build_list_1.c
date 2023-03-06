@@ -17,44 +17,58 @@ void    repear_cmd(t_minishell *ptr, char **str)
     }
     while (rep->iter[rep->i])
     {
-        if (rep->iter[rep->i] == '\"')
+        // =======================================================================  frist : handle "
+        if (rep->iter[rep->i] == '\"')  
         {
-            rep->s = rep->i;
+            rep->s = rep->i + 1;
             while (rep->iter[++rep->i] != '\"');
             rep->e = rep->i - 1;
             rep->sub = ft_substr(rep->iter, rep->s, rep->e);
             if (ft_strchr(rep->sub, '$') != NULL)
                 ft_exapaind(ptr, &rep->sub);
-            rep->i--;
         }
-        else if (rep->iter[rep->i] == '\'')
+        // ======================================================================== second : handle '
+        else if (rep->iter[rep->i] == '\'') 
         {
-             rep->s = rep->i;
+             rep->s = rep->i + 1;
             while (rep->iter[++rep->i] != '\'');
             rep->e = rep->i - 1;
             rep->sub = ft_substr(rep->iter, rep->s, rep->e);
             if (ft_strchr(rep->sub, '$') != NULL)
                 ft_exapaind(ptr, &rep->sub);
-            rep->i--;
         }
-        else
-        {
-            rep->s = rep->i;
-            while((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
-            || (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
-            || (rep->iter[rep->i] >= '0' && rep->iter[rep->i] <= '9'))
-                rep->i++;
-            rep->e = rep->i - 1;
-            rep->sub = ft_substr(rep->iter, rep->s, rep->e);
-            if (ft_strchr(rep->sub, '$'))
+           // ===================================================================== thirt : any charactere
+        else                             
+        {                                        
+             if (rep->iter[rep->i] == '$')            
+             {                                                                  
+                 rep->s = rep->i;
+                 rep->i++;
+                while((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
+                || (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
+                || (rep->iter[rep->i] >= '0' && rep->iter[rep->i] <= '9'))
+                    rep->i++;
+                rep->e = rep->i - 1;  // $USER.walid  i = . so i-- = R
+                rep->sub = ft_substr(rep->iter, rep->s, rep->e);
                 ft_exapaind(ptr, &rep->sub);
-            rep->i--;
-        }
+             }
+             else
+             {
+                rep->s = rep->i;
+                rep->i++;
+                while (rep->iter[rep->i] != '$' || rep->iter[rep->i])
+                    rep->i++;
+                rep->e = rep->i - 1;
+                rep->sub = ft_substr(rep->iter, rep->s, rep->e);
+             }
+        }           
+            // =================================================================== end
         rep->i++;
         rep->temp = ft_strjoin(rep->result, rep->sub);
         free(rep->result);
         rep->result = rep->temp; 
     }
+    free(*str);
     *str = rep->result;
 }
 
@@ -80,9 +94,7 @@ int build_list_1(t_minishell *ptr)
             repear_cmd(ptr, &ptr->splited_space[j]);
         }
         node_v1->cmd = ptr->splited_space;
-        node_v1->fd_in = 0;
-        node_v1->fd_out = 1;
-        ft_lstadd_back();
+        ft_lstadd_back(&ptr->list_v1, ft_lstnew(node_v1));
         i++;
     }
     return (0);
