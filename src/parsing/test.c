@@ -37,9 +37,6 @@
 
 int main()
 {
-    char *s3 = "wa";
-    ft_bzero(s3, ft_strlen(s3));
-    printf("%s\n", s3);
-    // char *sub = ft_substr(s3, 0,0);
-    // printf("%s\n", ft_strjoin(s3, sub));
+    char *str = "@walid@";
+    printf("%s\n", ft_substr(str, 1, 5));
 }
