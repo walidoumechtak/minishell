@@ -87,8 +87,8 @@ void		build_env_list(t_minishell *ptr, char **env);
 int			ft_perror(char *str, int status);
 
 /* =====  Builtins  ===== */
-int	ft_echo(char **args, char *flag);
-int	ft_pipe(t_list *lst);
+int	ft_echo(char **args);
+int	ft_pipe(t_minishell *shell);
 
 /*  ===== free function ===== */
 

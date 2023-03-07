@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/06 15:59:29 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/07 08:29:08 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,16 +21,20 @@ LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
 BUILTINS = ft_echo.c
-
+EXECUTION = ft_exec.c
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c ft_expaind.c build_list_1.c fill_with.c\
 
 SRCS= parsing.c init_struct.c ft_perror.c free_splite.c\
 
-SRC = $(addprefix ./src/parsing/, $(SRCP)) \
-	  $(addprefix ./src/, $(SRCS)) \
-	  main.c \
+# SRC = $(addprefix ./src/parsing/, $(SRCP)) \
+# 	  $(addprefix ./src/, $(SRCS)) \
+# 	  main.c \
+
+
+SRC = $(addprefix ./src/execution/, $(EXECUTION)) \
+		$(addprefix ./src/execution/builtins/, $(BUILTINS))
 	
 OBJ = $(SRC:.c=.o)
 
