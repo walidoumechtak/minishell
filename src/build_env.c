@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:32:14 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/07 14:33:29 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:18:31 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void	free_env(t_list **head)
 		free(((t_env *)(tmp->content))->env_var);
 		tmp = tmp->next;
 	}
-	ft_lstclear(&head, del);
+	ft_lstclear(head, del);
 }
 
-t_list	*build_env_list(t_minishell *ptr, char **env)
+t_list	*build_env_list(char **env)
 {
 	t_env	*env_node;
 	t_list	*new;
@@ -35,7 +35,7 @@ t_list	*build_env_list(t_minishell *ptr, char **env)
 	int		i;
 
 	i = 0;
-	ptr->env = NULL;
+	head = NULL;
 	while (env[i])
 	{
 		env_node = malloc(sizeof(t_env));
