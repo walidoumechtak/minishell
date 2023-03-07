@@ -80,7 +80,7 @@ int			is_there_in_redirection(char *str);
 int			is_there_out_redirection(char *str);
 int			is_there_heredoc(char *str);
 int			is_there_append(char *str);
-t_list		*build_env_list(t_minishell *ptr, char **env);
+t_list		*build_env_list(char **env);
 
 /*  ===== Error function ===== */
 
@@ -89,6 +89,7 @@ int			ft_perror(char *str, int status);
 /* =====  Builtins  ===== */
 int	ft_echo(char **args);
 int	ft_pipe(t_minishell *shell);
+int	ft_env(t_list *env);
 
 /*  ===== free function ===== */
 
