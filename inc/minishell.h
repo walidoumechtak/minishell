@@ -80,7 +80,7 @@ int			is_there_in_redirection(char *str);
 int			is_there_out_redirection(char *str);
 int			is_there_heredoc(char *str);
 int			is_there_append(char *str);
-void		build_env_list(t_minishell *ptr, char **env);
+t_list		*build_env_list(t_minishell *ptr, char **env);
 
 /*  ===== Error function ===== */
 
