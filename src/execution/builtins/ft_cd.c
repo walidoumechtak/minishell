@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 18:30:35 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/08 17:21:37 by hbenfadd         ###   ########.fr       */
+/*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
+/*   Updated: 2023/03/08 17:01:03 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(char **args)
+int	ft_cd(char **args)
 {
-	short int	flag;
+	char *buff;
 
-	flag = 0;	
-	if (*args)
-	{
-		if (args[0][0] == '-' && args[0][1] == 'n' && args[0][2] == '\0')
-		{
-			flag = 1;
-			args++;
-		}
-		while (args && *args)
-		{
-			printf("%s", *args);
-			args++;
-			if (args && *args)
-				printf(" ");
-		}
-	}
-	if (!flag)
-		printf("\n");
-	return (0);
+	buff = NULL;
+	chdir(ft_strjoin(getcwd(buff, 0), "/builtins"));
+	return (EXIT_SUCCESS);
 }

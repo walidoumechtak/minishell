@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/07 11:45:41 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/07 15:13:03 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ HEADER		= -I./inc -I./libft/inc
 LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
-BUILTINS = ft_echo.c
+BUILTINS = ft_echo.c ft_cd.c ft_env.c ft_pipe.c
 EXECUTION = ft_exec.c
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
@@ -34,7 +34,8 @@ SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c\
 
 
 SRC = $(addprefix ./src/execution/, $(EXECUTION)) \
-		$(addprefix ./src/execution/builtins/, $(BUILTINS))
+		$(addprefix ./src/execution/builtins/, $(BUILTINS)) \
+		./src/build_linked_list.c
 	
 OBJ = $(SRC:.c=.o)
 
