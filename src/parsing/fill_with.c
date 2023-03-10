@@ -12,7 +12,7 @@ void    fill_with(char *str,char old, char c)
         if (str[i] == '\"' && str[i + 1] != '\0')
         {
             i++;
-            while (str[i] != '\"')
+            while (str[i] && str[i] != '\"')
             {
                 if (str[i] == old)
                     str[i] = c;
@@ -23,7 +23,7 @@ void    fill_with(char *str,char old, char c)
         else if (str[i] == '\'' && str[i + 1] != '\0')
         {
             i++;
-            while (str[i] != '\'')
+            while (str[i] && str[i] != '\'')
             {
                 if (str[i] == old)
                     str[i] = c;

@@ -59,14 +59,16 @@ typedef struct s_minishell
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
+	int	*flags_red;
 }			t_minishell;
 
-void		init_struct(t_minishell *ptr);
+int		init_struct(t_minishell *ptr);
 int			parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
 int			handle_quotes(t_minishell *ptr);
-void		ft_exapaind(t_minishell *ptr, char **str);
+int    ft_uncoted_exapaind(t_minishell *ptr, char **str);
+int    ft_coted_exapaind(t_minishell *ptr, char **str);
 void		fill_with(char *str, char old, char c);
 
 int			build_linked_list(t_minishell *ptr);
@@ -76,7 +78,7 @@ int			is_there_in_redirection(char *str);
 int			is_there_out_redirection(char *str);
 int			is_there_heredoc(char *str);
 int			is_there_append(char *str);
-void		build_env_list(t_minishell *ptr, char **env);
+t_list		*build_env_list(t_minishell *ptr, char **env);
 
 /*  ===== Error function ===== */
 

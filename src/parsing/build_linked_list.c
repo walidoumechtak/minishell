@@ -9,7 +9,7 @@ int    build_linked_list(t_minishell   *ptr)
     if (state != 0)
         return (state);
     state = build_list_1(ptr);
-    if (state)
+    if (state != 0)
         return (state);
     while (ptr->list_v1)
     {
