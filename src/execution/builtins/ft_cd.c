@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/08 17:01:03 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/11 05:54:57 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	ft_cd(char **args)
 {
-	char *buff;
-
-	buff = NULL;
-	chdir(ft_strjoin(getcwd(buff, 0), "/builtins"));
+	if (chdir(*args) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		perror(*args);
+		exit(EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
