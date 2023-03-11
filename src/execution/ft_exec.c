@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:51:17 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/09 22:21:53 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/11 11:52:42 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ void	ft_exec(t_minishell *shell)
 		{
 			if (tmp == 1)
 				ft_echo(++((t_cmd *)(shell->list_cmd->content))->cmd);
-			 else if (tmp == 5)
-			 	ft_env(shell->env);
-			else
-				printf("Nothing TODO\n");
-			// else if (tmp == 3)
-			// 	ft_echo(++((t_cmd *)(shell->list_cmd->content))->cmd);
-			// else if (tmp == 4)
-			// 	ft_echo(++((t_cmd *)(shell->list_cmd->content))->cmd);
+			else if (tmp == 5)
+				ft_env(shell->env);
+			else if (tmp == 4)
+				ft_cd(++((t_cmd *)(shell->list_cmd->content))->cmd);
+			else if (tmp == 2)
+				ft_unset(shell, ++((t_cmd *)(shell->list_cmd->content))->cmd);
 			// else if (tmp == 5)
 			// 	ft_echo(++((t_cmd *)(shell->list_cmd->content))->cmd);
 			// else if (tmp == 6)
@@ -68,7 +66,7 @@ int main(int ac, char **av, char **env)
 	t_cmd	*cmd;
 
 	shell = (t_minishell *)malloc(sizeof(t_minishell));
-	char *ar[] = {"ls", NULL};
+	char *ar[] = {"echo", "LANG", "COLORTERM", NULL};
 
 	shell->list_cmd = NULL;
 	shell->env = build_env_list(env);
@@ -81,12 +79,13 @@ int main(int ac, char **av, char **env)
 
 	ft_lstadd_back(&shell->list_cmd, ft_lstnew(cmd));
 
-	char *arv[] = {"wc", "-w", NULL};
+	char *arv[] = {"env", "a", NULL};
 
-	cmd = (t_cmd *)malloc(sizeof(cmd));
-	cmd->cmd = arv;
-	cmd->fd_in = 0;
-	cmd->fd_out = 1;
+	//shell->list_cmd = NULL;
+	 cmd = (t_cmd *)malloc(sizeof(cmd));
+	 cmd->cmd = arv;
+	 cmd->fd_in = 0;
+	 cmd->fd_out = 1;
 
 	ft_lstadd_back(&shell->list_cmd, ft_lstnew(cmd));
 	ft_exec(shell);
