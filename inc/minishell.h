@@ -65,33 +65,36 @@ typedef struct s_minishell
 	char	**splited_space;
 }			t_minishell;
 
-void		init_struct(t_minishell *ptr);
-int			parsing(t_minishell *ptr);
+void	init_struct(t_minishell *ptr);
+int		parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
-int			handle_quotes(t_minishell *ptr);
-void		ft_exapaind(t_minishell *ptr, char **str);
-void		fill_with(char *str, char old, char c);
+int		handle_quotes(t_minishell *ptr);
+void	ft_exapaind(t_minishell *ptr, char **str);
+void	fill_with(char *str, char old, char c);
 
-int			build_linked_list(t_minishell *ptr);
-int			build_list_1(t_minishell *ptr);
+int		build_linked_list(t_minishell *ptr);
+int		build_list_1(t_minishell *ptr);
 
-int			is_there_in_redirection(char *str);
-int			is_there_out_redirection(char *str);
-int			is_there_heredoc(char *str);
-int			is_there_append(char *str);
-t_list		*build_env_list(char **env);
+int		is_there_in_redirection(char *str);
+int		is_there_out_redirection(char *str);
+int		is_there_heredoc(char *str);
+int		is_there_append(char *str);
+t_list	*build_env_list(char **env);
 
 /*  ===== Error function ===== */
 
-int			ft_perror(char *str, int status);
+int		ft_perror(char *str, int status);
 
 /* =====  Builtins  ===== */
-int	ft_echo(char **args);
-int	ft_pipe(t_minishell *shell);
-int	ft_env(t_list *env);
+int		ft_echo(char **args);
+int		ft_cd(char **args);
+int		ft_pipe(t_minishell *shell);
+int		ft_env(t_list *env);
+int		ft_unset(t_minishell *shell, char **agrs);
 
 /*  ===== free function ===== */
+void	free_env(t_list **head);
+void	free_spilte(char **str);
 
-void		free_spilte(char **str);
 #endif
