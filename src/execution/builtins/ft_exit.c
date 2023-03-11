@@ -14,14 +14,21 @@
 
 int	ft_exit(char **args)
 {
-	if (ft_isalpha((int)**args))
+	int	i;
+
+	i = 0;
+	while ((*args)[i])
 	{
-		ft_putstr_fd ("exit\nminishell: exit: ", 2);
-		ft_putstr_fd(*args, 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(255);
+		if (ft_isalpha((*args)[i]))
+		{
+			ft_putstr_fd("exit\nminishell: exit: ", 2);
+			ft_putstr_fd(*args, 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			exit(255);
+		}
+		i++;
 	}
-	else if (args[1])
+	if (args[1])
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many argument\n", 2);
 		return (1);
