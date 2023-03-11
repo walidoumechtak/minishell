@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/10 21:52:19 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/11 07:50:51 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int ac, char **av, char **env)
     (void)av;
     (void)ac;
     ptr = malloc(sizeof(t_minishell));
-    build_env_list(ptr, env);
+    ptr->env = build_env_list(env);
     while (1)
     {
             ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);

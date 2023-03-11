@@ -29,6 +29,7 @@ typedef struct s_repare_cmd
 	char	*temp;
 	char	*sub;
 	int		i;
+	int		here_flag;
 	int		s;
 	int		e;
 }			t_repare_cmd;
@@ -36,6 +37,8 @@ typedef struct s_repare_cmd
 typedef struct s_command_v1
 {
 	char	**cmd;
+	int	*flags_red;
+	int	cpt_flags;
 }			t_cmd_v1;
 
 typedef struct s_command
@@ -59,16 +62,17 @@ typedef struct s_minishell
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
-	int	*flags_red;
+	int		*flags_red;
+	int	here_flag;
 }			t_minishell;
 
-int		init_struct(t_minishell *ptr);
+int			init_struct(t_minishell *ptr);
 int			parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
 int			handle_quotes(t_minishell *ptr);
-int    ft_uncoted_exapaind(t_minishell *ptr, char **str);
-int    ft_coted_exapaind(t_minishell *ptr, char **str);
+int			ft_uncoted_exapaind(t_minishell *ptr, char **str);
+int			ft_coted_exapaind(t_minishell *ptr, char **str);
 void		fill_with(char *str, char old, char c);
 
 int			build_linked_list(t_minishell *ptr);
@@ -78,7 +82,7 @@ int			is_there_in_redirection(char *str);
 int			is_there_out_redirection(char *str);
 int			is_there_heredoc(char *str);
 int			is_there_append(char *str);
-t_list		*build_env_list(t_minishell *ptr, char **env);
+t_list		*build_env_list(char **env);
 
 /*  ===== Error function ===== */
 

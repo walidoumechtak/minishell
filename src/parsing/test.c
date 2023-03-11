@@ -40,10 +40,11 @@ int main()
     // char *str = "walid@111@";
     // printf("%s\n", ft_substr(str, 0, 2));
 
-    // char *cmd[] = {"echo", "$USER", "\0", NULL};
-    // execve("/bin/echo", cmd , NULL);
-    int *arr = ft_calloc(3 , sizeof(int));
-    printf("%d\n", arr[0]);
-    printf("%d\n", arr[1]);
-    printf("%d\n", arr[2]);
+    char *cmd[] = {"cat", "$USER", "\0", NULL};
+    execve("/bin/echo", cmd , NULL);
+    // int *arr = ft_calloc(3 , sizeof(int));
+    // printf("%d\n", arr[0]);
+    // printf("%d\n", arr[1]);
+    // printf("%d\n", arr[2]);
+
 }
