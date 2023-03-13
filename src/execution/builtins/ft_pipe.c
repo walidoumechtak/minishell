@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/11 11:55:57 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:34:05 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,15 @@ static char	*check_cmd(char *cmd, t_list *env)
 		free(tmp2);
 		i++;
 	}
-	return (free_2d(tmp), ft_putstr_fd("command not found", 2), NULL);
+	return (free_2d(tmp), ft_putstr_fd(cmd, 2), ft_putstr_fd(": command not found\n", 2), NULL);
 }
 
-static void exec_cmd(t_minishell *shell, t_list	*cmd, char *tmp)
+static void exec_cmd(t_minishell *shell, t_list	*cmd)
 {
 	int	fd[2];
 	int	r;
 
 	r = 0;
-	if (!tmp)
-		exit(0);
 	pipe(fd);
 	int pid1 = fork();
 	if (pid1 == 0)
@@ -79,10 +77,13 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd, char *tmp)
 			dup2(((t_cmd *)(cmd->content))->fd_out, 1);
 		close(fd[1]);
 		close(fd[0]);
-		if ((r = exec_is_builtins(shell, shell->env) != -1))
-			exit(r);
-		else
+		if (exec_is_builtins(shell, ((t_cmd *)(cmd->content))->cmd, shell->env))
+		{
+			char *tmp = check_cmd(ft_strjoin("/", *((t_cmd *)cmd->content)->cmd), shell->env);
+			if (!tmp)
+				exit(127);
 			execve(tmp, ((t_cmd *)(cmd->content))->cmd, NULL);
+		}
 	}
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
@@ -106,20 +107,20 @@ int	ft_pipe(t_minishell *shell)
 			if (!access(*args, F_OK))
 			{
 				if (!access(*args, X_OK))
-					exec_cmd(shell, cmd, *args);
+					execve(*args, args, NULL);
 				else
-					return (ft_putstr_fd("permission denied", 2), 1);
+					return (ft_putstr_fd(*args, 2), ft_putstr_fd(": permission denied\n", 2), 1);
 			}
 			else
-				return (ft_putstr_fd("command not found", 2), 1);
+				return (ft_putstr_fd(*args, 2), ft_putstr_fd(": command not found", 2), 127);
 		}
 		else
-			exec_cmd(shell, cmd, check_cmd(ft_strjoin("/", *args), shell->env));
+			exec_cmd(shell, cmd);
 		cmd = cmd->next;
 	}
 	int a;
 	wait(&a);
-	printf("------%d\n", a);
+	printf("[%d]\n",WEXITSTATUS(a));
 	return (0);
 }
  
