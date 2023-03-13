@@ -61,10 +61,12 @@ static char	*check_cmd(char *cmd, t_list *env)
 	return (free_2d(tmp), ft_putstr_fd("command not found", 2), NULL);
 }
 
-static void exec_cmd(t_list	*cmd, char *tmp)
+static void exec_cmd(t_minishell *shell, t_list	*cmd, char *tmp)
 {
 	int	fd[2];
+	int	r;
 
+	r = 0;
 	if (!tmp)
 		exit(0);
 	pipe(fd);
@@ -77,8 +79,10 @@ static void exec_cmd(t_list	*cmd, char *tmp)
 			dup2(((t_cmd *)(cmd->content))->fd_out, 1);
 		close(fd[1]);
 		close(fd[0]);
-		int f = execve(NULL, ((t_cmd *)(cmd->content))->cmd, NULL);
-		printf("----------[%d]-------\n", f);
+		if ((r = exec_is_builtins(shell, shell->env) != -1))
+			exit(r);
+		else
+			execve(tmp, ((t_cmd *)(cmd->content))->cmd, NULL);
 	}
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
@@ -92,7 +96,7 @@ int	ft_pipe(t_minishell *shell)
 
 	cmd = shell->list_cmd;
 	args = NULL;
-	if (!((t_cmd *)(shell->list_cmd->content))->fd_in)
+	if (((t_cmd *)(shell->list_cmd->content))->fd_in)
 		dup2(((t_cmd *)(shell->list_cmd->content))->fd_in, STDIN_FILENO);
 	while (cmd)
 	{
@@ -102,7 +106,7 @@ int	ft_pipe(t_minishell *shell)
 			if (!access(*args, F_OK))
 			{
 				if (!access(*args, X_OK))
-					exec_cmd(cmd, *args);
+					exec_cmd(shell, cmd, *args);
 				else
 					return (ft_putstr_fd("permission denied", 2), 1);
 			}
@@ -110,7 +114,7 @@ int	ft_pipe(t_minishell *shell)
 				return (ft_putstr_fd("command not found", 2), 1);
 		}
 		else
-			exec_cmd(cmd, check_cmd(ft_strjoin("/", *args), shell->env));
+			exec_cmd(shell, cmd, check_cmd(ft_strjoin("/", *args), shell->env));
 		cmd = cmd->next;
 	}
 	int a;

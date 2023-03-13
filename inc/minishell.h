@@ -22,7 +22,7 @@
 
 
 /* ===== GLOBAL VARIABL ===== */
-int			STAT;
+//int			STAT;
 
 /* ===== STRUCT ===== */
 
@@ -92,6 +92,10 @@ int		ft_cd(char **args);
 int		ft_pipe(t_minishell *shell);
 int		ft_env(t_list *env);
 int		ft_unset(t_minishell *shell, char **agrs);
+int		ft_exit(char **args);
+
+/* =====  Exec function  ===== */
+int		exec_is_builtins(t_minishell *shell, t_list *env);
 
 /*  ===== free function ===== */
 void	free_env(t_list **head);
