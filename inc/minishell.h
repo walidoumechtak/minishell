@@ -67,7 +67,7 @@ typedef struct s_minishell
 	int		exit_state;
 }			t_minishell;
 
-void			init_struct(t_minishell *ptr);
+void		init_struct(t_minishell *ptr);
 int			parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
@@ -78,6 +78,7 @@ void		fill_with(char *str, char old, char c);
 
 int			build_linked_list(t_minishell *ptr);
 int			build_list_1(t_minishell *ptr);
+int			build_list_2(t_minishell *ptr);
 
 int			is_there_in_redirection(char *str);
 int			is_there_out_redirection(char *str);
@@ -87,7 +88,7 @@ t_list		*build_env_list(char **env);
 
 /*  ===== Error function ===== */
 
-int			ft_perror(t_minishell *ptr ,char *str, int status);
+int			ft_perror(t_minishell *ptr, char *str, int status);
 
 /*  ===== free function ===== */
 

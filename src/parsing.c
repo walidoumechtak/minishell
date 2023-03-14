@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/14 17:01:52 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:38:07 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,41 +105,62 @@ int check_semi_colum(char **arr)
     return (0);
 }
 
+int rederction_syntax_2(char *arr, int *j, int *cpt)
+{
+    if (arr[*j] == '<')
+    {
+        while (arr[++(*j)] == ' ')
+            ;
+        if (arr[*j] == '>' || arr[*j] == '\0' || (arr[*j] == '<' && arr[*j - 1] == ' '))
+            return (1);
+        while (arr[*j] && arr[(*j)++] == '<')
+            (*cpt)++;
+        if (*cpt > 2)
+            return (1);
+    }
+    else if (arr[*j] == '>')
+    {
+        while (arr[++*j] == ' ')
+            ;
+        if (arr[*j] == '<' || arr[*j] == '\0' || (arr[*j] == '>' && arr[*j - 1] == ' '))
+            return (1);
+        while (arr[*j] && arr[(*j)++] == '>')
+            (*cpt)++;
+        if (*cpt > 2)
+            return (1);
+    }
+    return (0);
+}
+
 int rederction_syntax(char **arr)
 {
     int i;
     int j;
+    int cpt;
 
     i = 0;
     while (arr[i])
     {
         j = 0;
+        cpt = 1;
         while (arr[i][j])
         {
             if (arr[i][j] == '\"')
-                while (arr[i][++j] != '\"')
+                while (arr[i][++j] && arr[i][j] != '\"')
                         ;
             if (arr[i][j] == '\'')
-                while (arr[i][++j] != '\'')
+                while (arr[i][++j] && arr[i][j] != '\'')
                     ;
-            if (arr[i][j] == '<')
-            {
-                while (arr[i][++j] == ' ')
-                    ;
-                if (arr[i][j] == '>')
-                    return (1);
-            }
-            else if (arr[i][j] == '>')
-            {
-                while (arr[i][++j] == ' ')
-                    ;
-                if (arr[i][j] == '<')
-                    return (1);
-            }
+            if (rederction_syntax_2(arr[i], &j, &cpt) != 0)
+                return (1);
+            if (arr[i][j] != '\0')
+                j++;
         }
+        i++;
     }
     return (0);
 }
+
 
 int    parsing(t_minishell *ptr)
 {

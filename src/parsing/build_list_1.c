@@ -190,6 +190,7 @@ void    build_flag_redrection(t_cmd_v1 *node_v1,char *str)
 int build_list_1(t_minishell *ptr)
 {
     t_cmd_v1    *node_v1;
+    t_list *new;
     int k;
     int i;
     int j;
@@ -224,7 +225,10 @@ int build_list_1(t_minishell *ptr)
             j++;
         }
         node_v1->cmd = ptr->splited_space;
-        ft_lstadd_back(&ptr->list_v1, ft_lstnew(node_v1));
+        new = ft_lstnew(node_v1);
+        if (!new)
+            return (0);
+        ft_lstadd_back(&ptr->list_v1, new);
         i++;
     }
     return (0);
