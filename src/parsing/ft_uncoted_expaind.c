@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/11 08:40:30 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:25:08 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@ int    ft_uncoted_exapaind(t_minishell *ptr, char **str)
     temp = *str;
     exp = ptr->env;
     res = NULL;
+    split_var = NULL;
     i = 0;
+    if (temp[0] && temp[1] == '\0')
+        return 0;
+    if (temp[0] == '$' && temp[1] == '?')
+        return (0);
     while (exp && temp[1])
     {
-        if (ft_strncmp(((t_env *)exp->content)->env_var, temp + 1, ft_strlen(temp + 1)) == 0)
+        if (ft_strncmp(((t_env *)exp->content)->env_var, temp + 1, ft_strlen(temp + 1) + ft_strlen(((t_env *)exp->content)->env_var)) == 0)
         {
             split_var = ft_split(((t_env *)exp->content)->env_value, ' ');
             while (split_var[i])
@@ -45,12 +50,14 @@ int    ft_uncoted_exapaind(t_minishell *ptr, char **str)
                i++;
             }
             free(*str);
+            free_spilte(split_var);
             *str = res;
             return 0;
         }
         exp = exp->next;
     }
     free(*str);
+    free_spilte(split_var);
     *str = ft_calloc(1,1);
     return (0);
 }

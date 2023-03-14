@@ -37,8 +37,8 @@ typedef struct s_repare_cmd
 typedef struct s_command_v1
 {
 	char	**cmd;
-	int	*flags_red;
-	int	cpt_flags;
+	int		*flags_red;
+	int		cpt_flags;
 }			t_cmd_v1;
 
 typedef struct s_command
@@ -63,10 +63,11 @@ typedef struct s_minishell
 	char	**splited_pipe;
 	char	**splited_space;
 	int		*flags_red;
-	int	here_flag;
+	int		here_flag;
+	int		exit_state;
 }			t_minishell;
 
-int			init_struct(t_minishell *ptr);
+void			init_struct(t_minishell *ptr);
 int			parsing(t_minishell *ptr);
 
 /* =====  parsing  ===== */
@@ -86,7 +87,7 @@ t_list		*build_env_list(char **env);
 
 /*  ===== Error function ===== */
 
-int			ft_perror(char *str, int status);
+int			ft_perror(t_minishell *ptr ,char *str, int status);
 
 /*  ===== free function ===== */
 

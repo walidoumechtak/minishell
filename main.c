@@ -6,11 +6,19 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/11 07:50:51 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:43:41 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    all_errors_parsing(t_minishell *ptr, int state)
+{
+    if (state == 1)
+        ft_perror(ptr, "Error : sysntax Error\n", state);
+    else if (state == 126)
+        ft_perror(ptr, "bash: /: is a directory\n", state);
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -24,14 +32,18 @@ int main(int ac, char **av, char **env)
     while (1)
     {
             ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
+            if (ptr->str == NULL)
+                continue ;
             state = parsing(ptr);
-            if (state == 1)
+            if (state != 0)
             {
-                ft_perror("Error : sysntax Error\n", state);
+                all_errors_parsing(ptr, state);
+                free_spilte(ptr->splited_pipe);
                 continue ;
             }
             add_history(ptr->str); // ==> add to cammand history
             free(ptr->str);
+            free_spilte(ptr->splited_pipe);
     }
     free(ptr);
 }
