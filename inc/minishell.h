@@ -2,23 +2,23 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "libft.h"
-#include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
+# include "libft.h"
+# include "get_next_line.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/param.h>
 # include <fcntl.h>
-#	include <sys/wait.h>
+# include <sys/wait.h>
 
-#define NONE "\033[0m"
-#define GREEN "\033[32m"
-#define RED "\033[91m"
-#define GRAY "\033[2;37m"
-#define ITALIC "\033[3m"
+# define NONE "\033[0m"
+# define GREEN "\033[32m"
+# define RED "\033[91m"
+# define GRAY "\033[2;37m"
+# define ITALIC "\033[3m"
 
 
 /* ===== GLOBAL VARIABL ===== */
@@ -60,6 +60,7 @@ typedef struct s_minishell
 	t_list	*list_v1;
 	t_list	*list_cmd;
 	t_list	*env;
+	int		exit_state;
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
@@ -88,7 +89,7 @@ int		ft_perror(char *str, int status);
 
 /* =====  Builtins  ===== */
 int		ft_echo(char **args);
-int		ft_cd(char **args);
+int		ft_cd(t_minishell *shell, char **args);
 int		ft_pipe(t_minishell *shell);
 int		ft_env(t_list *env);
 int		ft_unset(t_minishell *shell, char **agrs);
