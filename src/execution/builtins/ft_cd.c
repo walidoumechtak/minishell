@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/15 17:11:40 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/16 08:20:12 by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	ft_cd(t_minishell *shell, char **args)
 	free(((t_env *)oldpwd->content)->env_value);
 	((t_env *)oldpwd->content)->env_value = ((t_env *)pwd->content)->env_value;
 	tmp = pwd;
-	buff = (char *)malloc(sizeof(char) * 20);
-  	((t_env *)pwd->content)->env_value = getcwd(buff, 20);
+  	((t_env *)pwd->content)->env_value = getcwd(buff, 0);
 	return (EXIT_SUCCESS);
 }
