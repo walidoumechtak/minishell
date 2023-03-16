@@ -17,7 +17,6 @@ void expaind_it(t_minishell *ptr, char **str)
         {
             free(*str);
             *str = ft_strdup(((t_env *)exp->content)->env_value);
-            printf("*STR : %s\n", *str);
             return ;
         }
         exp = exp->next;
@@ -56,6 +55,7 @@ int    ft_coted_exapaind(t_minishell *ptr, char **str)
                 e = i;
                 sub = ft_substr(temp, s, e);
                 temp_join = ft_strjoin(res, sub);
+                free(sub);
                 free(res);
                 res = temp_join; // here end the operation of double $$$$ .....
             }
@@ -90,7 +90,6 @@ int    ft_coted_exapaind(t_minishell *ptr, char **str)
         free(res);
         free(sub);
         res = temp_join;
-        printf("-------------hmhmhm : %s\n", res);
     }
     free(*str);
     *str = res;

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/14 20:38:07 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/15 10:36:38 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	check_pipe_syntax(char *str)
 {
 	int	i;
 
+    if (!str || str[0] == '\0')
+        return (0);
 	i = 0;
 	while (str[i] == ' ')
 		i++;
@@ -68,8 +70,13 @@ int check_slach_symbole(char **arr)
         {
             while (arr[i][j] == ' ')
                 j++;
-            if (arr[i][j] == '/' && arr[i][j + 1] == ' ')
-                return (126);
+            if (arr[i][j] == '/')
+            {
+                while (arr[i][++j] == '/')
+                    ;
+                if (arr[i][j] == ' ')
+                    return (126);
+            }
             else
                 break;
         }
@@ -161,12 +168,66 @@ int rederction_syntax(char **arr)
     return (0);
 }
 
+int check_backslach(char    **arr)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (arr[i])
+    {
+        j = 0;
+        while (arr[i][j])
+        {
+            if (arr[i][j] == '\'')
+                while (arr[i][++j] && arr[i][j] != '\'')
+                    ;
+            if (arr[i][j] == '\\')
+                return (1);
+            if (arr[i][j] != '\0')
+                j++;
+        }
+        i++;
+    }
+    return (0);
+}
+
+int check_quotes_close(char **arr)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (arr[i])
+    {
+        j = 0;
+        while (arr[i][j])
+        {
+            if (arr[i][j] == '\'')
+                while (arr[i][++j] && arr[i][j] != '\'')
+                    ;
+            if (arr[i][j] == '\0')
+                return (1);
+            if (arr[i][j] == '\"')
+                while (arr[i][++j] && arr[i][j] != '\"')
+                    ;
+            if (arr[i][j] == '\0')
+                return (1);
+            if (arr[i][j] != '\0')
+                j++;
+        }
+        i++;
+    }
+    return (0);
+}
 
 int    parsing(t_minishell *ptr)
 {
     int state;
     
     init_struct(ptr);
+    if(check_quotes_close(ptr->splited_pipe) != 0)
+        return (1);
     if (check_pipe_syntax(ptr->str) == 1)
 		return (1);
     if(check_slach_symbole(ptr->splited_pipe) != 0)
@@ -174,6 +235,8 @@ int    parsing(t_minishell *ptr)
     if (check_semi_colum(ptr->splited_pipe) != 0)
         return (1);
     if (rederction_syntax(ptr->splited_pipe) != 0)
+        return (1);
+    if (check_backslach(ptr->splited_pipe) != 0)
         return (1);
     state = build_linked_list(ptr);
     if (state != 0)

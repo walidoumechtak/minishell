@@ -41,5 +41,6 @@ t_list	*build_env_list(char **env)
 		ft_lstadd_back(&head, new);
 		i++;
 	}
+	free(temp);
 	return (head);
 }

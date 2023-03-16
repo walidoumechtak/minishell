@@ -206,6 +206,7 @@ int build_list_1(t_minishell *ptr)
         node_v1 = malloc(sizeof(t_cmd_v1));
         ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
         build_flag_redrection(node_v1, ptr->splited_pipe[i]);
+        // build_exp_here_flag();
         while (ptr->splited_space[j])
         {
             fill_with(ptr->splited_space[j], '\t', ' ');

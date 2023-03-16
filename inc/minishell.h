@@ -10,6 +10,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <fcntl.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"
@@ -38,6 +39,7 @@ typedef struct s_command_v1
 {
 	char	**cmd;
 	int		*flags_red;
+	int	*exp_here;
 	int		cpt_flags;
 }			t_cmd_v1;
 
@@ -54,17 +56,28 @@ typedef struct s_env
 	char	*env_value;
 }			t_env;
 
+
+typedef	struct s_opened_files
+{
+	char	*file;
+	int	fd;
+	int	mode;
+}			t_open_file;
+
 typedef struct s_minishell
 {
 	t_list	*list_v1;
 	t_list	*list_cmd;
 	t_list	*env;
+	t_list	*opened_files;
+	t_open_file *o_file;
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
 	int		*flags_red;
 	int		here_flag;
 	int		exit_state;
+	int	out_access;
 }			t_minishell;
 
 void		init_struct(t_minishell *ptr);
@@ -89,6 +102,9 @@ t_list		*build_env_list(char **env);
 /*  ===== Error function ===== */
 
 int			ft_perror(t_minishell *ptr, char *str, int status);
+void		ft_putchar_error(char c);
+void		ft_putstr_error(char *str);
+void open_error(t_minishell *ptr,char *file, char *str, int status);
 
 /*  ===== free function ===== */
 

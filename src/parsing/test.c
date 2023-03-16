@@ -34,14 +34,13 @@
     // execve(path, cmd, NULL);
 
 //}
-
 int main()
 {
     // char *str = "walid@111@";
     // printf("%s\n", ft_substr(str, 0, 2));
 
-    char *cmd[] = {"cat", "$USER", "\0", NULL};
-    execve("/bin/echo", cmd , NULL);
+    char *cmd[] = {"/", "lll", "main.c", NULL};
+    execve("/bin/", cmd , NULL);
     // int *arr = ft_calloc(3 , sizeof(int));
     // printf("%d\n", arr[0]);
     // printf("%d\n", arr[1]);
