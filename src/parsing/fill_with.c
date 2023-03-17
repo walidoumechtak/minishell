@@ -33,5 +33,4 @@ void    fill_with(char *str,char old, char c)
         }
         i++;
     }
-
 }

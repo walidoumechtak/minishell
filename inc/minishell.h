@@ -39,8 +39,10 @@ typedef struct s_command_v1
 {
 	char	**cmd;
 	int		*flags_red;
-	int	*exp_here;
+	int	*expaind_here;
+	int	cpt_exp_here;
 	int		cpt_flags;
+	char	*unlink_file;
 }			t_cmd_v1;
 
 typedef struct s_command

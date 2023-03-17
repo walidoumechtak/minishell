@@ -167,10 +167,8 @@ void    build_flag_redrection(t_cmd_v1 *node_v1,char *str)
 {
     char **arr;
     int cpt;
-    int i;
     int j;
 
-    i = 0;
     j = 0;
     cpt = 0;
     fill_with(str, '\t', ' ');
@@ -181,9 +179,38 @@ void    build_flag_redrection(t_cmd_v1 *node_v1,char *str)
             cpt++;
         j++;
     }
-    //printf("cpt : %d\n", cpt);
     node_v1->flags_red = ft_calloc(cpt, sizeof(int));
     node_v1->cpt_flags = cpt;
+    free_spilte(arr);
+}
+
+void    build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
+{
+    char **arr;
+    int cpt;
+    int j;
+    int i;
+
+    j = 0;
+    i = 0;
+    cpt = 0;
+    fill_with(str, '\t', ' ');
+    arr = ft_split(str, ' ');
+    while (arr[j])
+    {
+        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0)
+            cpt++;
+        j++;
+    }
+    node_v1->expaind_here = ft_calloc(cpt, sizeof(int));
+    node_v1->cpt_exp_here = cpt;
+    j = 0;
+    while (arr[j])
+    {
+        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0 && (ft_strchr(arr[j], '\"') != NULL || ft_strchr(arr[j], '\'') != NULL))
+            node_v1->expaind_here[i++] = 1;
+        j++;
+    }
     free_spilte(arr);
 }
 
@@ -206,7 +233,7 @@ int build_list_1(t_minishell *ptr)
         node_v1 = malloc(sizeof(t_cmd_v1));
         ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
         build_flag_redrection(node_v1, ptr->splited_pipe[i]);
-        // build_exp_here_flag();
+        build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i]);
         while (ptr->splited_space[j])
         {
             fill_with(ptr->splited_space[j], '\t', ' ');
@@ -228,7 +255,7 @@ int build_list_1(t_minishell *ptr)
         node_v1->cmd = ptr->splited_space;
         new = ft_lstnew(node_v1);
         if (!new)
-            return (0);
+            return (3);
         ft_lstadd_back(&ptr->list_v1, new);
         i++;
     }

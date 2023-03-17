@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/15 10:36:38 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:20:54 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
             return (1);
         while (arr[*j] && arr[(*j)++] == '<')
             (*cpt)++;
-        if (*cpt > 2)
+        if ((arr[*j] == '\0' && (arr[*j - 1] == '>' || arr[*j - 1] == '<')) || *cpt > 2)
             return (1);
     }
     else if (arr[*j] == '>')
@@ -133,7 +133,7 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
             return (1);
         while (arr[*j] && arr[(*j)++] == '>')
             (*cpt)++;
-        if (*cpt > 2)
+        if ((arr[*j] == '\0' && (arr[*j - 1] == '>' || arr[*j - 1] == '<')) || *cpt > 2 )
             return (1);
     }
     return (0);
@@ -160,7 +160,7 @@ int rederction_syntax(char **arr)
                     ;
             if (rederction_syntax_2(arr[i], &j, &cpt) != 0)
                 return (1);
-            if (arr[i][j] != '\0')
+            if (arr[i][j] != '\0' && arr[i][j] != '>' && arr[i][j] != '<')
                 j++;
         }
         i++;
@@ -225,7 +225,6 @@ int    parsing(t_minishell *ptr)
 {
     int state;
     
-    init_struct(ptr);
     if(check_quotes_close(ptr->splited_pipe) != 0)
         return (1);
     if (check_pipe_syntax(ptr->str) == 1)
