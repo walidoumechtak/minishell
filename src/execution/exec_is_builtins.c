@@ -6,18 +6,19 @@ int	exec_is_builtins(t_minishell *shell, char **args, t_list *env)
 	char	*cmd;
 
 	cmd = *args;
+	++args;
 	len = ft_strlen(cmd);
 	if (len == 4 && ft_strnstr(cmd, "echo", len))
-		exit (ft_echo(args));
+		return (ft_echo(args));
 	else if (len == 5 && ft_strnstr(cmd, "unset", len))
-		exit (ft_unset(shell, args));
+		return (ft_unset(shell, args));
 	else if (len == 2 && ft_strnstr(cmd, "cd", len))
-		exit (ft_cd(args));
+		return (ft_cd(shell, args));
 	else if (len == 3 && ft_strnstr(cmd, "env", len))
-		exit (ft_env(env));
+		return (ft_env(env));
 	else if (len == 4 && ft_strnstr(cmd, "exit", len))
-		exit (ft_exit(args));
-	// else if (len == 6 && ft_strnstr(cmd, "export", len))
-	// 	return (ft_export(args));
-	return (1);
+		return (ft_exit(args));
+	else if (len == 6 && ft_strnstr(cmd, "export", len))
+	 	return (ft_export(shell, args));
+	return (-1);
 }
