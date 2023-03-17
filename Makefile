@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/17 10:28:56 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/17 10:39:11 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,21 +20,19 @@ HEADER		= -I./inc -I./libft/inc
 LIBFT		= ./libft/libft.a
 CLIB		=  -L./libft -lft 
 
-BUILTINS = ft_echo.c ft_cd.c ft_env.c ft_pipe.c
-EXECUTION = ft_exec.c
+BUILTINS = ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pipe.c ft_unset.c
+EXECUTION = ft_exec.c exec_is_builtins.c
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c\
 
-SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c ft_putchar_error.c ft_putstr_error.c open_error.c\
+PARSING = parsing.c init_struct.c ft_perror.c free_splite.c build_env.c ft_putchar_error.c ft_putstr_error.c open_error.c free_env.c
 
-# SRC = $(addprefix ./src/parsing/, $(SRCP)) \
-# 	  $(addprefix ./src/, $(SRCS)) \
-# 	  main.c \
-
-
-SRC = $(addprefix ./src/execution/, $(EXECUTION)) \
-		$(addprefix ./src/execution/builtins/, $(BUILTINS)) \
+SRC = $(addprefix ./src/parsing/, $(SRCP)) \
+	  $(addprefix ./src/, $(PARSING)) \
+	  $(addprefix ./src/execution/, $(EXECUTION)) \
+	  $(addprefix ./src/execution/builtins/, $(BUILTINS)) \
+ 	  main.c 
 	
 OBJ = $(SRC:.c=.o)
 
