@@ -77,13 +77,15 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 			dup2(((t_cmd *)(cmd->content))->fd_out, 1);
 		close(fd[1]);
 		close(fd[0]);
-		if (exec_is_builtins(shell, ((t_cmd *)(cmd->content))->cmd, shell->env))
+		int	a;
+		if ((a = exec_is_builtins(shell, ((t_cmd *)(cmd->content))->cmd, shell->env)) == -1)
 		{
 			char *tmp = check_cmd(ft_strjoin("/", *((t_cmd *)cmd->content)->cmd), shell->env);
 			if (!tmp)
 				exit(127);
 			execve(tmp, ((t_cmd *)(cmd->content))->cmd, NULL);
 		}
+		exit(a);
 	}
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
