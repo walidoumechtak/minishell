@@ -94,10 +94,10 @@ void    add_space_redirection(char **str)
     j = -1;
     if (!str || !*str)
         return;
-    // size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2 + 2;
-    size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str));
+    size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2 + 2;
+    //size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str));
     //printf("size ---------------------------------------------------> : %d\n", size);
-    temp = malloc((ft_strlen(*str) + size) * sizeof(char));
+    temp = malloc((ft_strlen(*str) + size + 1) * sizeof(char));
     iter = *str;
     while (iter[i])
     {

@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/17 11:17:37 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:11:13 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,11 @@ int main(int ac, char **av, char **env)
             }
             printf("------------exec---------\n");
             ft_exec(ptr);
-            exit(0);
             add_history(ptr->str); // ==> add to cammand history
-    //         close_fd(ptr);
-    //         free_lists(ptr);
-    //         free(ptr->str);
-    //         free_spilte(ptr->splited_pipe);
+            close_fd(ptr);
+            free_lists(ptr);
+            free(ptr->str);
+            free_spilte(ptr->splited_pipe);
      }
     free(ptr);
 }
