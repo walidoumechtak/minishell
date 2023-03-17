@@ -1,4 +1,3 @@
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -19,12 +18,6 @@
 # define RED "\033[91m"
 # define GRAY "\033[2;37m"
 # define ITALIC "\033[3m"
-
-
-/* ===== GLOBAL VARIABL ===== */
-//int			STAT;
-
-/* ===== STRUCT ===== */
 
 typedef struct s_repare_cmd
 {
@@ -97,6 +90,7 @@ int		ft_exit(char **args);
 
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
+void	ft_exec(t_minishell *shell);
 
 /*  ===== free function ===== */
 void	free_env(t_list **head);
