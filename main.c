@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/16 21:08:14 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/17 11:17:37 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void free_lists(t_minishell *ptr)
     // ft_lstclear(&ptr->env, del);
 }
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
     t_minishell *ptr;
     int state;
@@ -71,12 +71,12 @@ int main(int ac, char **av)
     (void)av;
     (void)ac;
     ptr = malloc(sizeof(t_minishell));
-    //ptr->env = build_env_list(env);
+    ptr->env = build_env_list(env);
     while (1)
     {
             ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-            if (ptr->str == NULL)
-                continue ;
+            if (ptr->str == NULL || *ptr->str == '\0')
+               continue ;
             state = parsing(ptr);
             if (state != 0)
             {
@@ -84,11 +84,29 @@ int main(int ac, char **av)
                 free_spilte(ptr->splited_pipe);
                 continue ;
             }
+            printf("------------cmd---------\n");
+            t_list *tmp = ptr->list_cmd;
+            for (size_t i = 0; tmp; i++)
+            {
+                char **cmd = ((t_cmd *)tmp->content)->cmd;
+                int j;
+                j = 0;
+                while (cmd[j])
+                {
+                    printf("%d -- %s\n", j, cmd[j]);
+                    j++;
+                }
+                printf("next cmd\n");
+                tmp = tmp->next;
+            }
+            printf("------------exec---------\n");
+            ft_exec(ptr);
+            exit(0);
             add_history(ptr->str); // ==> add to cammand history
-            close_fd(ptr);
-            free_lists(ptr);
-            free(ptr->str);
-            free_spilte(ptr->splited_pipe);
-    }
+    //         close_fd(ptr);
+    //         free_lists(ptr);
+    //         free(ptr->str);
+    //         free_spilte(ptr->splited_pipe);
+     }
     free(ptr);
 }

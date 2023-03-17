@@ -96,7 +96,7 @@ void    add_space_redirection(char **str)
         return;
     // size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2 + 2;
     size = (is_there_append(*str) + is_there_heredoc(*str) + is_there_in_redirection(*str) + is_there_out_redirection(*str));
-    printf("size ---------------------------------------------------> : %d\n", size);
+    //printf("size ---------------------------------------------------> : %d\n", size);
     temp = malloc((ft_strlen(*str) + size) * sizeof(char));
     iter = *str;
     while (iter[i])
@@ -145,8 +145,8 @@ void    add_space_redirection(char **str)
         i++;
     }
     temp[++j] = '\0';
-    printf("j is : %d\n", j);
-    printf("the length is : %zu\n", ft_strlen(*str));
+    //printf("j is : %d\n", j);
+    //printf("the length is : %zu\n", ft_strlen(*str));
     free(*str);
     *str = temp;
 }
