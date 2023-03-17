@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/13 13:34:05 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:07:09 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*check_cmd(char *cmd, t_list *env)
 		free(tmp2);
 		i++;
 	}
-	return (free_2d(tmp), ft_putstr_fd(cmd, 2), ft_putstr_fd(": command not found\n", 2), NULL);
+	return (free_2d(tmp), ft_putstr_fd(&cmd[1], 2), ft_putstr_fd(": command not found\n", 2), NULL);
 }
 
 static void exec_cmd(t_minishell *shell, t_list	*cmd)
@@ -87,7 +87,10 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 		}
 		exit(a);
 	}
-	dup2(fd[0], STDIN_FILENO);
+	if (cmd->next != NULL)
+		dup2(fd[0], STDIN_FILENO);
+	else
+		dup2(0, STDIN_FILENO);
 	close(fd[1]);
 	close(fd[0]);
 }
@@ -120,9 +123,8 @@ int	ft_pipe(t_minishell *shell)
 			exec_cmd(shell, cmd);
 		cmd = cmd->next;
 	}
-	int a;
-	wait(&a);
-	printf("[%d]\n",WEXITSTATUS(a));
+	wait(&shell->exit_state);
+	shell->exit_state = WEXITSTATUS(shell->exit_state);
 	return (0);
 }
  
