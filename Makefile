@@ -6,12 +6,12 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/07 15:13:03 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/17 10:28:56 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror #-fsanitize=address
 NAME=minishell
 
 LIBREADLINE=-L .brew/opt/readline/lib
@@ -24,9 +24,9 @@ BUILTINS = ft_echo.c ft_cd.c ft_env.c ft_pipe.c
 EXECUTION = ft_exec.c
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
-	is_there_append.c ft_expaind.c build_list_1.c fill_with.c\
+	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c\
 
-SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c\
+SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c ft_putchar_error.c ft_putstr_error.c open_error.c\
 
 # SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 # 	  $(addprefix ./src/, $(SRCS)) \
@@ -35,17 +35,18 @@ SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c\
 
 SRC = $(addprefix ./src/execution/, $(EXECUTION)) \
 		$(addprefix ./src/execution/builtins/, $(BUILTINS)) \
-		./src/build_linked_list.c
 	
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 %.o:%.c
-	$(CC) $(CFLAGS) $(HEADER) $(INCB) -c $^ -o $@
+	@$(CC) $(CFLAGS) $(HEADER) $(INCB) -c $^ -o $@
+	@echo "compiling ..."
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER) $(CLIB) $(OBJ) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(HEADER) $(CLIB) $(OBJ) -lreadline -o $(NAME)
+	
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
 	@make all -C ./libft

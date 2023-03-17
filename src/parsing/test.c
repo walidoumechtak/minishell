@@ -34,9 +34,16 @@
     // execve(path, cmd, NULL);
 
 //}
-
 int main()
 {
-    char *str = "@walid@";
-    printf("%s\n", ft_substr(str, 1, 5));
+    // char *str = "walid@111@";
+    // printf("%s\n", ft_substr(str, 0, 2));
+
+    char *cmd[] = {"/", "lll", "main.c", NULL};
+    execve("/bin/", cmd , NULL);
+    // int *arr = ft_calloc(3 , sizeof(int));
+    // printf("%d\n", arr[0]);
+    // printf("%d\n", arr[1]);
+    // printf("%d\n", arr[2]);
+
 }

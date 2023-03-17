@@ -6,13 +6,11 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:32:14 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/11 06:26:54 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/17 10:29:34 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 t_list	*build_env_list(char **env)
 {
@@ -40,5 +38,5 @@ t_list	*build_env_list(char **env)
 		ft_lstadd_back(&head, new);
 		i++;
 	}
-	return (head);
+	return (free(temp), head);
 }

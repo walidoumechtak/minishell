@@ -26,6 +26,7 @@ typedef struct s_repare_cmd
 	char	*temp;
 	char	*sub;
 	int		i;
+	int		here_flag;
 	int		s;
 	int		e;
 }			t_repare_cmd;
@@ -33,6 +34,9 @@ typedef struct s_repare_cmd
 typedef struct s_command_v1
 {
 	char	**cmd;
+	int		*flags_red;
+	int		*exp_here;
+	int		cpt_flags;
 }			t_cmd_v1;
 
 typedef struct s_command
@@ -48,37 +52,32 @@ typedef struct s_env
 	char	*env_value;
 }			t_env;
 
+
+typedef	struct s_opened_files
+{
+	char	*file;
+	int		fd;
+	int		mode;
+}			t_open_file;
+
 typedef struct s_minishell
 {
 	t_list	*list_v1;
 	t_list	*list_cmd;
 	t_list	*env;
-	int		exit_state;
+	t_list	*opened_files;
+	t_open_file *o_file;
 	char	*str;
 	char	**splited_pipe;
 	char	**splited_space;
+	int		*flags_red;
+	int		here_flag;
+	int		exit_state;
+	int		out_access;
 }			t_minishell;
 
 void	init_struct(t_minishell *ptr);
 int		parsing(t_minishell *ptr);
-
-/* =====  parsing  ===== */
-int		handle_quotes(t_minishell *ptr);
-void	ft_exapaind(t_minishell *ptr, char **str);
-void	fill_with(char *str, char old, char c);
-
-int		build_linked_list(t_minishell *ptr);
-int		build_list_1(t_minishell *ptr);
-
-int		is_there_in_redirection(char *str);
-int		is_there_out_redirection(char *str);
-int		is_there_heredoc(char *str);
-int		is_there_append(char *str);
-t_list	*build_env_list(char **env);
-
-/*  ===== Error function ===== */
-
-int		ft_perror(char *str, int status);
 
 /* =====  Builtins  ===== */
 int		ft_echo(char **args);
@@ -92,6 +91,28 @@ int 	ft_export(t_minishell *shell, char **args);
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
 void	ft_exec(t_minishell *shell);
+/* =====  parsing  ===== */
+int			handle_quotes(t_minishell *ptr);
+int			ft_uncoted_exapaind(t_minishell *ptr, char **str);
+int			ft_coted_exapaind(t_minishell *ptr, char **str);
+void		fill_with(char *str, char old, char c);
+
+int			build_linked_list(t_minishell *ptr);
+int			build_list_1(t_minishell *ptr);
+int			build_list_2(t_minishell *ptr);
+
+int			is_there_in_redirection(char *str);
+int			is_there_out_redirection(char *str);
+int			is_there_heredoc(char *str);
+int			is_there_append(char *str);
+t_list		*build_env_list(char **env);
+
+/*  ===== Error function ===== */
+
+int			ft_perror(t_minishell *ptr, char *str, int status);
+void		ft_putchar_error(char c);
+void		ft_putstr_error(char *str);
+void 		open_error(t_minishell *ptr,char *file, char *str, int status);
 
 /*  ===== free function ===== */
 void	free_env(t_list **head);
