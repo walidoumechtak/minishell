@@ -5,20 +5,17 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/17 10:39:11 by hbenfadd         ###   ########.fr        #
+#    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
+#    Updated: 2023/03/17 15:58:31 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC=cc
-CFLAGS=-Wall -Wextra -Werror #-fsanitize=address
-NAME=minishell
-
-LIBREADLINE=-L .brew/opt/readline/lib
-FOLDERREADLINE=-I .brew/opt/readline/include
-HEADER		= -I./inc -I./libft/inc
-LIBFT		= ./libft/libft.a
-CLIB		=  -L./libft -lft 
+NAME			=minishell
+LIBREADLINE		=-L /Users/hbenfadd/goinfre/homebrew/opt/readline/lib -lreadline
+INCREADLINE		=-I /Users/hbenfadd/goinfre/homebrew/opt/readline/include
+HEADER			= -I./inc -I./libft/inc 
+LIBFT			= ./libft/libft.a
+CLIB			=  -L./libft -lft 
 
 BUILTINS = ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pipe.c ft_unset.c
 EXECUTION = ft_exec.c exec_is_builtins.c
@@ -43,8 +40,8 @@ all: $(NAME)
 	@echo "compiling ..."
 
 $(NAME): $(LIBFT) $(OBJ)
-	@$(CC) $(CFLAGS) $(HEADER) $(CLIB) $(OBJ) -lreadline -o $(NAME)
-	
+	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(CLIB) $(LIBREADLINE) $(OBJ)  -o $(NAME)
+
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
 	@make all -C ./libft

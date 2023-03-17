@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 08:28:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/11 11:41:32 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:45:28 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_exit(char **args)
 	int	i;
 
 	i = 0;
+	if (args || *args)
+		exit(0);
 	while ((*args)[i])
 	{
 		if (ft_isalpha((*args)[i]))
