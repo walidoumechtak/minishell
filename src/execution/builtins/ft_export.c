@@ -54,35 +54,34 @@ static void	appent_env_value(t_minishell *shell, char *var, char *value)
 // 	while ()
 // 	{
 // 	}
-	
 
 // }
 
 int ft_export(t_minishell *shell, char **args)
 {
-    char *tmp;
-    char *value;
-    size_t len;
+	char	*tmp;
+	char	*value;
+	size_t	len;
 
-    tmp = NULL;
-    len = 0;
-    value = NULL;
-    //if (!args)
-	//	putenv_in_order(shell->env)
-    while (args)
-    {
+	tmp = NULL;
+	len = 0;
+	value = NULL;
 
-        len = ft_strlen(*args);
-        value = ft_strnstr(*args, "+=", len);
-        if (value)
-        {
-            tmp = ft_substr(*args, 0, len - ft_strlen(value));
-            appent_env_value(shell, tmp, value + 2);
-            free(tmp);
-        }
-        else
-            ft_lstadd_back(&shell->env, build_env_list(args));
-        args++;
-    }
-    return (EXIT_SUCCESS);
+    // if (!args)
+    //	putenv_in_order(shell->env)
+	while (args && *args)
+	{
+		len = ft_strlen(*args);
+		value = ft_strnstr(*args, "+=", len);
+		if (value)
+		{
+			tmp = ft_substr(*args, 0, len - ft_strlen(value));
+			appent_env_value(shell, tmp, value + 2);
+			free(tmp);
+		}
+		else
+			ft_lstadd_back(&shell->env, build_env_list(args));
+		args++;
+	}
+	return (EXIT_SUCCESS);
 }
