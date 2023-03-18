@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/17 16:07:09 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/18 10:26:41hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,7 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 		}
 		exit(a);
 	}
-	if (cmd->next != NULL)
-		dup2(fd[0], STDIN_FILENO);
-	else
-		dup2(0, STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
 	close(fd[0]);
 }
@@ -99,6 +96,11 @@ int	ft_pipe(t_minishell *shell)
 {
 	char **args;
 	t_list *cmd;
+	int	stdin;
+	int stdout;
+
+	stdin = dup(STDIN_FILENO);
+	stdout = dup(STDOUT_FILENO);
 
 	cmd = shell->list_cmd;
 	args = NULL;
@@ -123,8 +125,11 @@ int	ft_pipe(t_minishell *shell)
 			exec_cmd(shell, cmd);
 		cmd = cmd->next;
 	}
+	while (wait(&shell->exit_state) > 0);
 	wait(&shell->exit_state);
 	shell->exit_state = WEXITSTATUS(shell->exit_state);
+	dup2(stdout, STDOUT_FILENO);
+	dup2(stdin, STDIN_FILENO);
 	return (0);
 }
  
