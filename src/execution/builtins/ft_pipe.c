@@ -94,14 +94,13 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 
 int	ft_pipe(t_minishell *shell)
 {
-	char **args;
-	t_list *cmd;
-	int	stdin;
-	int stdout;
+	char	**args;
+	t_list	*cmd;
+	int		stdin;
+	int		stdout;
 
 	stdin = dup(STDIN_FILENO);
 	stdout = dup(STDOUT_FILENO);
-
 	cmd = shell->list_cmd;
 	args = NULL;
 	if (((t_cmd *)(shell->list_cmd->content))->fd_in)
@@ -132,4 +131,3 @@ int	ft_pipe(t_minishell *shell)
 	dup2(stdin, STDIN_FILENO);
 	return (0);
 }
- 
