@@ -43,17 +43,16 @@ void    expaind_heredoc(t_minishell *ptr, char **str)
             s = i;
             while (iter[++i] && iter[i] != '$')
                 ;
-            // if (iter[i] == '\0')
             e = i - s;       
-            printf("--> %c\n", iter[e]);
         }
         sub = ft_substr(iter, s, e);
-        if (sub[0] == '\0')
-        {
-            free(sub);
-            break ;
-        }
-        printf("------------------- sub : --%s--\n", sub);
+        if (ft_strnstr(sub, "$?", ft_strlen(sub)))
+            expaind_exit_state(ptr, &sub);
+        // if (sub[0] == '\0')
+        // {
+        //     free(sub);
+        //     break ;
+        // }
         if (ft_strchr(sub, '$') != NULL) 
             ft_coted_exapaind(ptr, &sub);
         temp = ft_strjoin(temp, sub);

@@ -23,7 +23,6 @@ void    repear_cmd(t_minishell *ptr, char **str)
             else
                 rep->e = rep->i - rep->s;
             rep->sub = ft_substr(rep->iter, rep->s, rep->e);
-            printf("sub : %s\n", rep->sub);
             if (ft_strchr(rep->sub, '$') != NULL && ptr->here_flag == 0)
                 ft_coted_exapaind(ptr, &rep->sub);
             if (ft_strnstr(rep->sub, "$?", ft_strlen(rep->sub)))

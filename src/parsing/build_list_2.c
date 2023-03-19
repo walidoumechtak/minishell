@@ -61,7 +61,6 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 
 int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
 {
-    char **split;
     static int  rand;
     char    *char_rand;
     char    *file;
@@ -73,7 +72,6 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
 
     if (pipe(fd) < 0)
         return (-1);
-    is_exp = 0;
     char_rand = ft_itoa(rand);
     file = ft_strjoin("here_file", char_rand);
     while (access(file, F_OK) == 0)
@@ -91,22 +89,16 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
     {
         close(fd[0]);
         fd_file = open(file, O_RDWR | O_CREAT, 0777);
-        // str = get_next_line(0);
-        while (1)
+        str = get_next_line(0);
+        while (str != NULL)
         {
-            str = get_next_line(0);
-            if (str == NULL)
-            {
+            if (ft_strncmp(str, arr[i + 1], ft_strlen(str) - 1) == 0 && ft_strlen(str) > 1)
                 break ;
-            }
-            split = ft_split(str, '\n');
-            if (ft_strncmp(str, arr[i + 1], ft_strlen(split[0])) == 0)
-                break ;
-            // if (is_exp == 0)
-            //     expaind_heredoc(ptr, &str);
-            ft_putstr_fd(split[0], fd_file);
+            if (is_exp == 0)
+                expaind_heredoc(ptr, &str);
+            ft_putstr_fd(str, fd_file);
             free(str);
-            free_spilte(split);
+            str = get_next_line(0);
         }
         write(fd[1], &fd_file, sizeof(int));
         close(fd[1]);
@@ -168,7 +160,10 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
                 l++;
             }
             else
-                 open_heredoc(ptr, skin->cmd, i, 404);
+            {
+                ptr->o_file->fd = 0;
+                open_heredoc(ptr, skin->cmd, i, 404);
+            }
         }
         else if (ft_strncmp(skin->cmd[i], ">>", ft_strlen(skin->cmd[i])) == 0 && skin->flags_red[k++] == 1)
         {

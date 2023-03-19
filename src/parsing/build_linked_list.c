@@ -1,5 +1,76 @@
 #include "minishell.h"
 
+int open_out_file(t_open_file *link2)
+{
+    int fd;
+
+    fd = 1;
+    if (link2->mode == 2)
+        fd = open(link2->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    else if (link2->mode == 3)
+        fd = open(link2->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+    return (fd);
+}
+
+int complete_files(t_minishell *ptr)
+{
+    t_list  *temp;
+    t_list  *temp2;
+    t_cmd *link1;
+    t_open_file *link2;
+    int fd_out;
+
+    temp = ptr->list_cmd;;
+    while (temp)
+    {
+        link1 = ((t_cmd *)temp->content);
+        temp2 = ((t_cmd *)temp->content)->opened_files;
+        while (temp2)
+        {
+            link2 = ((t_open_file *)temp2->content);
+            if (link2->mode == 1)
+            {
+                if (link2->fd == -1)
+                {
+                    link1->fd_in = -1;
+                    open_error(ptr, link2->file, ": No such file or directory\n", 1);
+                    break ;
+                }
+                else
+                {
+                    if (link1->fd_in != 0 && link1->fd_in != -1)
+                        close(link1->fd_in);
+                    link1->fd_in = link2->fd;
+                }
+            }
+            else if (link2->mode == 4)
+            {
+                if (link1->fd_in != 0 && link1->fd_in != -1)
+                    close(link1->fd_in);
+                link1->fd_in = link2->fd;
+            }
+            else if (link2->mode == 2 || link2->mode == 3)
+            {
+                fd_out = open_out_file(link2);
+                if (fd_out < 0)
+                {
+                    link1->fd_out = -1;
+                    open_error(ptr, link2->file, ": Permission denied\n", 1);
+                }
+                else
+                {
+                    if (link1->fd_out != 1 && link1->fd_out != -1)
+                        close(link1->fd_out);
+                    link1->fd_out = fd_out;
+                }
+            }
+            temp2 = temp2->next;
+        }
+        temp = temp->next;
+    }
+    return (0);   
+}
+
 int    build_linked_list(t_minishell   *ptr)
 {
     t_list *temp;
@@ -17,19 +88,9 @@ int    build_linked_list(t_minishell   *ptr)
     state = build_list_2(ptr);
     if (state != 0)
         return (state);
-    // while (ptr->list_v1)
-    // {
-    //     i = 0;
-    //     j = 0;
-    //     while (((t_cmd_v1*)ptr->list_v1->content)->cmd[i])
-    //         printf("%s\n", ((t_cmd_v1*)ptr->list_v1->content)->cmd[i++]);
-    //     while (j < ((t_cmd_v1*)ptr->list_v1->content)->cpt_flags)
-    //     {
-    //         printf(" %d ", ((t_cmd_v1*)ptr->list_v1->content)->flags_red[j++]);
-    //     }
-    //     printf("-------\n");
-    //     ptr->list_v1 = ptr->list_v1->next;
-    // }
+
+    complete_files(ptr);
+    
     temp = ptr->list_cmd;
     while (temp)
     {
