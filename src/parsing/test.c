@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "../../libft/inc/libft.h"
  #include <strings.h>
-
+#include <fcntl.h>
 // int main(void)
 // {
 //     t_list  *head;
@@ -38,9 +38,10 @@ int main()
 {
     // char *str = "walid@111@";
     // printf("%s\n", ft_substr(str, 0, 2));
-
-    char *cmd[] = {"/", "lll", "main.c", NULL};
-    execve("/bin/", cmd , NULL);
+    int fd = open("/dev/ttys000", O_RDWR | O_CREAT, 0777);
+    printf("fd is : %d\n", fd);
+    // char *cmd[] = {"/", "lll", "main.c", NULL};
+    // execve("/bin/", cmd , NULL);
     // int *arr = ft_calloc(3 , sizeof(int));
     // printf("%d\n", arr[0]);
     // printf("%d\n", arr[1]);

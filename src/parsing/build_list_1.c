@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-void expaind_exit_state(t_minishell *ptr, char **str)
-{
-    char *res;
-    char    *temp_s;
-    char *temp;
-    char    *sub;
-    int i;
-    int s;
-    int e;
-
-    temp_s = *str;
-    temp = NULL;
-    res = NULL;
-    i = 0;
-    if (!*str)
-        return ;
-    while (temp_s[i])
-    {
-        if (temp_s[i] == '$' && temp_s[i + 1] == '?')
-        {
-            sub = ft_itoa(ptr->exit_state);
-            i++;
-        }
-        else
-        {
-            s = i;
-            while (temp_s[i] && (temp_s[i] != '$' || temp_s[i + 1] != '?'))
-                i++;
-            e = i - s;
-            sub = ft_substr(temp_s, s, e);
-        }
-        if (temp_s[i] != '\0' && temp_s[i] != '$')
-            i++;
-        temp = ft_strjoin(res, sub);
-        free(sub);
-        free (res);
-        res = temp;
-    }
-    free(*str);
-    *str = res;
-}
-
 void    repear_cmd(t_minishell *ptr, char **str)
 {
     //ft_exapaind(ptr, str);
@@ -65,6 +23,7 @@ void    repear_cmd(t_minishell *ptr, char **str)
             else
                 rep->e = rep->i - rep->s;
             rep->sub = ft_substr(rep->iter, rep->s, rep->e);
+            printf("sub : %s\n", rep->sub);
             if (ft_strchr(rep->sub, '$') != NULL && ptr->here_flag == 0)
                 ft_coted_exapaind(ptr, &rep->sub);
             if (ft_strnstr(rep->sub, "$?", ft_strlen(rep->sub)))
@@ -207,7 +166,7 @@ void    build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
     j = 0;
     while (arr[j])
     {
-        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0 && (ft_strchr(arr[j], '\"') != NULL || ft_strchr(arr[j], '\'') != NULL))
+        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0 && (ft_strchr(arr[j + 1], '\"') == NULL && ft_strchr(arr[j + 1], '\'') == NULL))
             node_v1->expaind_here[i++] = 1;
         j++;
     }
@@ -238,7 +197,7 @@ int build_list_1(t_minishell *ptr)
         {
             fill_with(ptr->splited_space[j], '\t', ' ');
             if ((ft_strchr(ptr->splited_space[j], '<') || ft_strchr(ptr->splited_space[j], '>'))
-             && !(ft_strchr(ptr->splited_space[j], '\"')) && !(ft_strchr(ptr->splited_space[j], '\'')))
+             && (!(ft_strchr(ptr->splited_space[j], '\"')) && !(ft_strchr(ptr->splited_space[j], '\''))))
              {
                 node_v1->flags_red[k++] = 1;
              }

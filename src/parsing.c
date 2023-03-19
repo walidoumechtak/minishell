@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/17 18:20:54 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:38:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
     {
         while (arr[++(*j)] == ' ')
             ;
-        if (arr[*j] == '>' || arr[*j] == '\0' || (arr[*j] == '<' && arr[*j - 1] == ' '))
+        // if (arr[*j] == '>' || arr[*j] == '\0' || (arr[*j] == '<' && arr[*j - 1] == ' '))
+        if (arr[*j] == '>' || arr[*j] == '\0')
             return (1);
         while (arr[*j] && arr[(*j)++] == '<')
             (*cpt)++;
@@ -129,7 +130,8 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
     {
         while (arr[++*j] == ' ')
             ;
-        if (arr[*j] == '<' || arr[*j] == '\0' || (arr[*j] == '>' && arr[*j - 1] == ' '))
+        // if (arr[*j] == '<' || arr[*j] == '\0' || (arr[*j] == '>' && arr[*j - 1] == ' '))
+        if (arr[*j] == '<' || arr[*j] == '\0')
             return (1);
         while (arr[*j] && arr[(*j)++] == '>')
             (*cpt)++;
@@ -141,6 +143,8 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
 
 int rederction_syntax(char **arr)
 {
+    char **split;
+    int k;
     int i;
     int j;
     int cpt;
@@ -149,21 +153,62 @@ int rederction_syntax(char **arr)
     while (arr[i])
     {
         j = 0;
-        cpt = 1;
-        while (arr[i][j])
+        split = ft_split(arr[i], ' ');
+        while (split[j])
         {
-            if (arr[i][j] == '\"')
-                while (arr[i][++j] && arr[i][j] != '\"')
-                        ;
-            if (arr[i][j] == '\'')
-                while (arr[i][++j] && arr[i][j] != '\'')
-                    ;
-            if (rederction_syntax_2(arr[i], &j, &cpt) != 0)
+            if (ft_strncmp(split[j], ">", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<", ft_strlen(split[j])) == 0
+            || ft_strncmp(split[j], ">>", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<<", ft_strlen(split[j])) == 0)
+            {
+                if (split[j + 1] == NULL)
+                    return (1);
+            }
+            else if (split[j + 1] && ((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<", 1) == 0) 
+            && (ft_strncmp(split[j + 1], ">", 1) == 0 || ft_strncmp(split[j + 1], "<", 1) == 0)))
                 return (1);
-            if (arr[i][j] != '\0' && arr[i][j] != '>' && arr[i][j] != '<')
-                j++;
+            else
+            {
+                k = 0;
+                cpt = 0;
+                if (ft_strncmp(split[j], ">", 1) == 0)
+                {
+                    while (split[j][k] == '>')
+                    {
+                        cpt++;
+                        k++;
+                    }
+                }
+                else if (ft_strncmp(split[j], "<", 1) == 0)
+                {
+                    while (split[j][k] == '<')
+                    {
+                        cpt++;
+                        k++;
+                    }
+                }
+                if (cpt > 2)
+                    return (1);
+            }
+            j++;
         }
         i++;
+        // j = 0;
+        // cpt = 1;
+        // while (arr[i][j])
+        // {
+        //     if (arr[i][j] == '\"')
+        //         while (arr[i][++j] && arr[i][j] != '\"')
+        //                 ;
+        //     if (arr[i][j] == '\'')
+        //         while (arr[i][++j] && arr[i][j] != '\'')
+        //             ;
+        //     if (rederction_syntax_2(arr[i], &j, &cpt) != 0)
+        //         return (1);
+        //     printf("before syntax : %c\n", arr[i][j]);
+        //     if (arr[i][j] != '\0' && arr[i][j] != '>' && arr[i][j] != '<' && arr[i][j] != '\"' && arr[i][j] != '\'')
+        //         j++;
+        //     printf("after syntax : %c\n", arr[i][j]);
+        // }
+        // i++;
     }
     return (0);
 }

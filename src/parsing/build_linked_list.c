@@ -3,6 +3,7 @@
 int    build_linked_list(t_minishell   *ptr)
 {
     t_list *temp;
+    // t_list *temp2;
     int state;
     int i = 0;
     int j = 0;
@@ -39,7 +40,20 @@ int    build_linked_list(t_minishell   *ptr)
         printf("in : %d\n", ((t_cmd*)temp->content)->fd_in);
         printf("out : %d\n", ((t_cmd*)temp->content)->fd_out);
         printf("---------------- end of pipe ------------------\n");
+        // printf("---------  the new list of files opened -----------\n");
+        // temp2 = ((t_cmd *)temp->content)->opened_files;
+        // if (temp2 == NULL)
+        //     printf("YUP ITS NULL\n");
+        // while (temp2)
+        // {
+        //     printf("file : %s\n", ((t_open_file *)temp2->content)->file); 
+        //     printf("fd : %d\n", ((t_open_file *)temp2->content)->fd); 
+        //     printf("mode : %d\n", ((t_open_file *)temp2->content)->mode); 
+        //     temp2 = temp2->next;
+        // }
+        // printf("-------- the end of new list ---------- \n");
         temp = temp->next;
     }
+    
     return (0);
 }
