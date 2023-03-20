@@ -54,6 +54,13 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 /*=====================================================================================================================*/
 
 
+void    signal_handler2(int sig)
+{
+    (void) sig;
+    //printf("---> %d \n", sig);
+    //printf("recieved signal child...\n");
+    exit(9);
+}
 
 /**
  * open_ex_heredoc - open heredoc and any $USER should be expainded
@@ -61,25 +68,31 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 
 int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
 {
+    // struct sigaction action;
     static int  rand;
     char    *char_rand;
     char    *file;
     char    *str;
+    int e_s;
     int fd[2];
     int fd_file;
     int    c;
-    int pid;
+    pid_t pid;
 
+    // action.sa_handler = signal_handler1;
+    // sigemptyset(&action.sa_mask);
+    // action.sa_flags = 0;
+    // sigaction(SIGINT, &action, NULL);
     if (pipe(fd) < 0)
         return (-1);
     char_rand = ft_itoa(rand);
-    file = ft_strjoin("here_file", char_rand);
+    file = ft_strjoin("/tmp/here_file", char_rand);
     while (access(file, F_OK) == 0)
     {
         free(file);
         free(char_rand);
         char_rand = ft_itoa(rand++);
-        file = ft_strjoin("here_file", char_rand);
+        file = ft_strjoin("/tmp/here_file", char_rand);
     }
     free(char_rand);
     pid = fork();
@@ -87,6 +100,7 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
         return (-2);
     if (pid == 0)
     {
+        signal(SIGINT, signal_handler2);
         close(fd[0]);
         fd_file = open(file, O_RDWR | O_CREAT, 0777);
         str = get_next_line(0);
@@ -113,7 +127,14 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
         ptr->o_file->mode = 4;
         close(fd[0]);
         free_and_shift(arr, i);
-        wait(NULL);
+        // wait(&e_s);
+        waitpid(pid, &e_s, 0);
+        if (WEXITSTATUS(e_s) == 9)
+        {
+            ptr->signal_stop = -9;
+            printf("signal_stop %d\n", ptr->signal_stop);
+            return (0);
+        }
     }
     rand++;
     return (0);
@@ -167,6 +188,7 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
         }
         else if (ft_strncmp(skin->cmd[i], ">>", ft_strlen(skin->cmd[i])) == 0 && skin->flags_red[k++] == 1)
         {
+            ptr->o_file = malloc(sizeof(t_open_file));
             open_file(ptr, skin->cmd, 3, i);
         }
         else if (skin->cmd == NULL)
@@ -194,24 +216,7 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
 	3 --> append
 	4 --> heredoc
 */
-/*=====================================================================================================================*/
 
-// void    free_opened_files(t_minishell *ptr)
-// {
-//     t_open_file *link;
-//     t_list  *temp;
-//     temp = ptr->opened_files;
-//     while (temp)
-//     {
-//         if (((t_open_file *)temp->content)->mode != 4)
-//         {
-//             link = ((t_open_file *)temp->content);
-//             free(link->file);
-//         }
-//         temp = temp->next;
-//     }
-//     ft_lstclear(&ptr->opened_files, del);
-// }
 /*=====================================================================================================================*/
 
 /**
@@ -222,17 +227,13 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
 
 int build_list_2(t_minishell *ptr)
 {
-    // (void)ptr;
     t_list *temp;
     t_list *new;
-    
-    // t_list *temp_files;
     int state;
     int i;
-    int j;
 
     i = 0;
-    j = 0;
+    ptr->signal_stop = 0;
     temp = ptr->list_v1;
     ptr->list_cmd = NULL;
     while (temp)
@@ -241,80 +242,17 @@ int build_list_2(t_minishell *ptr)
         ptr->cmd->fd_in = 0;
         ptr->cmd->fd_out = 1;
         state = open_rederiction(ptr, &temp, &ptr->cmd);
-        // temp_files = ptr->opened_files;
-        // if (state != 0) 
-        //      return (state);
-        // while (temp_files) // loop throw the linked list that containe file and in_fd and out_fd !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // {
-        //     if (((t_open_file *)temp_files->content)->mode == 1)
-        //     {
-        //         if (((t_open_file *)temp_files->content)->fd < 0)
-        //         {
-        //             open_error(ptr, ((t_open_file *)temp_files->content)->file,": no such file or directory\n", 1);
-        //             //return (3);
-        //         }
-        //         // if (cmd->fd_in != 0)
-        //         // {
-        //         //     printf("fd_int != 0\n");
-        //         //     close(cmd->fd_in);
-        //         // }
-        //         cmd->fd_in = ((t_open_file *)temp_files->content)->fd;
-        //     }//--------------------------------------------------------------
-        //     else if (((t_open_file *)temp_files->content)->mode == 4)
-        //     {
-        //         printf("in_fd   ==>> %d\n", ((t_open_file *)temp_files->content)->fd);
-        //         if (((t_open_file *)temp_files->content)->fd < 0)
-        //         {
-        //             open_error(ptr, NULL,"failed to open heredoc\n", 1);
-        //             //return (3);
-        //         }
-        //         // if (cmd->fd_in != 0)
-        //         // {
-        //         //     printf("fd_int != 0\n");
-        //         //     close(cmd->fd_in);
-        //         // }
-        //         cmd->fd_in = ((t_open_file *)temp_files->content)->fd;
-        //     }//--------------------------------------------------------------
-        //     // else if (((t_open_file *)temp_files->content)->mode == 2)
-        //     // {
-        //     //     if (((t_open_file *)temp_files->content)->fd < 0)
-        //     //     {
-        //     //         open_error(ptr, ((t_open_file *)temp_files->content)->file,": Permission denied\n", 1);
-        //     //         //return (3);
-        //     //     }
-        //     //     // if (cmd->fd_out != 1)
-        //     //     // {
-        //     //     //     printf("fd_out != 1\n");
-        //     //     //     close(cmd->fd_out);
-        //     //     // }
-        //     //     cmd->fd_out = ((t_open_file *)temp_files->content)->fd;
-        //     // }//--------------------------------------------------------------
-        //     // else if (((t_open_file *)temp_files->content)->mode == 3)
-        //     // {
-        //     //     if (((t_open_file *)temp_files->content)->fd < 0)
-        //     //     {
-        //     //         open_error(ptr, ((t_open_file *)temp_files->content)->file,": Permission denied\n", 1);
-        //     //         //return (3);
-        //     //     }
-        //     //     if (cmd->fd_out != 1)
-        //     //     {
-        //     //         printf("fd_out != 1\n");
-        //     //         close(cmd->fd_out);
-        //     //     }
-        //     //     cmd->fd_out = ((t_open_file *)temp_files->content)->fd;
-        //     // }//--------------------------------------------------------------  
-        //     temp_files = temp_files->next;
-        // }                                      // =============================== end of looop !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (state != 0)
+            return (state);
+        if (ptr->signal_stop == -9)
+            return (-9);
+        if (state != 0)
+            return (state);
         ptr->cmd->cmd = ((t_cmd_v1 *)temp->content)->cmd;
-        //j = 0;
-        // while (((t_cmd_v1 *)temp->content)->cmd[j])
-        //     printf("new cmd %s\n", ((t_cmd_v1 *)temp->content)->cmd[j++]);
         new = ft_lstnew(ptr->cmd);
         if (!new)
             return (-1);
         ft_lstadd_back(&ptr->list_cmd, new);
-        //ptr->out_access = 0;
-        // free_opened_files(ptr);
         temp = temp->next;
     }
     return (0);

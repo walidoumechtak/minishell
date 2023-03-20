@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/20 09:59:47 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:43:38 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void    all_errors_parsing(t_minishell *ptr, int state)
         ft_perror(ptr, "Error : sysntax Error\n", state);
     else if (state == 126)
         ft_perror(ptr, "bash: /: is a directory\n", state);
+    else if (state == -9)
+        ptr->exit_state = 1;
 }
 
 void    close_fd(t_minishell *ptr)
@@ -38,7 +40,7 @@ void    close_fd(t_minishell *ptr)
     }
 }
 
-void free_lists(t_minishell *ptr, int flag)
+void free_linked_lists(t_minishell *ptr, int flag)
 {
     t_list  *temp1;
     t_list  *temp2;
@@ -59,11 +61,12 @@ void free_lists(t_minishell *ptr, int flag)
     ft_lstclear(&ptr->list_v1, del);
     if (flag == 1)
     {
-        printf("yuuuuuuup\n");
         while (temp1)
         {
             //free_spilte(((t_cmd *)temp1->content)->cmd);
             link_ofile = ((t_cmd *)temp1->content);
+            if (link_ofile->fd_out > 2)
+                close(link_ofile->fd_out);
             temp4 = link_ofile->opened_files;
             while (link_ofile->opened_files)
             {
@@ -87,7 +90,16 @@ void free_lists(t_minishell *ptr, int flag)
     }
 }
 
-int main(int ac, char **av, char **env)
+// int main(int ac, char **av, char **env)
+
+char    *signal_handler1(int sig)
+{
+    (void) sig;
+    printf("\n");
+    return (readline(RED"Minishell"NONE GREEN"-$ "NONE));
+}
+
+int main(int ac, char **av)
 {
     t_minishell *ptr;
     int state;
@@ -95,12 +107,14 @@ int main(int ac, char **av, char **env)
     (void)av;
     (void)ac;
     ptr = malloc(sizeof(t_minishell));
-    ptr->env = build_env_list(env);
+    //ptr->env = build_env_list(env);
+    ptr->str = (char *) signal(SIGINT, (void *)signal_handler1);
+    printf("frome the signal %s\n", ptr->str);
     ptr->exit_state = 0;
     while (1)
     {
             ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-            if (ptr->str == NULL || ptr->str[0] == '\0')
+            if (ptr->str == NULL || ptr->str[0] == '\0' || ptr->str[0] == '\n')
             {
                 free(ptr->str);
                 continue ;
@@ -110,14 +124,14 @@ int main(int ac, char **av, char **env)
             if (state != 0)
             {
                 all_errors_parsing(ptr, state);
-                //free_lists(ptr, 0);
+                //free_linked_lists(ptr, 1);
                 free(ptr->str);
                 free_spilte(ptr->splited_pipe);
                 continue ;
             }
             //ft_exec(ptr);
             add_history(ptr->str); // ==> add to cammand history
-            free_lists(ptr, 1);
+            free_linked_lists(ptr, 1);
             close_fd(ptr);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);

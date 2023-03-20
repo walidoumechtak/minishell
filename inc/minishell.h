@@ -11,6 +11,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"
@@ -88,6 +89,7 @@ typedef struct s_minishell
 	int			here_flag;
 	int			exit_state;
 	int			out_access;
+	int			signal_stop;
 }				t_minishell;
 
 void			init_struct(t_minishell *ptr);
