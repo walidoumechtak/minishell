@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/18 13:38:50 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:39:22 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,77 +141,6 @@ int rederction_syntax_2(char *arr, int *j, int *cpt)
     return (0);
 }
 
-int rederction_syntax(char **arr)
-{
-    char **split;
-    int k;
-    int i;
-    int j;
-    int cpt;
-
-    i = 0;
-    while (arr[i])
-    {
-        j = 0;
-        split = ft_split(arr[i], ' ');
-        while (split[j])
-        {
-            if (ft_strncmp(split[j], ">", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<", ft_strlen(split[j])) == 0
-            || ft_strncmp(split[j], ">>", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<<", ft_strlen(split[j])) == 0)
-            {
-                if (split[j + 1] == NULL)
-                    return (1);
-            }
-            else if (split[j + 1] && ((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<", 1) == 0) 
-            && (ft_strncmp(split[j + 1], ">", 1) == 0 || ft_strncmp(split[j + 1], "<", 1) == 0)))
-                return (1);
-            else
-            {
-                k = 0;
-                cpt = 0;
-                if (ft_strncmp(split[j], ">", 1) == 0)
-                {
-                    while (split[j][k] == '>')
-                    {
-                        cpt++;
-                        k++;
-                    }
-                }
-                else if (ft_strncmp(split[j], "<", 1) == 0)
-                {
-                    while (split[j][k] == '<')
-                    {
-                        cpt++;
-                        k++;
-                    }
-                }
-                if (cpt > 2)
-                    return (1);
-            }
-            j++;
-        }
-        i++;
-        // j = 0;
-        // cpt = 1;
-        // while (arr[i][j])
-        // {
-        //     if (arr[i][j] == '\"')
-        //         while (arr[i][++j] && arr[i][j] != '\"')
-        //                 ;
-        //     if (arr[i][j] == '\'')
-        //         while (arr[i][++j] && arr[i][j] != '\'')
-        //             ;
-        //     if (rederction_syntax_2(arr[i], &j, &cpt) != 0)
-        //         return (1);
-        //     printf("before syntax : %c\n", arr[i][j]);
-        //     if (arr[i][j] != '\0' && arr[i][j] != '>' && arr[i][j] != '<' && arr[i][j] != '\"' && arr[i][j] != '\'')
-        //         j++;
-        //     printf("after syntax : %c\n", arr[i][j]);
-        // }
-        // i++;
-    }
-    return (0);
-}
 
 int check_backslach(char    **arr)
 {
@@ -278,8 +207,8 @@ int    parsing(t_minishell *ptr)
         return (126);
     if (check_semi_colum(ptr->splited_pipe) != 0)
         return (1);
-    if (rederction_syntax(ptr->splited_pipe) != 0)
-        return (1);
+    // if (rederction_syntax(ptr->splited_pipe) != 0)
+    //     return (1);
     if (check_backslach(ptr->splited_pipe) != 0)
         return (1);
     state = build_linked_list(ptr);

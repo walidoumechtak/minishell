@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/19 17:13:13 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:59:47 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void free_lists(t_minishell *ptr, int flag)
     t_list  *temp1;
     t_list  *temp2;
     t_list  *temp3;
+    t_list  *temp4;
+    t_cmd *link_ofile;
     
     temp1 = ptr->list_cmd;
     temp2 = ptr->list_v1;
@@ -50,14 +52,27 @@ void free_lists(t_minishell *ptr, int flag)
     while (temp2)
     {
         free(((t_cmd_v1 *)temp2->content)->flags_red);       
+        free(((t_cmd_v1 *)temp2->content)->expaind_here);       
         free_spilte(((t_cmd_v1 *)temp2->content)->cmd);
         temp2 = temp2->next;
     }
     ft_lstclear(&ptr->list_v1, del);
     if (flag == 1)
     {
+        printf("yuuuuuuup\n");
         while (temp1)
-        {   
+        {
+            //free_spilte(((t_cmd *)temp1->content)->cmd);
+            link_ofile = ((t_cmd *)temp1->content);
+            temp4 = link_ofile->opened_files;
+            while (link_ofile->opened_files)
+            {
+                free(((t_open_file *)link_ofile->opened_files->content)->file);
+                if (((t_open_file *)link_ofile->opened_files->content)->fd > 2)
+                    close(((t_open_file *)link_ofile->opened_files->content)->fd);
+                link_ofile->opened_files = link_ofile->opened_files->next;
+            }
+            ft_lstclear(&temp4, del);
             //free_spilte(((t_cmd *)temp1->content)->cmd);
             temp1 = temp1->next;
         }

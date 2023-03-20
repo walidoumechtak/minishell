@@ -98,7 +98,7 @@ int				handle_quotes(t_minishell *ptr);
 int				ft_uncoted_exapaind(t_minishell *ptr, char **str);
 int				ft_coted_exapaind(t_minishell *ptr, char **str);
 void			expaind_exit_state(t_minishell *ptr, char **str);
-void    expaind_heredoc(t_minishell *ptr, char **str);
+void			expaind_heredoc(t_minishell *ptr, char **str);
 void			fill_with(char *str, char old, char c);
 
 int				build_linked_list(t_minishell *ptr);
@@ -112,7 +112,7 @@ int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
 
 /*  ===== Error function ===== */
-
+int				rederction_syntax(char *arr);
 int				ft_perror(t_minishell *ptr, char *str, int status);
 void			ft_putchar_error(char c);
 void			ft_putstr_error(char *str);
