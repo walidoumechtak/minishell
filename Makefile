@@ -6,19 +6,19 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/17 15:58:31 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/21 09:26:15 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=minishell
-LIBREADLINE		=-L /Users/hbenfadd/goinfre/homebrew/opt/readline/lib -lreadline
-INCREADLINE		=-I /Users/hbenfadd/goinfre/homebrew/opt/readline/include
+NAME			= minishell
+LIBREADLINE		= -lreadline#-L /Users/hbenfadd/goinfre/homebrew/opt/readline/lib -lreadline
+INCREADLINE		=#-I /Users/hbenfadd/goinfre/homebrew/opt/readline/include
 HEADER			= -I./inc -I./libft/inc 
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
 BUILTINS = ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pipe.c ft_unset.c
-EXECUTION = ft_exec.c exec_is_builtins.c
+EXECUTION = ft_exec.c exec_is_builtins.c convert_list_env.c
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c\

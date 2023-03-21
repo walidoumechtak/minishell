@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+
 static void free_2d(char **ptr)
 {
 	int i;
@@ -66,6 +68,7 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 	int	fd[2];
 	int	r;
 
+	char	**env;
 	r = 0;
 	pipe(fd);
 	int pid1 = fork();
@@ -83,7 +86,7 @@ static void exec_cmd(t_minishell *shell, t_list	*cmd)
 			char *tmp = check_cmd(ft_strjoin("/", *((t_cmd *)cmd->content)->cmd), shell->env);
 			if (!tmp)
 				exit(127);
-			execve(tmp, ((t_cmd *)(cmd->content))->cmd, NULL);
+			execve(tmp, ((t_cmd *)(cmd->content))->cmd, convert_list_env(shell->env));
 		}
 		exit(a);
 	}
@@ -98,7 +101,6 @@ int	ft_pipe(t_minishell *shell)
 	t_list	*cmd;
 	int		stdin;
 	int		stdout;
-
 	stdin = dup(STDIN_FILENO);
 	stdout = dup(STDOUT_FILENO);
 	cmd = shell->list_cmd;

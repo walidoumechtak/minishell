@@ -91,6 +91,8 @@ int 	ft_export(t_minishell *shell, char **args);
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
 void	ft_exec(t_minishell *shell);
+char	**convert_list_env(t_list *lstenv);
+
 /* =====  parsing  ===== */
 int			handle_quotes(t_minishell *ptr);
 int			ft_uncoted_exapaind(t_minishell *ptr, char **str);
