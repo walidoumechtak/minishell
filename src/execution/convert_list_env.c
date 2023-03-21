@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 09:54:26 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/21 09:57:25 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:04:15 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**convert_list_env(t_list *lstenv)
 			tmp = ft_strjoin(((t_env *)lstenv->content)->env_var, "=");
 			env[i] = ft_strjoin(tmp, ((t_env *)lstenv->content)->env_value);
 			if (!tmp || !env[i])
-				return (ft_putstr_fd("Error: Memory allocation\n", 2), exit(1));
+				return (ft_putstr_fd("Error: Memory allocation\n", 2), exit(1), NULL);
 			free(tmp);
 		}
 		else
