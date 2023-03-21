@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/21 18:21:05 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:58:54 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,6 @@ int	check_pipe_syntax(char *str)
 	if (str[i] == '|')
 		return (1);
 	return (0);
-}
-
-int check_slach_symbole(t_minishell *ptr)
-{
-    t_list  *temp;
-    int i;
-
-    temp = ptr->list_cmd;
-    i = 0;
-    while (temp)
-    {
-        
-    }
 }
 
 int check_semi_colum(char **arr)
@@ -163,8 +150,7 @@ int    parsing(t_minishell *ptr)
     if (check_backslach(ptr->splited_pipe) != 0)
         return (1);
     state = build_linked_list(ptr);
-    // if(check_slach_symbole(ptr->splited_pipe) != 0)
-    //     return (126);
+   
     if (state != 0)
         return (state);
     return (0);

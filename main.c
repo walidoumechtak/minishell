@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/21 18:04:29 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:56:30 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void    all_errors_parsing(t_minishell *ptr, int state)
 {
     if (state == 1)
         ft_perror(ptr, "Error : sysntax Error\n", state);
-    else if (state == 126)
-        ft_perror(ptr, "bash: /: is a directory\n", state);
     else if (state == -9)
         ptr->exit_state = 1;
 }

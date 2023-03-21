@@ -11,6 +11,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+ #include <dirent.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"

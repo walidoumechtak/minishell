@@ -5,7 +5,24 @@
 *   Error outfile and append -> 8
 *   Error heredoc -> 9
 */
+int check_slach_symbole(t_minishell *ptr)
+{
+    t_list  *temp;
+    DIR *dir;
 
+    temp = ptr->list_cmd;
+    while (temp)
+    {
+        dir = opendir(((t_cmd *)temp->content)->cmd[0]);
+        if (dir != NULL)
+        {
+            open_error(ptr, ((t_cmd *)temp->content)->cmd[0], ": is a directory\n", 126);
+            return (126);
+        }
+        temp = temp->next;
+    }
+    return (0);
+}
 
 int open_out_file(t_open_file *link2)
 {
@@ -98,6 +115,9 @@ int    build_linked_list(t_minishell   *ptr)
     if (state != 0)
         return (state);
     state = complete_files(ptr);
+    if (state != 0)
+        return (state);
+    state = check_slach_symbole(ptr);
     if (state != 0)
         return (state);
     
