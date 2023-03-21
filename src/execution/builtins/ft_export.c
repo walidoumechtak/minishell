@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
+/*   Updated: 2023/03/20 18:03:07 by hbenfadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	appent_env_value(t_minishell *shell, char *var, char *value)
 {
 	t_list	*tmp;
-    char    *oldvalue;
+	char	*oldvalue;
 	char	*env_var;
 	char	*buff;
 
@@ -25,52 +37,59 @@ static void	appent_env_value(t_minishell *shell, char *var, char *value)
 	}
 }
 
-// static char **convert_to_arry(t_list *env)
-// {
-// 	char	**buff;
-// 	t_env	*tmp;
-// 	int		i;
+static void	ft_putenv(t_list *env)
+{
+	while (env)
+	{
+		printf("declare -x ");
+		printf("%s", ((t_env *)env->content)->env_var);
+		if (((t_env *)env->content)->env_value)
+			printf("=%s", ((t_env *)env->content)->env_value);
+		printf("\n");
+		env = env->next;
+	}
+}
 
-// 	i = 0;
-// 	buff = ((char **)malloc(sizeof(char *) + 1 ) * ft_lstsize(env));
-// 	if (buff)
-// 		return (NULL);
-//     while (env)
-//     {
-// 		tmp = env->content;
-// 		buff[i] = ft_strjoin(tmp->env_var, tmp->env_value);
-//         env = env->next;
-//     }
-// 	buff[i] = NULL;
-// 	return (buff);
-// }
+static int	is_var_found(t_minishell *shell, char *var, char *value)
+{
+	t_list	*tmp;
+	char	*env_var;
+	char	*buff;
 
-// static void	putenv_in_order(t_list *env)
-// {
-// 	char	**tmp;
-// 	int		i = 0;
+	buff = NULL;
+	tmp = shell->env;
+	while (tmp)
+	{
+		env_var = ((t_env *)tmp->content)->env_var;
+		if (ft_strnstr(env_var, var, ft_strlen(var))
+			&& ft_strlen(var) == ft_strlen(env_var))
+		{
+			free(((t_env *)tmp->content)->env_value);
+			((t_env *)tmp->content)->env_value = value;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
-// 	tmp = convert_to_arry(env);
-// 	while ()
-// 	{
-// 	}
-
-// }
-
-int ft_export(t_minishell *shell, char **args)
+int	ft_export(t_minishell *shell, char **args)
 {
 	char	*tmp;
 	char	*value;
+	char	**split;
 	size_t	len;
 
 	tmp = NULL;
 	len = 0;
 	value = NULL;
 
-    // if (!args)
-    //	putenv_in_order(shell->env)
+	if (!args)
+		ft_putenv(shell->env);
 	while (args && *args)
 	{
+
+		split = ft_split(*args, '=');
 		len = ft_strlen(*args);
 		value = ft_strnstr(*args, "+=", len);
 		if (value)
@@ -79,8 +98,16 @@ int ft_export(t_minishell *shell, char **args)
 			appent_env_value(shell, tmp, value + 2);
 			free(tmp);
 		}
+		else if (is_var_found(shell, split[0], split[1]) == 0)
+		{
+			char *ar[2] = {*args, NULL};
+			ft_lstadd_back(&shell->env, build_env_list(ar));
+			free(split[0]);
+			free(split[1]);
+		}
 		else
-			ft_lstadd_back(&shell->env, build_env_list(args));
+			free(split[0]);
+		free(split);
 		args++;
 	}
 	return (EXIT_SUCCESS);
