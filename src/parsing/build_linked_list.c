@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+/*
+*   Error infile -> 7
+*   Error outfile and append -> 8
+*   Error heredoc -> 9
+*/
+
+
 int open_out_file(t_open_file *link2)
 {
     int fd;
@@ -34,7 +41,8 @@ int complete_files(t_minishell *ptr)
                 {
                     link1->fd_in = -1;
                     open_error(ptr, link2->file, ": No such file or directory\n", 1);
-                    break ;
+                    ptr->exit_state = 1;
+                    return (7);
                 }
                 else
                 {
@@ -49,13 +57,14 @@ int complete_files(t_minishell *ptr)
                     close(link1->fd_in);
                 link1->fd_in = link2->fd;
             }
-            else if (link2->mode == 2 || link2->mode == 3)
+            else if ((link2->mode == 2 || link2->mode == 3))
             {
                 fd_out = open_out_file(link2);
                 if (fd_out < 0)
                 {
                     link1->fd_out = -1;
                     open_error(ptr, link2->file, ": Permission denied\n", 1);
+                    return (8);
                 }
                 else
                 {
@@ -88,8 +97,10 @@ int    build_linked_list(t_minishell   *ptr)
     state = build_list_2(ptr);
     if (state != 0)
         return (state);
-
-    complete_files(ptr);
+    state = complete_files(ptr);
+    if (state != 0)
+        return (state);
+    
     
     temp = ptr->list_cmd;
     while (temp)
@@ -100,7 +111,7 @@ int    build_linked_list(t_minishell   *ptr)
             printf("%s\n", ((t_cmd*)temp->content)->cmd[i++]);
         printf("in : %d\n", ((t_cmd*)temp->content)->fd_in);
         printf("out : %d\n", ((t_cmd*)temp->content)->fd_out);
-        printf("---------------- end of pipe ------------------\n");
+        printf("---------------- end of pipe ------------------\n\n");
         // printf("---------  the new list of files opened -----------\n");
         // temp2 = ((t_cmd *)temp->content)->opened_files;
         // if (temp2 == NULL)
@@ -112,7 +123,7 @@ int    build_linked_list(t_minishell   *ptr)
         //     printf("mode : %d\n", ((t_open_file *)temp2->content)->mode); 
         //     temp2 = temp2->next;
         // }
-        // printf("-------- the end of new list ---------- \n");
+        // printf("-------- the end of new list ---------- \n\n");
         temp = temp->next;
     }
     

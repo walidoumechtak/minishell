@@ -56,7 +56,8 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 
 void    signal_handler2(int sig)
 {
-    (void) sig;
+    if (sig == SIGINT)
+        free_flag = 1;
     //printf("---> %d \n", sig);
     //printf("recieved signal child...\n");
     exit(9);
@@ -74,17 +75,14 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
     char    *file;
     char    *str;
     int e_s;
-    int fd[2];
     int fd_file;
-    int    c;
     pid_t pid;
 
-    // action.sa_handler = signal_handler1;
+    // action.sa_handler = signal_handler3;
     // sigemptyset(&action.sa_mask);
     // action.sa_flags = 0;
     // sigaction(SIGINT, &action, NULL);
-    if (pipe(fd) < 0)
-        return (-1);
+    rand = 0;
     char_rand = ft_itoa(rand);
     file = ft_strjoin("/tmp/here_file", char_rand);
     while (access(file, F_OK) == 0)
@@ -101,7 +99,6 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
     if (pid == 0)
     {
         signal(SIGINT, signal_handler2);
-        close(fd[0]);
         fd_file = open(file, O_RDWR | O_CREAT, 0777);
         str = get_next_line(0);
         while (str != NULL)
@@ -114,29 +111,24 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
             free(str);
             str = get_next_line(0);
         }
-        write(fd[1], &fd_file, sizeof(int));
-        close(fd[1]);
         exit (0);
     }
     else
     {
-        close(fd[1]);
-        read(fd[0], &c, sizeof(int));
-        ptr->o_file->file = file;
-        ptr->o_file->fd = c;
-        ptr->o_file->mode = 4;
-        close(fd[0]);
-        free_and_shift(arr, i);
-        // wait(&e_s);
         waitpid(pid, &e_s, 0);
         if (WEXITSTATUS(e_s) == 9)
         {
             ptr->signal_stop = -9;
+            ptr->exit_state = 1;
             printf("signal_stop %d\n", ptr->signal_stop);
-            return (0);
+            return (9);
         }
+        ptr->o_file->file = file;
+        ptr->o_file->fd = open(file, O_RDONLY, 0777);
+        ptr->o_file->mode = 4;
+        free_and_shift(arr, i);
+        rand++;
     }
-    rand++;
     return (0);
 }
 /*=====================================================================================================================*/
@@ -177,13 +169,16 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
             if (skin->expaind_here[l] == 1)
             {
                 ptr->o_file->fd = 0;
-                open_heredoc(ptr, skin->cmd, i, 0);
+                if (open_heredoc(ptr, skin->cmd, i, 0) == 9)
+                    return (9);
                 l++;
             }
             else
             {
                 ptr->o_file->fd = 0;
-                open_heredoc(ptr, skin->cmd, i, 404);
+                if (open_heredoc(ptr, skin->cmd, i, 404) == 9)
+                    return (9);
+                l++;
             }
         }
         else if (ft_strncmp(skin->cmd[i], ">>", ft_strlen(skin->cmd[i])) == 0 && skin->flags_red[k++] == 1)

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/20 09:39:22 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/21 18:21:05 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,17 @@ int	check_pipe_syntax(char *str)
 	return (0);
 }
 
-int check_slach_symbole(char **arr)
+int check_slach_symbole(t_minishell *ptr)
 {
+    t_list  *temp;
     int i;
-    int j;
 
+    temp = ptr->list_cmd;
     i = 0;
-    while (arr[i])
+    while (temp)
     {
-        j = 0;
-        while (arr[i][j])
-        {
-            while (arr[i][j] == ' ')
-                j++;
-            if (arr[i][j] == '/')
-            {
-                while (arr[i][++j] == '/')
-                    ;
-                if (arr[i][j] == ' ')
-                    return (126);
-            }
-            else
-                break;
-        }
-        i++;
+        
     }
-    return (0);
 }
 
 int check_semi_colum(char **arr)
@@ -111,36 +96,6 @@ int check_semi_colum(char **arr)
     }
     return (0);
 }
-
-int rederction_syntax_2(char *arr, int *j, int *cpt)
-{
-    if (arr[*j] == '<')
-    {
-        while (arr[++(*j)] == ' ')
-            ;
-        // if (arr[*j] == '>' || arr[*j] == '\0' || (arr[*j] == '<' && arr[*j - 1] == ' '))
-        if (arr[*j] == '>' || arr[*j] == '\0')
-            return (1);
-        while (arr[*j] && arr[(*j)++] == '<')
-            (*cpt)++;
-        if ((arr[*j] == '\0' && (arr[*j - 1] == '>' || arr[*j - 1] == '<')) || *cpt > 2)
-            return (1);
-    }
-    else if (arr[*j] == '>')
-    {
-        while (arr[++*j] == ' ')
-            ;
-        // if (arr[*j] == '<' || arr[*j] == '\0' || (arr[*j] == '>' && arr[*j - 1] == ' '))
-        if (arr[*j] == '<' || arr[*j] == '\0')
-            return (1);
-        while (arr[*j] && arr[(*j)++] == '>')
-            (*cpt)++;
-        if ((arr[*j] == '\0' && (arr[*j - 1] == '>' || arr[*j - 1] == '<')) || *cpt > 2 )
-            return (1);
-    }
-    return (0);
-}
-
 
 int check_backslach(char    **arr)
 {
@@ -203,15 +158,13 @@ int    parsing(t_minishell *ptr)
         return (1);
     if (check_pipe_syntax(ptr->str) == 1)
 		return (1);
-    if(check_slach_symbole(ptr->splited_pipe) != 0)
-        return (126);
     if (check_semi_colum(ptr->splited_pipe) != 0)
         return (1);
-    // if (rederction_syntax(ptr->splited_pipe) != 0)
-    //     return (1);
     if (check_backslach(ptr->splited_pipe) != 0)
         return (1);
     state = build_linked_list(ptr);
+    // if(check_slach_symbole(ptr->splited_pipe) != 0)
+    //     return (126);
     if (state != 0)
         return (state);
     return (0);

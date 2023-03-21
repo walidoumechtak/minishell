@@ -20,7 +20,7 @@ int rederction_syntax(char *arr)
                 return (1);
             }
         }
-        else if (split[j + 1] && ((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<", 1) == 0) 
+        if (((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<", 1) == 0) 
         && (ft_strncmp(split[j + 1], ">", 1) == 0 || ft_strncmp(split[j + 1], "<", 1) == 0)))
         {
             free_spilte(split);

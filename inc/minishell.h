@@ -11,7 +11,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <signal.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"
@@ -20,7 +19,14 @@
 # define ITALIC "\033[3m"
 
 /* ===== GLOBAL VARIABL ===== */
-int				STAT;
+#ifndef	FREE_FLAG
+#define FREE_FLAG
+
+int				free_flag;
+
+#endif
+//free_flag = 0;
+//int				STAT;
 
 /* ===== STRUCT ===== */
 
@@ -53,7 +59,7 @@ typedef struct s_command
 	int			fd_out;
 	t_list		*opened_files;
 	//t_list	*heredoc_files;
-	char		*file_to_remove;
+	//char		*file_to_remove;
 }				t_cmd;
 
 typedef struct s_env
@@ -116,11 +122,11 @@ t_list			*build_env_list(char **env);
 /*  ===== Error function ===== */
 int				rederction_syntax(char *arr);
 int				ft_perror(t_minishell *ptr, char *str, int status);
-void			ft_putchar_error(char c);
-void			ft_putstr_error(char *str);
 void			open_error(t_minishell *ptr, char *file, char *str, int status);
 
 /*  ===== free function ===== */
 
 void			free_spilte(char **str);
+void			free_linked_lists(t_minishell *ptr, int flag);
+void			free_list_v1(t_minishell *ptr, t_list *temp2);
 #endif

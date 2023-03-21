@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 14:56:35 by woumecht          #+#    #+#              #
-#    Updated: 2023/03/20 15:12:09 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/21 18:01:01 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,10 @@ CLIB		=  -L./libft -lft
 # 	 src/minishell.c \
 
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
-	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c expaind_exit_state.c redirection_syntax.c expaind_heredoc.c\
+	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c \
+	 expaind_exit_state.c redirection_syntax.c expaind_heredoc.c free_linked_lists.c\
 
-SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c ft_putchar_error.c ft_putstr_error.c open_error.c\
+SRCS= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c open_error.c\
 
 SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(SRCS)) \

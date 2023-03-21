@@ -172,6 +172,7 @@ void    build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
     free_spilte(arr);
 }
 
+
 int build_list_1(t_minishell *ptr)
 {
     t_cmd_v1    *node_v1;
@@ -189,6 +190,12 @@ int build_list_1(t_minishell *ptr)
         j = 0;
         k = 0;
         node_v1 = malloc(sizeof(t_cmd_v1));
+        if (!node_v1)
+        {
+            free_list_v1(ptr, ptr->list_v1);
+            ft_putstr_fd("Faild to alloc memory!\n", 2);
+            exit (-3);
+        }
         ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
         build_flag_redrection(node_v1, ptr->splited_pipe[i]);
         build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i]);
@@ -213,7 +220,11 @@ int build_list_1(t_minishell *ptr)
         node_v1->cmd = ptr->splited_space;
         new = ft_lstnew(node_v1);
         if (!new)
-            return (3);
+        {
+            free_list_v1(ptr, ptr->list_v1);
+            ft_putstr_fd("Faild to alloc memory!\n", 2);
+            exit (-3);
+        }
         ft_lstadd_back(&ptr->list_v1, new);
         i++;
     }
