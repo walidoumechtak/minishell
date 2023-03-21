@@ -6,7 +6,7 @@
 #    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/21 09:26:15 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/21 13:33:09 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME			= minishell
 LIBREADLINE		= -lreadline#-L /Users/hbenfadd/goinfre/homebrew/opt/readline/lib -lreadline
 INCREADLINE		=#-I /Users/hbenfadd/goinfre/homebrew/opt/readline/include
 HEADER			= -I./inc -I./libft/inc 
+CFLAGS			= -Wall -Wextra -Werror
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 

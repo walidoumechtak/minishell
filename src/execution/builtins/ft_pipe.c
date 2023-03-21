@@ -63,27 +63,28 @@ static char	*check_cmd(char *cmd, t_list *env)
 	return (free_2d(tmp), ft_putstr_fd(&cmd[1], 2), ft_putstr_fd(": command not found\n", 2), NULL);
 }
 
-static void exec_cmd(t_minishell *shell, t_list	*cmd)
+static void	exec_cmd(t_minishell *shell, t_list	*cmd)
 {
-	int	fd[2];
-	int	r;
+	int		fd[2];
+	int		a;
+	char	*tmp;
 
-	char	**env;
-	r = 0;
 	pipe(fd);
-	int pid1 = fork();
-	if (pid1 == 0)
+	if (fork() == 0)
 	{
+		if (((t_cmd *)(shell->list_cmd->content))->fd_in == -1 ||
+			((t_cmd *)(shell->list_cmd->content))->fd_in == -1)
+			exit(1);
 		if (cmd->next != NULL && ((t_cmd *)(cmd->content))->fd_out == 1)
 			dup2(fd[1], STDOUT_FILENO);
 		else
 			dup2(((t_cmd *)(cmd->content))->fd_out, 1);
 		close(fd[1]);
 		close(fd[0]);
-		int	a;
-		if ((a = exec_is_builtins(shell, ((t_cmd *)(cmd->content))->cmd, shell->env)) == -1)
+		a = exec_is_builtins(shell, ((t_cmd *)(cmd->content))->cmd, shell->env);
+		if (a == -1)
 		{
-			char *tmp = check_cmd(ft_strjoin("/", *((t_cmd *)cmd->content)->cmd), shell->env);
+			tmp = check_cmd(ft_strjoin("/", *((t_cmd *)cmd->content)->cmd), shell->env);
 			if (!tmp)
 				exit(127);
 			execve(tmp, ((t_cmd *)(cmd->content))->cmd, convert_list_env(shell->env));
