@@ -82,7 +82,7 @@ int		parsing(t_minishell *ptr);
 /* =====  Builtins  ===== */
 int		ft_echo(char **args);
 int		ft_cd(t_minishell *shell, char **args);
-int		ft_pipe(t_minishell *shell);
+void	ft_pipe(t_minishell *shell, t_list *cmd);
 int		ft_env(t_list *env);
 int		ft_unset(t_minishell *shell, char **agrs);
 int		ft_exit(char **args);
@@ -90,6 +90,7 @@ int 	ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */
 void	add_to_env(t_minishell *shell, char **arg);
+char    *check_cmd(char *cmd, t_list *env);
 
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
