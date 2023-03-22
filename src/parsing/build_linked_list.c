@@ -128,7 +128,7 @@ int    build_linked_list(t_minishell   *ptr)
         i = 0;
         j = 0;
         while (((t_cmd*)temp->content)->cmd[i])
-            printf("%s\n", ((t_cmd*)temp->content)->cmd[i++]);
+            printf("cmd[] : %s\n", ((t_cmd*)temp->content)->cmd[i++]);
         printf("in : %d\n", ((t_cmd*)temp->content)->fd_in);
         printf("out : %d\n", ((t_cmd*)temp->content)->fd_out);
         printf("---------------- end of pipe ------------------\n\n");

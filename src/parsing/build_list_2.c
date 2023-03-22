@@ -56,10 +56,8 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 
 void    signal_handler2(int sig)
 {
-    if (sig == SIGINT)
-        free_flag = 1;
-    //printf("---> %d \n", sig);
-    //printf("recieved signal child...\n");
+    (void) sig;
+    free_flag = 1;
     exit(9);
 }
 
@@ -120,7 +118,6 @@ int    open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
         {
             ptr->signal_stop = -9;
             ptr->exit_state = 1;
-            printf("signal_stop %d\n", ptr->signal_stop);
             return (9);
         }
         ptr->o_file->file = file;

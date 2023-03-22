@@ -40,7 +40,7 @@ t_list	*build_env_list(char **env)
 			return (free_env(&head), NULL);
 		ft_lstadd_back(&head, new);
 		i++;
+		free(temp);
 	}
-	free(temp);
 	return (head);
 }

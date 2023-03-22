@@ -55,6 +55,7 @@ void    repear_cmd(t_minishell *ptr, char **str)
             {     
                 //printf("here_flag $: %d\n", ptr->here_flag);
                 rep->s = rep->i;
+                rep->test = rep->s + 1; // to chekc if $ to followed by " or '
                 rep->i++;
                 while(((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
                 || (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
@@ -62,21 +63,24 @@ void    repear_cmd(t_minishell *ptr, char **str)
                     rep->i++;
                 if (rep->iter[rep->i] == '?') // $?
                     rep->i++;
+                printf("hmhmh %c \n", rep->iter[rep->i]);
                 if (rep->iter[rep->i] == '\0')
                     rep->e = rep->i;
+                else if (rep->iter[rep->test] == '\'' || rep->iter[rep->test] == '\"') // to chekc if $ to followed by " or '
+                    rep->e = 0;
                 else
                     rep->e = rep->i - rep->s;
                     //rep->e = rep->i - 1;  // $USER.walid  i = . so i-- = R
                 //printf("start : %d end : %d\n", rep->s, rep->e);
                 rep->sub = ft_substr(rep->iter, rep->s, rep->e);
+                printf("sub --%s--\n", rep->sub);
                 if (ptr->here_flag == 0)
                     ft_uncoted_exapaind(ptr, &rep->sub);
                 if (ft_strnstr(rep->sub, "$?", ft_strlen(rep->sub)))
-                {
                     expaind_exit_state(ptr, &rep->sub);
-                }
-                if (rep->iter[rep->i] != '\0')
+                if (rep->iter[rep->i] != '\0') // this because i increment the loop i++; so if we have $?walid for example i will point to w and i++ will point to a and then i lost 'w'!!!!???
                     rep->i--;
+                
                 ptr->here_flag = 0;
             }                                                
             else
@@ -101,14 +105,15 @@ void    repear_cmd(t_minishell *ptr, char **str)
         }           
             // =================================================================== end
         if (rep->iter[rep->i] != '\0')
+        {
             rep->i++;
-        //printf("sub --> %s\n", rep->sub);
+            printf("yup tis mince \n");
+        }
         rep->temp = ft_strjoin(rep->result, rep->sub);
         free(rep->sub);
         free(rep->result);
         rep->result = rep->temp; 
     }
-    //printf("-- %s --\n", rep->result);
     free(*str);
     *str = rep->result;
     free(rep);

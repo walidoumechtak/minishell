@@ -4,6 +4,26 @@
 #include "../../libft/inc/libft.h"
  #include <strings.h>
 #include <fcntl.h>
+#include <signal.h>
+
+void handle_signal(int sig)
+{
+    printf("Received signal %d\n", sig);
+}
+
+int main()
+{
+    signal(SIGINT, handle_signal);
+
+    while (1)
+    {
+        printf("Program is running...\n");
+        sleep(1);
+    }
+
+    return 0;
+}
+
 // int main(void)
 // {
 //     t_list  *head;
@@ -34,12 +54,12 @@
     // execve(path, cmd, NULL);
 
 //}
-int main()
-{
+// int main()
+// {
     // char *str = "walid@111@";
     // printf("%s\n", ft_substr(str, 0, 2));
-    int fd = open("/dev/ttys000", O_RDWR | O_CREAT, 0777);
-    printf("fd is : %d\n", fd);
+    // int fd = open("/dev/ttys000", O_RDWR | O_CREAT, 0777);
+    // printf("fd is : %d\n", fd);
     // char *cmd[] = {"/", "lll", "main.c", NULL};
     // execve("/bin/", cmd , NULL);
     // int *arr = ft_calloc(3 , sizeof(int));
@@ -47,4 +67,4 @@ int main()
     // printf("%d\n", arr[1]);
     // printf("%d\n", arr[2]);
 
-}
+// }

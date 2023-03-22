@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/19 12:27:00 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:36:03 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int    ft_uncoted_exapaind(t_minishell *ptr, char **str)
     res = NULL;
     split_var = NULL;
     i = 0;
-    if (temp[0] && temp[1] == '\0')
+    if (temp[0] == '\0' || (temp[0] && temp[1] == '\0'))
         return (0);
     if (temp[0] == '$' && temp[1] == '?')
         return (0);

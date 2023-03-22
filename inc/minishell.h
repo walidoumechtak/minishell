@@ -4,6 +4,7 @@
 
 # include "get_next_line.h"
 # include "libft.h"
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -11,7 +12,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
- #include <dirent.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"
@@ -20,14 +20,12 @@
 # define ITALIC "\033[3m"
 
 /* ===== GLOBAL VARIABL ===== */
-#ifndef	FREE_FLAG
-#define FREE_FLAG
+# ifndef FREE_FLAG
+#  define FREE_FLAG
 
 int				free_flag;
 
-#endif
-//free_flag = 0;
-//int				STAT;
+# endif
 
 /* ===== STRUCT ===== */
 
@@ -41,6 +39,7 @@ typedef struct s_repare_cmd
 	int			here_flag;
 	int			s;
 	int			e;
+	int			test;
 }				t_repare_cmd;
 
 typedef struct s_command_v1
@@ -50,7 +49,6 @@ typedef struct s_command_v1
 	int			*expaind_here;
 	int			cpt_exp_here;
 	int			cpt_flags;
-	//char	*unlink_file;
 }				t_cmd_v1;
 
 typedef struct s_command
@@ -59,8 +57,6 @@ typedef struct s_command
 	int			fd_in;
 	int			fd_out;
 	t_list		*opened_files;
-	//t_list	*heredoc_files;
-	//char		*file_to_remove;
 }				t_cmd;
 
 typedef struct s_env
@@ -76,17 +72,11 @@ typedef struct s_opened_files
 	int			mode;
 }				t_open_file;
 
-// typedef	struct s_heredoc_file
-// {
-// 	char	*file_to_remove;
-// }			t_heredoc_file;
-
 typedef struct s_minishell
 {
 	t_list		*list_v1;
 	t_list		*list_cmd;
 	t_list		*env;
-	//t_list	*opened_files;
 	t_open_file	*o_file;
 	t_cmd		*cmd;
 	char		*str;
@@ -130,4 +120,9 @@ void			open_error(t_minishell *ptr, char *file, char *str, int status);
 void			free_spilte(char **str);
 void			free_linked_lists(t_minishell *ptr, int flag);
 void			free_list_v1(t_minishell *ptr, t_list *temp2);
+
+/* ===== readline func ======= */
+
+void			rl_replace_line(const char *text, int clear_undo);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/21 19:56:30 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:04:56 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,23 @@ void    remove_heredoc_files(t_minishell *ptr)
     }
 }
 
+/**
+ * signal_handler1 - function that handle the SIGINT signal in the main proccess
+*/
+
 void    signal_handler1(int sig)
 {
     if (sig == SIGINT)
+    {
         free_flag = 1;
-    //printf("\n"RED"Minishell"NONE GREEN"-$ "NONE);
+        write(STDOUT_FILENO, "\n", 2);
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
+    }
 }
 
-// int main(int ac, char **av, char **env)
-int main(int ac, char **av)
+ int main(int ac, char **av, char **env)
 {
     t_minishell *ptr;
     int state;
@@ -74,7 +82,7 @@ int main(int ac, char **av)
     (void)ac;
     ptr = malloc(sizeof(t_minishell));
     free_flag = 0;
-    //ptr->env = build_env_list(env);
+    ptr->env = build_env_list(env);
     ptr->exit_state = 0;
     signal(SIGINT, signal_handler1);
     while (1)
@@ -83,7 +91,8 @@ int main(int ac, char **av)
         {
             ptr->exit_state = 1;
             free_flag = 0;
-            free_linked_lists(ptr, 1);
+            //ptr->str = NULL;
+            // free_linked_lists(ptr, 1);
         }
         ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
         add_history(ptr->str); // ==> add to cammand history
