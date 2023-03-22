@@ -6,7 +6,7 @@
 #    By: hamza <hamza@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/22 16:24:10 by hamza            ###   ########.fr        #
+#    Updated: 2023/03/22 16:26:40 by hamza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ all: $(NAME)
 	@echo "compiling ..."
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) $(OBJ)  -o $(NAME)
+	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
 
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
