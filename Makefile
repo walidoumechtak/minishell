@@ -6,7 +6,7 @@
 #    By: hamza <hamza@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/21 20:48:14 by hamza            ###   ########.fr        #
+#    Updated: 2023/03/22 16:24:10 by hamza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= minishell
 LIBREADLINE		= -lreadline#-L /Users/hbenfadd/goinfre/homebrew/opt/readline/lib -lreadline
 INCREADLINE		=#-I /Users/hbenfadd/goinfre/homebrew/opt/readline/include
 HEADER			= -I./inc -I./libft/inc 
-CFLAGS			= #-Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
@@ -30,6 +30,8 @@ SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(PARSING)) \
 	  $(addprefix ./src/execution/, $(EXECUTION)) \
 	  $(addprefix ./src/execution/builtins/, $(BUILTINS)) \
+	./src/execution/utilities/add_to_env.c \
+	./src/execution/utilities/check_cmd.c \
  	  main.c 
 	
 OBJ = $(SRC:.c=.o)
@@ -41,7 +43,7 @@ all: $(NAME)
 	@echo "compiling ..."
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
+	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) $(OBJ)  -o $(NAME)
 
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
