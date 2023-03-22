@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 10:11:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/15 10:36:38 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:38:54 by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,27 @@ int check_pipe_2(char *str, int *i)
 
 int	check_pipe_syntax(char *str)
 {
-	int	i;
+    int i;
 
+    i = 0;
     if (!str || str[0] == '\0')
         return (0);
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '|')
-		return (1);
-	if (check_pipe_2(str, &i) == 1)
-        return (1);
-	i = ft_strlen(str) - 1;
-	while (str[i] == ' ')
-		i--;
-	if (str[i] == '|')
-		return (1);
-	return (0);
+    else
+    {
+
+        while (str[i] == ' ')
+            i++;
+        if (str[i] == '|')
+            return (1);
+        if (check_pipe_2(str, &i) == 1)
+            return (1);
+        i = ft_strlen(str) - 1;
+        while (str[i] == ' ')
+            i--;
+        if (str[i] == '|')
+            return (1);
+        return (0);
+    }
 }
 
 int check_slach_symbole(char **arr)

@@ -4,10 +4,8 @@ int count_double_quotes(char *str)
 {
     int i;
     int cpt;
-    int cpt_inside_single_q;
 
     cpt = 0;
-    cpt_inside_single_q = 0;
     i = 0;
     while (str[i])
     {

@@ -167,10 +167,8 @@ void    build_flag_redrection(t_cmd_v1 *node_v1,char *str)
 {
     char **arr;
     int cpt;
-    int i;
     int j;
 
-    i = 0;
     j = 0;
     cpt = 0;
     fill_with(str, '\t', ' ');

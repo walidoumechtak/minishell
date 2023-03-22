@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/18 11:27:35 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:44:25 by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void free_lists(t_minishell *ptr)
 {
     t_list  *temp1;
     t_list  *temp2;
-    t_list  *temp3;
     
     temp1 = ptr->list_cmd;
     temp2 = ptr->list_v1;
-    temp3 = ptr->env;
     while (temp1)
     {   
         free_spilte(((t_cmd *)temp1->content)->cmd);
@@ -54,13 +52,6 @@ void free_lists(t_minishell *ptr)
         temp2 = temp2->next;
     }
     ft_lstclear(&ptr->list_v1, del);
-    // while (temp3)
-    // {
-    //     free(((t_env*)temp3->content)->env_value);
-    //     free(((t_env*)temp3->content)->env_var);
-    //     temp3 = temp3->next;
-    // }
-    // ft_lstclear(&ptr->env, del);
 }
 
 int main(int ac, char **av, char **env)

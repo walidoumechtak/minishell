@@ -71,11 +71,10 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 //         o_file->fd = 
 // }
 
-int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
+int open_rederiction(t_minishell *ptr, t_list **old_node)
 {
     t_list  *old;
     t_list  *new;
-    t_cmd *new_c;
     
     t_cmd_v1    *skin;
     int i;
@@ -83,7 +82,6 @@ int open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
     //int j;
 
     i = 0;
-    new_c = *new_cmd;
     old = *old_node;
     skin = (t_cmd_v1 *)old->content;
     //ptr->o_file->file = NULL;
@@ -163,11 +161,7 @@ int build_list_2(t_minishell *ptr)
     t_cmd   *cmd;
     t_list *temp_files;
     int state;
-    int i;
-    int j;
 
-    i = 0;
-    j = 0;
     temp = ptr->list_v1;
     ptr->list_cmd = NULL;
     while (temp)
@@ -175,7 +169,7 @@ int build_list_2(t_minishell *ptr)
         cmd = malloc(sizeof(t_cmd));
         cmd->fd_in = 0;
         cmd->fd_out = 1;
-        state = open_rederiction(ptr, &temp, &cmd);
+        state = open_rederiction(ptr, &temp);
         temp_files = ptr->opened_files;
         if (state != 0) 
             return (state);
@@ -227,9 +221,6 @@ int build_list_2(t_minishell *ptr)
             temp_files = temp_files->next;
         }                                      // =============================== end of looop
         cmd->cmd = ((t_cmd_v1 *)temp->content)->cmd;
-        j = 0;
-        // while (((t_cmd_v1 *)temp->content)->cmd[j])
-        //     printf("new cmd %s\n", ((t_cmd_v1 *)temp->content)->cmd[j++]);
         new = ft_lstnew(cmd);
         if (!new)
             return (-1);
