@@ -88,6 +88,9 @@ int		ft_unset(t_minishell *shell, char **agrs);
 int		ft_exit(char **args);
 int 	ft_export(t_minishell *shell, char **args);
 
+/* =====  Builtins Utilities ===== */
+void	add_to_env(t_minishell *shell, char **arg);
+
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
 void	ft_exec(t_minishell *shell);

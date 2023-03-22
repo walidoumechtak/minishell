@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/20 18:03:07 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/22 12:09:23 by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	appent_env_value(t_minishell *shell, char *var, char *value)
-{
-	t_list	*tmp;
-	char	*oldvalue;
-	char	*env_var;
-	char	*buff;
-
-	buff = NULL;
-	oldvalue = NULL;
-	tmp = shell->env;
-	while (tmp)
-	{
-		env_var = ((t_env *)tmp->content)->env_var;
-		if (ft_strnstr(env_var, var, ft_strlen(var))
-			&& ft_strlen(var) == ft_strlen(env_var))
-		{
-            oldvalue = ((t_env *)tmp->content)->env_value;
-			((t_env *)tmp->content)->env_value = ft_strjoin(oldvalue, value);
-			free(oldvalue);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-}
 
 static void	ft_putenv(t_list *env)
 {
@@ -50,65 +25,29 @@ static void	ft_putenv(t_list *env)
 	}
 }
 
-static int	is_var_found(t_minishell *shell, char *var, char *value)
-{
-	t_list	*tmp;
-	char	*env_var;
-	char	*buff;
-
-	buff = NULL;
-	tmp = shell->env;
-	while (tmp)
-	{
-		env_var = ((t_env *)tmp->content)->env_var;
-		if (ft_strnstr(env_var, var, ft_strlen(var))
-			&& ft_strlen(var) == ft_strlen(env_var))
-		{
-			free(((t_env *)tmp->content)->env_value);
-			((t_env *)tmp->content)->env_value = value;
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 int	ft_export(t_minishell *shell, char **args)
 {
-	char	*tmp;
-	char	*value;
-	char	**split;
-	size_t	len;
+	char	**temp;
 
-	tmp = NULL;
-	len = 0;
-	value = NULL;
-
-	if (!args)
+	temp = (char **)malloc(sizeof(char *) * 2);
+	temp[1] = NULL;
+	if (!args || !*args)
 		ft_putenv(shell->env);
 	while (args && *args)
 	{
-
-		split = ft_split(*args, '=');
-		len = ft_strlen(*args);
-		value = ft_strnstr(*args, "+=", len);
-		if (value)
+		if (ft_isdigit(**args) || !ft_isalpha(**args))
 		{
-			tmp = ft_substr(*args, 0, len - ft_strlen(value));
-			appent_env_value(shell, tmp, value + 2);
-			free(tmp);
-		}
-		else if (is_var_found(shell, split[0], split[1]) == 0)
-		{
-			char *ar[2] = {*args, NULL};
-			ft_lstadd_back(&shell->env, build_env_list(ar));
-			free(split[0]);
-			free(split[1]);
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(*args, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 		}
 		else
-			free(split[0]);
-		free(split);
+		{
+			temp[0] = *args;
+			add_to_env(shell, temp);
+		}
 		args++;
 	}
+	free(temp);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: hamza <hamza@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/21 13:33:09 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/22 16:13:24 by hamza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(PARSING)) \
 	  $(addprefix ./src/execution/, $(EXECUTION)) \
 	  $(addprefix ./src/execution/builtins/, $(BUILTINS)) \
+	./src/execution/utilities/add_to_env.c \
  	  main.c 
 	
 OBJ = $(SRC:.c=.o)
