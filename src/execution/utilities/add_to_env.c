@@ -5,9 +5,7 @@ static void	appent_env_value(t_minishell *shell, char *var, char *value)
 	t_list	*tmp;
 	char	*oldvalue;
 	char	*env_var;
-	char	*buff;
 
-	buff = NULL;
 	oldvalue = NULL;
 	tmp = shell->env;
 	while (tmp)
@@ -29,9 +27,7 @@ static int	is_var_found(t_minishell *shell, char *var, char *value)
 {
 	t_list	*tmp;
 	char	*env_var;
-	char	*buff;
 
-	buff = NULL;
 	tmp = shell->env;
 	while (tmp)
 	{
