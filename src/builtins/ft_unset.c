@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 06:23:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/11 07:27:08by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/23 07:34:10 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	dell_one_env(t_minishell *shell, t_list *lst)
 	t_list	*tmp;
 
 	tmp = shell->env;
-
 	while (tmp->next != lst)
 		tmp = tmp->next;
 	if (lst->next)

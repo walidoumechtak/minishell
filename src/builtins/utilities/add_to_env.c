@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_to_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/23 07:07:22 by hbenfadd          #+#    #+#             */
+/*   Updated: 2023/03/23 07:18:17 by hbenfadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	appent_env_value(t_minishell *shell, char *var, char *value)
@@ -14,7 +26,7 @@ static void	appent_env_value(t_minishell *shell, char *var, char *value)
 		if (ft_strnstr(env_var, var, ft_strlen(var))
 			&& ft_strlen(var) == ft_strlen(env_var))
 		{
-            oldvalue = ((t_env *)tmp->content)->env_value;
+			oldvalue = ((t_env *)tmp->content)->env_value;
 			((t_env *)tmp->content)->env_value = ft_strjoin(oldvalue, value);
 			free(oldvalue);
 			return ;
@@ -46,10 +58,10 @@ static int	is_var_found(t_minishell *shell, char *var, char *value)
 
 void	add_to_env(t_minishell *shell, char **arg)
 {
-	char *tmp;
-	char *value;
-	char **split;
-	size_t len;
+	char	*tmp;
+	char	*value;
+	char	**split;
+	size_t	len;
 
 	split = ft_split(*arg, '=');
 	len = ft_strlen(*arg);
