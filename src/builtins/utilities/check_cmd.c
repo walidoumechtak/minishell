@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 07:30:58 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/23 10:42:53 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,18 @@ char	*check_cmd(char *cmd, t_list *env)
 				return (cmd);
 			else
 			{
-				ft_putstr_fd(cmd, 2);
-				ft_putstr_fd(": permission denied\n", 2);
+				ft_puterror(cmd, "permission denied", 1);
 				exit(1);
 			}
 		}
 		else
 		{
+			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": command not found\n", 2);
+			if (cmd[0] != '.' && cmd[0] != '/')
+				ft_putstr_fd(": command not found\n", 2);
+			else
+				ft_putstr_fd(": no such file or directory\n", 2);
 			exit(127);
 		}
 	}
