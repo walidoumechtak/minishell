@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-void expaind_exit_state(t_minishell *ptr, char **str)
-{
-    char *res;
-    char    *temp_s;
-    char *temp;
-    char    *sub;
-    int i;
-    int s;
-    int e;
-
-    temp_s = *str;
-    temp = NULL;
-    res = NULL;
-    i = 0;
-    if (!*str)
-        return ;
-    while (temp_s[i])
-    {
-        if (temp_s[i] == '$' && temp_s[i + 1] == '?')
-        {
-            sub = ft_itoa(ptr->exit_state);
-            i++;
-        }
-        else
-        {
-            s = i;
-            while (temp_s[i] && (temp_s[i] != '$' || temp_s[i + 1] != '?'))
-                i++;
-            e = i - s;
-            sub = ft_substr(temp_s, s, e);
-        }
-        if (temp_s[i] != '\0' && temp_s[i] != '$')
-            i++;
-        temp = ft_strjoin(res, sub);
-        free(sub);
-        free (res);
-        res = temp;
-    }
-    free(*str);
-    *str = res;
-}
-
 void    repear_cmd(t_minishell *ptr, char **str)
 {
     //ft_exapaind(ptr, str);
@@ -97,6 +55,7 @@ void    repear_cmd(t_minishell *ptr, char **str)
             {     
                 //printf("here_flag $: %d\n", ptr->here_flag);
                 rep->s = rep->i;
+                rep->test = rep->s + 1; // to chekc if $ to followed by " or '
                 rep->i++;
                 while(((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
                 || (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
@@ -106,6 +65,8 @@ void    repear_cmd(t_minishell *ptr, char **str)
                     rep->i++;
                 if (rep->iter[rep->i] == '\0')
                     rep->e = rep->i;
+                else if (rep->iter[rep->test] == '\'' || rep->iter[rep->test] == '\"') // to chekc if $ to followed by " or '
+                    rep->e = 0;
                 else
                     rep->e = rep->i - rep->s;
                     //rep->e = rep->i - 1;  // $USER.walid  i = . so i-- = R
@@ -114,11 +75,10 @@ void    repear_cmd(t_minishell *ptr, char **str)
                 if (ptr->here_flag == 0)
                     ft_uncoted_exapaind(ptr, &rep->sub);
                 if (ft_strnstr(rep->sub, "$?", ft_strlen(rep->sub)))
-                {
                     expaind_exit_state(ptr, &rep->sub);
-                }
-                if (rep->iter[rep->i] != '\0')
+                if (rep->iter[rep->i] != '\0') // this because i increment the loop i++; so if we have $?walid for example i will point to w and i++ will point to a and then i lost 'w'!!!!???
                     rep->i--;
+                
                 ptr->here_flag = 0;
             }                                                
             else
@@ -143,14 +103,15 @@ void    repear_cmd(t_minishell *ptr, char **str)
         }           
             // =================================================================== end
         if (rep->iter[rep->i] != '\0')
+        {
             rep->i++;
-        //printf("sub --> %s\n", rep->sub);
+            printf("yup tis mince \n");
+        }
         rep->temp = ft_strjoin(rep->result, rep->sub);
         free(rep->sub);
         free(rep->result);
         rep->result = rep->temp; 
     }
-    //printf("-- %s --\n", rep->result);
     free(*str);
     *str = rep->result;
     free(rep);
@@ -179,11 +140,41 @@ void    build_flag_redrection(t_cmd_v1 *node_v1,char *str)
             cpt++;
         j++;
     }
-    //printf("cpt : %d\n", cpt);
     node_v1->flags_red = ft_calloc(cpt, sizeof(int));
     node_v1->cpt_flags = cpt;
     free_spilte(arr);
 }
+
+void    build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
+{
+    char **arr;
+    int cpt;
+    int j;
+    int i;
+
+    j = 0;
+    i = 0;
+    cpt = 0;
+    fill_with(str, '\t', ' ');
+    arr = ft_split(str, ' ');
+    while (arr[j])
+    {
+        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0)
+            cpt++;
+        j++;
+    }
+    node_v1->expaind_here = ft_calloc(cpt, sizeof(int));
+    node_v1->cpt_exp_here = cpt;
+    j = 0;
+    while (arr[j])
+    {
+        if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0 && (ft_strchr(arr[j + 1], '\"') == NULL && ft_strchr(arr[j + 1], '\'') == NULL))
+            node_v1->expaind_here[i++] = 1;
+        j++;
+    }
+    free_spilte(arr);
+}
+
 
 int build_list_1(t_minishell *ptr)
 {
@@ -202,14 +193,20 @@ int build_list_1(t_minishell *ptr)
         j = 0;
         k = 0;
         node_v1 = malloc(sizeof(t_cmd_v1));
+        if (!node_v1)
+        {
+            free_list_v1(ptr, ptr->list_v1);
+            ft_putstr_fd("Faild to alloc memory!\n", 2);
+            exit (-3);
+        }
         ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
         build_flag_redrection(node_v1, ptr->splited_pipe[i]);
-        // build_exp_here_flag();
+        build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i]);
         while (ptr->splited_space[j])
         {
             fill_with(ptr->splited_space[j], '\t', ' ');
             if ((ft_strchr(ptr->splited_space[j], '<') || ft_strchr(ptr->splited_space[j], '>'))
-             && !(ft_strchr(ptr->splited_space[j], '\"')) && !(ft_strchr(ptr->splited_space[j], '\'')))
+             && (!(ft_strchr(ptr->splited_space[j], '\"')) && !(ft_strchr(ptr->splited_space[j], '\''))))
              {
                 node_v1->flags_red[k++] = 1;
              }
@@ -226,7 +223,11 @@ int build_list_1(t_minishell *ptr)
         node_v1->cmd = ptr->splited_space;
         new = ft_lstnew(node_v1);
         if (!new)
-            return (0);
+        {
+            free_list_v1(ptr, ptr->list_v1);
+            ft_putstr_fd("Faild to alloc memory!\n", 2);
+            exit (-3);
+        }
         ft_lstadd_back(&ptr->list_v1, new);
         i++;
     }
