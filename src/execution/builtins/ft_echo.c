@@ -3,36 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:30:35 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/08 17:21:37 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/23 06:31:42by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int check_flag(char *arg)
+{
+
+	int	i;
+
+	i = 1;
+	while (arg[0] == '-' && arg[i] == 'n')
+	{
+		if (arg[i + 1] == '\0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_echo(char **args)
 {
-	short int	flag;
+	int	flag;
 
-	flag = 0;	
+	flag = 1;	
 	if (*args)
 	{
-		if (args[0][0] == '-' && args[0][1] == 'n' && args[0][2] == '\0')
+		if (check_flag(*args))
 		{
-			flag = 1;
+			flag = 0;
 			args++;
 		}
 		while (args && *args)
 		{
+
 			printf("%s", *args);
 			args++;
 			if (args && *args)
 				printf(" ");
 		}
 	}
-	if (!flag)
+	if (flag)
 		printf("\n");
 	return (0);
 }
