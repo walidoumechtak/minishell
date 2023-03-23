@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hamza <hamza@student.42.fr>                +#+  +:+       +#+         #
+#    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/22 16:15:50 by hamza            ###   ########.fr        #
+#    Updated: 2023/03/23 06:52:43by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,20 +18,18 @@ CFLAGS			= -Wall -Wextra -Werror
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
-BUILTINS = ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pipe.c ft_unset.c
-EXECUTION = ft_exec.c exec_is_builtins.c convert_list_env.c
+BUILTINS		= ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pipe.c ft_unset.c
+EXECUTILITIES	= ft_exec.c exec_is_builtins.c convert_list_env.c check_cmd.c add_to_env.c ft_puterror.c
 
-SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
-	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c\
+SRCP			= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c \
+					handle_quotes.c is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c 
 
 PARSING = parsing.c init_struct.c ft_perror.c free_splite.c build_env.c ft_putchar_error.c ft_putstr_error.c open_error.c free_env.c
 
 SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(PARSING)) \
-	  $(addprefix ./src/execution/, $(EXECUTION)) \
-	  $(addprefix ./src/execution/builtins/, $(BUILTINS)) \
-	./src/execution/utilities/add_to_env.c \
-	./src/execution/utilities/check_cmd.c \
+	  $(addprefix ./src/builtins/utilities/, $(EXECUTILITIES)) \
+	  $(addprefix ./src/builtins/, $(BUILTINS)) \
  	  main.c 
 	
 OBJ = $(SRC:.c=.o)

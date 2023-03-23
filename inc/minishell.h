@@ -90,7 +90,8 @@ int 	ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */
 void	add_to_env(t_minishell *shell, char **arg);
-char    *check_cmd(char *cmd, t_list *env);
+char	*check_cmd(char *cmd, t_list *env);
+void	ft_puterror(char *cmd, char *errormsg, int exit_status);
 
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);

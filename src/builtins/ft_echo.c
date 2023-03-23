@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:30:35 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 06:31:42by hamza            ###   ########.fr       */
+/*   Updated: 2023/03/23 07:34:34 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int check_flag(char *arg)
+static int	check_flag(char *arg)
 {
-
 	int	i;
 
 	i = 1;
@@ -31,7 +30,7 @@ int	ft_echo(char **args)
 {
 	int	flag;
 
-	flag = 1;	
+	flag = 1;
 	if (*args)
 	{
 		if (check_flag(*args))
@@ -41,7 +40,6 @@ int	ft_echo(char **args)
 		}
 		while (args && *args)
 		{
-
 			printf("%s", *args);
 			args++;
 			if (args && *args)
