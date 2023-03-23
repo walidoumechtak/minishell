@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
+#    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/23 10:01:44 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/23 10:47:20 by hbenfadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 NAME			= minishell
-LIBREADLINE		= -L /Users/woumecht/goinfre/homebrew/Cellar/readline/8.2.1/lib -lreadline
-INCREADLINE		=-I ~/Users/woumecht/goinfre/homebrew/Cellar/readline/8.2.1/include
+LIBREADLINE		= -L /goinfre/hbenfadd/homebrew/Cellar/readline/8.2.1/lib -lreadline
+INCREADLINE		=-I /goinfre/hbenfadd/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
 CFLAGS			= -Wall -Wextra -Werror
 LIBFT			= ./libft/libft.a
