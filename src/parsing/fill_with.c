@@ -18,7 +18,6 @@ void    fill_with(char *str,char old, char c)
                     str[i] = c;
                 i++;
             }
-            // i++;
         }
         else if (str[i] == '\'' && str[i + 1] != '\0')
         {
@@ -29,7 +28,6 @@ void    fill_with(char *str,char old, char c)
                     str[i] = c;
                 i++;
             }
-            // i++;
         }
         i++;
     }

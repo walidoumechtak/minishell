@@ -43,26 +43,14 @@ void	free_list_v2(t_minishell *ptr, t_list *temp1, t_list *temp4)
 
 void	free_linked_lists(t_minishell *ptr, int flag)
 {
-	t_list *temp1;
-	t_list *temp3;
-	t_list *temp4;
+	t_list	*temp1;
+	t_list	*temp3;
+	t_list	*temp4;
 
 	temp1 = ptr->list_cmd;
 	temp3 = ptr->env;
 	temp4 = NULL;
 	free_list_v1(ptr, ptr->list_v1);
 	if (flag == 1)
-	{
 		free_list_v2(ptr, temp1, temp4);
-
-		// there's a memory leak with env linked list
-
-		// while (temp3)
-		// {
-		//     free(((t_env*)temp3->content)->env_value);
-		//     free(((t_env*)temp3->content)->env_var);
-		//     temp3 = temp3->next;
-		// }
-		// ft_lstclear(&ptr->env, del);
-	}
 }

@@ -30,9 +30,21 @@ int open_out_file(t_open_file *link2)
 
     fd = 1;
     if (link2->mode == 2)
-        fd = open(link2->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    {
+         if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0 
+            || ft_strncmp(link2->file, "/dev/stdout", ft_strlen(link2->file)) == 0)
+            fd = 1;
+        else
+            fd = open(link2->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    }
     else if (link2->mode == 3)
-        fd = open(link2->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+    {
+        if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0 
+            || ft_strncmp(link2->file, "/dev/stdout", ft_strlen(link2->file)) == 0)
+            fd = 1;
+        else
+            fd = open(link2->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+    }
     return (fd);
 }
 
@@ -44,7 +56,7 @@ int complete_files(t_minishell *ptr)
     t_open_file *link2;
     int fd_out;
 
-    temp = ptr->list_cmd;;
+    temp = ptr->list_cmd;
     while (temp)
     {
         link1 = ((t_cmd *)temp->content);
@@ -63,14 +75,17 @@ int complete_files(t_minishell *ptr)
                 }
                 else
                 {
-                    if (link1->fd_in != 0 && link1->fd_in != -1)
+                    if (link1->fd_in > 2)
+                    {
+                        printf("in close\n");
                         close(link1->fd_in);
+                    }
                     link1->fd_in = link2->fd;
                 }
             }
             else if (link2->mode == 4)
             {
-                if (link1->fd_in != 0 && link1->fd_in != -1)
+                if (link1->fd_in > 2)
                     close(link1->fd_in);
                 link1->fd_in = link2->fd;
             }
@@ -85,7 +100,8 @@ int complete_files(t_minishell *ptr)
                 }
                 else
                 {
-                    if (link1->fd_out != 1 && link1->fd_out != -1)
+                    // if (link1->fd_out != 1 && link1->fd_out != -1)
+                    if (link1->fd_out > 2)
                         close(link1->fd_out);
                     link1->fd_out = fd_out;
                 }
@@ -99,11 +115,11 @@ int complete_files(t_minishell *ptr)
 
 int    build_linked_list(t_minishell   *ptr)
 {
-    // t_list *temp;
-    // t_list *temp2;
+    t_list *temp;
+    t_list *temp2;
     int state;
-    // int i = 0;
-    // int j = 0;
+    int i = 0;
+    int j = 0;
 
     state = handle_quotes(ptr);
     if (state != 0)
@@ -122,30 +138,28 @@ int    build_linked_list(t_minishell   *ptr)
         return (state);
     
     
-    // temp = ptr->list_cmd;
-    // while (temp)
-    // {
-    //     i = 0;
-    //     j = 0;
-    //     while (((t_cmd*)temp->content)->cmd[i])
-    //         printf("cmd[] : %s\n", ((t_cmd*)temp->content)->cmd[i++]);
-    //     printf("in : %d\n", ((t_cmd*)temp->content)->fd_in);
-    //     printf("out : %d\n", ((t_cmd*)temp->content)->fd_out);
-    //     printf("---------------- end of pipe ------------------\n\n");
-    //     // printf("---------  the new list of files opened -----------\n");
-    //     // temp2 = ((t_cmd *)temp->content)->opened_files;
-    //     // if (temp2 == NULL)
-    //     //     printf("YUP ITS NULL\n");
-    //     // while (temp2)
-    //     // {
-    //     //     printf("file : %s\n", ((t_open_file *)temp2->content)->file); 
-    //     //     printf("fd : %d\n", ((t_open_file *)temp2->content)->fd); 
-    //     //     printf("mode : %d\n", ((t_open_file *)temp2->content)->mode); 
-    //     //     temp2 = temp2->next;
-    //     // }
-    //     // printf("-------- the end of new list ---------- \n\n");
-    //     temp = temp->next;
-    // }
+    temp = ptr->list_cmd;
+    while (temp)
+    {
+        i = 0;
+        j = 0;
+        while (((t_cmd*)temp->content)->cmd[i])
+            printf("cmd[] : %s\n", ((t_cmd*)temp->content)->cmd[i++]);
+        printf("in : %d\n", ((t_cmd*)temp->content)->fd_in);
+        printf("out : %d\n", ((t_cmd*)temp->content)->fd_out);
+        printf("---------------- end of pipe ------------------\n\n");
+        printf("---------  the new list of files opened -----------\n");
+        temp2 = ((t_cmd *)temp->content)->opened_files;
+        while (temp2)
+        {
+            printf("file : %s\n", ((t_open_file *)temp2->content)->file); 
+            printf("fd : %d\n", ((t_open_file *)temp2->content)->fd); 
+            printf("mode : %d\n", ((t_open_file *)temp2->content)->mode); 
+            temp2 = temp2->next;
+        }
+        printf("-------- the end of new list ---------- \n\n");
+        temp = temp->next;
+    }
     
     return (0);
 }

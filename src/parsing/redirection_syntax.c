@@ -1,59 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_syntax.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/24 15:25:05 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/24 15:27:42 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int rederction_syntax(char *arr)
+int	norm_rederction(char **split, int j)
 {
-    char **split;
-    int k;
-    int j;
-    int cpt;
+	int	k;
+	int	cpt;
 
-    j = 0;
-    split = ft_split(arr, ' ');
-    while (split[j])
-    {
-        if (ft_strncmp(split[j], ">", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<", ft_strlen(split[j])) == 0
-        || ft_strncmp(split[j], ">>", ft_strlen(split[j])) == 0 || ft_strncmp(split[j], "<<", ft_strlen(split[j])) == 0)
-        {
-            if (split[j + 1] == NULL)
-            {
-                free_spilte(split);
-                return (1);
-            }
-        }
-        if (((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<", 1) == 0) 
-        && (ft_strncmp(split[j + 1], ">", 1) == 0 || ft_strncmp(split[j + 1], "<", 1) == 0)))
-        {
-            free_spilte(split);
-            return (1);
-        }
-        else
-        {
-            k = 0;
-            cpt = 0;
-            if (ft_strncmp(split[j], ">", 1) == 0)
-            {
-                while (split[j][k] == '>')
-                {
-                    cpt++;
-                    k++;
-                }
-            }
-            else if (ft_strncmp(split[j], "<", 1) == 0)
-            {
-                while (split[j][k] == '<')
-                {
-                    cpt++;
-                    k++;
-                }
-            }
-            if (cpt > 2)
-            {
-                free_spilte(split);
-                return (1);
-            }
-        }
-        j++;
-    }
-    free_spilte(split);
-    return (0);
+	k = 0;
+	cpt = 0;
+	if (ft_strncmp(split[j], ">", 1) == 0)
+	{
+		while (split[j][k] == '>')
+		{
+			cpt++;
+			k++;
+		}
+	}
+	else if (ft_strncmp(split[j], "<", 1) == 0)
+	{
+		while (split[j][k] == '<')
+		{
+			cpt++;
+			k++;
+		}
+	}
+	if (cpt > 2)
+		return (free_spilte(split), 1);
+	return (0);
+}
+
+int	redirection_null(char **split, int j)
+{
+	if (ft_strncmp(split[j], ">", ft_strlen(split[j])) == 0
+		|| ft_strncmp(split[j], "<", ft_strlen(split[j])) == 0
+		|| ft_strncmp(split[j], ">>", ft_strlen(split[j])) == 0
+		|| ft_strncmp(split[j], "<<", ft_strlen(split[j])) == 0
+		|| ft_strncmp(split[j], "<<<", 3) == 0 || ft_strncmp(split[j], ">>>",
+			3) == 0)
+	{
+		if (split[j + 1] == NULL)
+			return (free_spilte(split), 1);
+	}
+	return (0);
+}
+
+int	rederction_syntax(char *arr)
+{
+	char	**split;
+	int		j;
+
+	j = 0;
+	split = ft_split(arr, ' ');
+	while (split[j])
+	{
+		if (redirection_null(split, j) == 1)
+			return (1);
+		if (((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<",
+						1) == 0) && (ft_strncmp(split[j + 1], ">", 1) == 0
+					|| ft_strncmp(split[j + 1], "<", 1) == 0)))
+			return (free_spilte(split), 1);
+		else
+		{
+			if (norm_rederction(split, j) == 1)
+				return (1);
+		}
+		j++;
+	}
+	return (free_spilte(split), 0);
 }

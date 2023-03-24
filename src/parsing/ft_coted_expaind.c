@@ -49,10 +49,10 @@ int    ft_coted_exapaind(t_minishell *ptr, char **str)
             s = i;
             if (temp[i] == '$' && temp[i + 1] == '$')
             {
-                while (temp[i] && temp[i] == '$') // if we have $$$$ we skip $$$ and last one past to expaind it
+                while (temp[i] && temp[i] == '$') // if we have $$$$4 we skip $$$ and last one past to expaind it
                     i++;
                 i--;
-                e = i;
+                e = i - s;
                 sub = ft_substr(temp, s, e);
                 temp_join = ft_strjoin(res, sub);
                 free(sub);

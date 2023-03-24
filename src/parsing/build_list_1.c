@@ -105,7 +105,6 @@ void    repear_cmd(t_minishell *ptr, char **str)
         if (rep->iter[rep->i] != '\0')
         {
             rep->i++;
-            printf("yup tis mince \n");
         }
         rep->temp = ft_strjoin(rep->result, rep->sub);
         free(rep->sub);

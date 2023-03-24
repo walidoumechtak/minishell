@@ -32,7 +32,12 @@ void    open_file(t_minishell *ptr, char **arr, int mode, int i)
 {
     if (mode == 1)
     {
-        ptr->o_file->fd = open(arr[i + 1], O_RDONLY);
+        if (ft_strncmp(arr[i + 1], "/dev/stdin", ft_strlen(arr[i + 1])) == 0)
+            ptr->o_file->fd = 0;
+        else if (ft_strncmp(arr[i + 1], "/dev/stdout", ft_strlen(arr[i + 1])) == 0)
+            ptr->o_file->fd = 1;
+        else
+            ptr->o_file->fd = open(arr[i + 1], O_RDONLY);
         ptr->o_file->file = ft_strdup(arr[i + 1]);
         ptr->o_file->mode = 1;
         free_and_shift(arr, i);

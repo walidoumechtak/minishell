@@ -4,6 +4,7 @@
 
 # include "get_next_line.h"
 # include "libft.h"
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -11,7 +12,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
- #include <dirent.h>
 
 # define NONE "\033[0m"
 # define GREEN "\033[32m"
@@ -20,12 +20,12 @@
 # define ITALIC "\033[3m"
 
 /* ===== GLOBAL VARIABL ===== */
-#ifndef	FREE_FLAG
-#define FREE_FLAG
+# ifndef FREE_FLAG
+#  define FREE_FLAG
 
 int				free_flag;
 
-#endif
+# endif
 
 /* ===== STRUCT ===== */
 
@@ -90,24 +90,23 @@ typedef struct s_minishell
 }				t_minishell;
 
 /* =====  Builtins  ===== */
-int		ft_echo(char **args);
-int		ft_cd(t_minishell *shell, char **args);
-void	ft_pipe(t_minishell *shell, t_list *cmd);
-int		ft_env(t_list *env);
-int		ft_unset(t_minishell *shell, char **agrs);
-int		ft_exit(char **args);
-int 	ft_export(t_minishell *shell, char **args);
+int				ft_echo(char **args);
+int				ft_cd(t_minishell *shell, char **args);
+void			ft_pipe(t_minishell *shell, t_list *cmd);
+int				ft_env(t_list *env);
+int				ft_unset(t_minishell *shell, char **agrs);
+int				ft_exit(char **args);
+int				ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */
-void	add_to_env(t_minishell *shell, char **arg);
-char	*check_cmd(char *cmd, t_list *env);
-void	ft_puterror(char *cmd, char *errormsg, int exit_status);
+void			add_to_env(t_minishell *shell, char **arg);
+char			*check_cmd(char *cmd, t_list *env);
+void			ft_puterror(char *cmd, char *errormsg, int exit_status);
 
 /* =====  Exec function  ===== */
-int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
-void	ft_exec(t_minishell *shell);
-char	**convert_list_env(t_list *lstenv);
-
+int				exec_is_builtins(t_minishell *shell, char **args, t_list *env);
+void			ft_exec(t_minishell *shell);
+char			**convert_list_env(t_list *lstenv);
 
 void			init_struct(t_minishell *ptr);
 int				parsing(t_minishell *ptr);
@@ -131,6 +130,11 @@ int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
 
 /*  ===== Error function ===== */
+int				check_pipe_2(char *str, int *i);
+int				check_pipe_syntax(char *str);
+int				check_semi_colum(char **arr);
+int				check_backslach(char **arr);
+int				check_quotes_close(char **arr);
 int				rederction_syntax(char *arr);
 int				ft_perror(t_minishell *ptr, char *str, int status);
 void			open_error(t_minishell *ptr, char *file, char *str, int status);
@@ -140,7 +144,7 @@ void			open_error(t_minishell *ptr, char *file, char *str, int status);
 void			free_spilte(char **str);
 void			free_linked_lists(t_minishell *ptr, int flag);
 void			free_list_v1(t_minishell *ptr, t_list *temp2);
-void	free_env(t_list **head);
+void			free_env(t_list **head);
 
 /* ===== readline func ======= */
 
