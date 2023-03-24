@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/17 11:17:37 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 10:23:31 by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,41 +72,42 @@ int main(int ac, char **av, char **env)
     (void)ac;
     ptr = malloc(sizeof(t_minishell));
     ptr->env = build_env_list(env);
+    ptr->exit_state = 0;
     while (1)
     {
-            ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-            if (ptr->str == NULL || *ptr->str == '\0')
-               continue ;
-            state = parsing(ptr);
-            if (state != 0)
-            {
-                all_errors_parsing(ptr, state);
-                free_spilte(ptr->splited_pipe);
-                continue ;
-            }
-            printf("------------cmd---------\n");
-            t_list *tmp = ptr->list_cmd;
-            for (size_t i = 0; tmp; i++)
-            {
-                char **cmd = ((t_cmd *)tmp->content)->cmd;
-                int j;
-                j = 0;
-                while (cmd[j])
-                {
-                    printf("%d -- %s\n", j, cmd[j]);
-                    j++;
-                }
-                printf("next cmd\n");
-                tmp = tmp->next;
-            }
-            printf("------------exec---------\n");
-            ft_exec(ptr);
-            exit(0);
-            add_history(ptr->str); // ==> add to cammand history
-    //         close_fd(ptr);
-    //         free_lists(ptr);
-    //         free(ptr->str);
-    //         free_spilte(ptr->splited_pipe);
-     }
+        signal(SIGINT, signal_handler1);
+        if (free_flag == 1)
+        {
+            ptr->exit_state = 1;
+            free_flag = 0;
+            //ptr->str = NULL;
+            // free_linked_lists(ptr, 1);
+        }
+        ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
+        add_history(ptr->str); // ==> add to cammand history
+        if (ptr->str == NULL || ptr->str[0] == '\0' || ptr->str[0] == '\n')
+        {
+            free(ptr->str);
+            continue ;
+        }
+        init_struct(ptr);
+        state = parsing(ptr);
+        if (state != 0)
+        {
+            all_errors_parsing(ptr, state);
+            //free_linked_lists(ptr, 1);
+            free(ptr->str);
+            free_spilte(ptr->splited_pipe);
+            continue ;
+        }
+        else
+            ptr->exit_state = 0;
+        ft_exec(ptr);
+        remove_heredoc_files(ptr);
+        free_linked_lists(ptr, 1);
+        // close_fd(ptr);
+        free(ptr->str);
+        free_spilte(ptr->splited_pipe);
+    }
     free(ptr);
 }
