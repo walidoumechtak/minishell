@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 07:39:26 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 10:13:24 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 	pipe(fd);
 	if (fork() == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (s_cmd->fd_in == -1 || s_cmd->fd_in == -1)
 			exit(1);
 		if (next != NULL && s_cmd->fd_out == STDOUT_FILENO)

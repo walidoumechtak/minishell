@@ -24,31 +24,51 @@ int	check_slach_symbole(t_minishell *ptr)
 	}
 	return (0);
 }
-
-int	open_out_file(t_open_file *link2)
+int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 {
-	int	fd;
+	if (link2->fd == -1)
+	{
+		link1->fd_in = -1;
+		open_error(ptr, link2->file, ": No such file or directory\n", 1);
+		ptr->exit_state = 1;
+		return (7);
+	}
+	else
+	{
+		if (link1->fd_in > 2)
+			close(link1->fd_in);
+		link1->fd_in = link2->fd;
+	}
+	return (0);
+}
 
-	fd = 1;
-	if (link2->mode == 2)
+int	other_mode(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
+{
+	int	fd_out;
+
+	if (link2->mode == 4)
 	{
-		if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0
-			|| ft_strncmp(link2->file, "/dev/stdout",
-				ft_strlen(link2->file)) == 0)
-			fd = 1;
-		else
-			fd = open(link2->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (link1->fd_in > 2)
+			close(link1->fd_in);
+		link1->fd_in = link2->fd;
 	}
-	else if (link2->mode == 3)
+	else if ((link2->mode == 2 || link2->mode == 3))
 	{
-		if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0
-			|| ft_strncmp(link2->file, "/dev/stdout",
-				ft_strlen(link2->file)) == 0)
-			fd = 1;
+		fd_out = open_out_file(link2);
+		if (fd_out < 0)
+		{
+			link1->fd_out = -1;
+			open_error(ptr, link2->file, ": Permission denied\n", 1);
+			return (8);
+		}
 		else
-			fd = open(link2->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		{
+			if (link1->fd_out > 2)
+				close(link1->fd_out);
+			link1->fd_out = fd_out;
+		}
 	}
-	return (fd);
+	return (0);
 }
 
 int	complete_files(t_minishell *ptr)
@@ -57,70 +77,37 @@ int	complete_files(t_minishell *ptr)
 	t_list		*temp2;
 	t_cmd		*link1;
 	t_open_file	*link2;
-	int			fd_out;
+	int	state;
 
 	temp = ptr->list_cmd;
 	while (temp)
 	{
+		state = 0;
 		link1 = ((t_cmd *)temp->content);
 		temp2 = ((t_cmd *)temp->content)->opened_files;
 		while (temp2)
 		{
 			link2 = ((t_open_file *)temp2->content);
-			if (link2->mode == 1)
+			if (link2->mode == 1 && mode1(ptr, link1, link2) == 7)
 			{
-				if (link2->fd == -1)
-				{
-					link1->fd_in = -1;
-					open_error(ptr, link2->file,
-							": No such file or directory\n", 1);
-					ptr->exit_state = 1;
-					return (7);
-				}
-				else
-				{
-					if (link1->fd_in > 2)
-					{
-						printf("in close\n");
-						close(link1->fd_in);
-					}
-					link1->fd_in = link2->fd;
-				}
+				state = 7;
+				break ;
 			}
-			else if (link2->mode == 4)
-			{
-				if (link1->fd_in > 2)
-					close(link1->fd_in);
-				link1->fd_in = link2->fd;
-			}
-			else if ((link2->mode == 2 || link2->mode == 3))
-			{
-				fd_out = open_out_file(link2);
-				if (fd_out < 0)
-				{
-					link1->fd_out = -1;
-					open_error(ptr, link2->file, ": Permission denied\n", 1);
+			else if (other_mode(ptr, link1, link2) == 8)
 					return (8);
-				}
-				else
-				{
-					if (link1->fd_out > 2)
-						close(link1->fd_out);
-					link1->fd_out = fd_out;
-				}
-			}
 			temp2 = temp2->next;
 		}
 		temp = temp->next;
 	}
-	return (0);
+	return (state);
 }
 
 int	build_linked_list(t_minishell *ptr)
 {
+	int	state;
+
 	// t_list *temp;
 	// t_list *temp2;
-	int state;
 	// int i = 0;
 	// int j = 0;
 
@@ -134,12 +121,12 @@ int	build_linked_list(t_minishell *ptr)
 	if (state != 0)
 		return (state);
 	state = complete_files(ptr);
+	printf("state of complete files : %d\n", state);
 	if (state != 0)
 		return (state);
 	state = check_slach_symbole(ptr);
 	if (state != 0)
 		return (state);
-
 	// temp = ptr->list_cmd;
 	// while (temp)
 	// {
@@ -162,6 +149,5 @@ int	build_linked_list(t_minishell *ptr)
 	// 	printf("-------- the end of new list ---------- \n\n");
 	// 	temp = temp->next;
 	// }
-
 	return (0);
 }

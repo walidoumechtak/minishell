@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 10:00:57 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/25 11:52:38 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ void    all_errors_parsing(t_minishell *ptr, int state)
 
 void    close_fd(t_minishell *ptr)
 {
-    while (ptr->list_cmd)
+    t_list  *temp;
+
+    temp = ptr->list_cmd;
+    while (temp)
     {
-        if (((t_cmd *)ptr->list_cmd->content)->fd_in > 2)
-            close(((t_cmd *)ptr->list_cmd->content)->fd_in);
-        if (((t_cmd *)ptr->list_cmd->content)->fd_out > 2)
-            close(((t_cmd *)ptr->list_cmd->content)->fd_out);
-        ptr->list_cmd = ptr->list_cmd->next;
+        if (((t_cmd *)temp->content)->fd_in > 2)
+            close(((t_cmd *)temp->content)->fd_in);
+        if (((t_cmd *)temp->content)->fd_out > 2)
+            close(((t_cmd *)temp->content)->fd_out);
+        temp = temp->next;
     }
 }
 
@@ -100,10 +103,10 @@ int main(int ac, char **av, char **env)
     free_flag = 0;
     ptr->env = build_env_list(env);
     ptr->exit_state = 0;
-    signal(SIGINT, signal_handler1);
     signal(SIGQUIT, SIG_IGN);
     while (1)
     {
+        signal(SIGINT, signal_handler1);
         if (free_flag == 1)
         {
             free_flag = 0;
@@ -121,6 +124,7 @@ int main(int ac, char **av, char **env)
         state = parsing(ptr);
         if (state != 0)
         {
+            printf("hhhhhhhhhhhhhhhhhhhhhh\n");
             all_errors_parsing(ptr, state);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);

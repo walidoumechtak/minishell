@@ -118,6 +118,7 @@ int				ft_coted_exapaind(t_minishell *ptr, char **str);
 void			expaind_exit_state(t_minishell *ptr, char **str);
 void			expaind_heredoc(t_minishell *ptr, char **str);
 void			fill_with(char *str, char old, char c);
+int	open_out_file(t_open_file *link2);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);
