@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/25 15:52:24 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -118,7 +129,9 @@ int				ft_coted_exapaind(t_minishell *ptr, char **str);
 void			expaind_exit_state(t_minishell *ptr, char **str);
 void			expaind_heredoc(t_minishell *ptr, char **str);
 void			fill_with(char *str, char old, char c);
-int	open_out_file(t_open_file *link2);
+int				open_out_file(t_open_file *link2);
+void			reaper_cmd(t_minishell *ptr, char **str);
+int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);
@@ -146,6 +159,7 @@ void			free_spilte(char **str);
 void			free_linked_lists(t_minishell *ptr, int flag);
 void			free_list_v1(t_minishell *ptr, t_list *temp2);
 void			free_env(t_list **head);
+void	free_and_shift(char **arr, int i);
 
 /* ===== readline func ======= */
 

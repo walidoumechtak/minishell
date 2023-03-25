@@ -24,6 +24,7 @@ int	check_slach_symbole(t_minishell *ptr)
 	}
 	return (0);
 }
+
 int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 {
 	if (link2->fd == -1)
@@ -77,7 +78,7 @@ int	complete_files(t_minishell *ptr)
 	t_list		*temp2;
 	t_cmd		*link1;
 	t_open_file	*link2;
-	int	state;
+	int			state;
 
 	temp = ptr->list_cmd;
 	while (temp)
@@ -85,16 +86,13 @@ int	complete_files(t_minishell *ptr)
 		state = 0;
 		link1 = ((t_cmd *)temp->content);
 		temp2 = ((t_cmd *)temp->content)->opened_files;
-		while (temp2)
+		while (temp2 && state != 7)
 		{
 			link2 = ((t_open_file *)temp2->content);
 			if (link2->mode == 1 && mode1(ptr, link1, link2) == 7)
-			{
 				state = 7;
-				break ;
-			}
 			else if (other_mode(ptr, link1, link2) == 8)
-					return (8);
+				return (8);
 			temp2 = temp2->next;
 		}
 		temp = temp->next;
@@ -104,13 +102,14 @@ int	complete_files(t_minishell *ptr)
 
 int	build_linked_list(t_minishell *ptr)
 {
-	int	state;
+	int		state;
+	t_list	*temp;
+	t_list	*temp2;
+	int		i;
+	int		j;
 
-	// t_list *temp;
-	// t_list *temp2;
-	// int i = 0;
-	// int j = 0;
-
+	i = 0;
+	j = 0;
 	state = handle_quotes(ptr);
 	if (state != 0)
 		return (state);
@@ -121,33 +120,32 @@ int	build_linked_list(t_minishell *ptr)
 	if (state != 0)
 		return (state);
 	state = complete_files(ptr);
-	printf("state of complete files : %d\n", state);
 	if (state != 0)
 		return (state);
 	state = check_slach_symbole(ptr);
 	if (state != 0)
 		return (state);
-	// temp = ptr->list_cmd;
-	// while (temp)
-	// {
-	// 	i = 0;
-	// 	j = 0;
-	// 	while (((t_cmd *)temp->content)->cmd[i])
-	// 		printf("cmd[] : %s\n", ((t_cmd *)temp->content)->cmd[i++]);
-	// 	printf("in : %d\n", ((t_cmd *)temp->content)->fd_in);
-	// 	printf("out : %d\n", ((t_cmd *)temp->content)->fd_out);
-	// 	printf("---------------- end of pipe ------------------\n\n");
-	// 	printf("---------  the new list of files opened -----------\n");
-	// 	temp2 = ((t_cmd *)temp->content)->opened_files;
-	// 	while (temp2)
-	// 	{
-	// 		printf("file : %s\n", ((t_open_file *)temp2->content)->file);
-	// 		printf("fd : %d\n", ((t_open_file *)temp2->content)->fd);
-	// 		printf("mode : %d\n", ((t_open_file *)temp2->content)->mode);
-	// 		temp2 = temp2->next;
-	// 	}
-	// 	printf("-------- the end of new list ---------- \n\n");
-	// 	temp = temp->next;
-	// }
+	temp = ptr->list_cmd;
+	while (temp)
+	{
+		i = 0;
+		j = 0;
+		while (((t_cmd *)temp->content)->cmd[i])
+			printf("cmd[] : %s\n", ((t_cmd *)temp->content)->cmd[i++]);
+		printf("in : %d\n", ((t_cmd *)temp->content)->fd_in);
+		printf("out : %d\n", ((t_cmd *)temp->content)->fd_out);
+		printf("---------------- end of pipe ------------------\n\n");
+		printf("---------  the new list of files opened -----------\n");
+		temp2 = ((t_cmd *)temp->content)->opened_files;
+		while (temp2)
+		{
+			printf("file : %s\n", ((t_open_file *)temp2->content)->file);
+			printf("fd : %d\n", ((t_open_file *)temp2->content)->fd);
+			printf("mode : %d\n", ((t_open_file *)temp2->content)->mode);
+			temp2 = temp2->next;
+		}
+		printf("-------- the end of new list ---------- \n\n");
+		temp = temp->next;
+	}
 	return (0);
 }
