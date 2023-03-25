@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 12:08:13 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:18:02 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    all_errors_parsing(t_minishell *ptr, int state)
     }
     else if (state == -9)
         ptr->exit_state = 1;
-    else if (state == 7 || state == 8)
+    else if (state == 7 || state == 8 || state == 126)
     {
         free_linked_lists(ptr, 1);
     }
@@ -85,9 +85,9 @@ void    signal_handler1(int sig)
 
 void end_of_program(t_minishell *ptr)
 {
+    close_fd(ptr);
     remove_heredoc_files(ptr);
     free_linked_lists(ptr, 1);
-    close_fd(ptr);
     free(ptr->str);
     free_spilte(ptr->splited_pipe);
 }
@@ -107,12 +107,6 @@ int main(int ac, char **av, char **env)
     while (1)
     {
         signal(SIGINT, signal_handler1);
-        if (free_flag == 1)
-        {
-            free_flag = 0;
-            ptr->exit_state = 1;
-            remove_heredoc_files(ptr);
-        }
         ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
         if (ptr->str == NULL || ptr->str[0] == '\0' || ptr->str[0] == '\n')
         {
@@ -120,11 +114,16 @@ int main(int ac, char **av, char **env)
             continue ;
         }
         add_history(ptr->str); // ==> add to cammand history
+        if (free_flag == 1)
+        {
+            free_flag = 0;
+            ptr->exit_state = 1;
+            remove_heredoc_files(ptr);
+        }
         init_struct(ptr);
         state = parsing(ptr);
         if (state != 0)
         {
-            printf("hhhhhhhhhhhhhhhhhhhhhh\n");
             all_errors_parsing(ptr, state);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);
@@ -134,7 +133,6 @@ int main(int ac, char **av, char **env)
             ptr->exit_state = 0;
         ft_exec(ptr);
         //free_flag = 0;
-        close_fd(ptr);
         end_of_program(ptr);
     }
     free(ptr);

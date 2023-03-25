@@ -18,6 +18,7 @@ int	check_slach_symbole(t_minishell *ptr)
 		{
 			open_error(ptr, ((t_cmd *)temp->content)->cmd[0],
 					": is a directory\n", 126);
+			closedir(dir);
 			return (126);
 		}
 		temp = temp->next;
