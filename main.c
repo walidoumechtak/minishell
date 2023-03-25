@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 10:30:56 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 12:08:13 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ void    all_errors_parsing(t_minishell *ptr, int state)
 
 void    close_fd(t_minishell *ptr)
 {
-    while (ptr->list_cmd)
+    t_list  *temp;
+
+    temp = ptr->list_cmd;
+    while (temp)
     {
-        if (((t_cmd *)ptr->list_cmd->content)->fd_in > 2)
-            close(((t_cmd *)ptr->list_cmd->content)->fd_in);
-        if (((t_cmd *)ptr->list_cmd->content)->fd_out > 2)
-            close(((t_cmd *)ptr->list_cmd->content)->fd_out);
-        ptr->list_cmd = ptr->list_cmd->next;
+        if (((t_cmd *)temp->content)->fd_in > 2)
+            close(((t_cmd *)temp->content)->fd_in);
+        if (((t_cmd *)temp->content)->fd_out > 2)
+            close(((t_cmd *)temp->content)->fd_out);
+        temp = temp->next;
     }
 }
 
@@ -69,7 +72,15 @@ void    remove_heredoc_files(t_minishell *ptr)
 */
 
 void    signal_handler1(int sig)
-|
+{
+    if (sig == SIGINT)
+    {
+        free_flag = 1;
+        write(STDOUT_FILENO, "\n", 2);
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
+    }
 }
 
 void end_of_program(t_minishell *ptr)
@@ -113,6 +124,7 @@ int main(int ac, char **av, char **env)
         state = parsing(ptr);
         if (state != 0)
         {
+            printf("hhhhhhhhhhhhhhhhhhhhhh\n");
             all_errors_parsing(ptr, state);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);
