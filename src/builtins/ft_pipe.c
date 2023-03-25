@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 13:25:56 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 13:29:37 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,4 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 	shell->exit_state = WEXITSTATUS(shell->exit_state);
 	dup2(stdin, STDIN_FILENO);
 	close(stdin);
-	write(1, "\n", 1);
 }
