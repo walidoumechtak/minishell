@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 10:42:53 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 14:33:00 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*check_cmd(char *cmd, t_list *env)
 				return (cmd);
 			else
 			{
-				ft_puterror(cmd, "permission denied", 1);
+				ft_puterror(cmd, "permission denied\n", 1);
 				exit(1);
 			}
 		}
