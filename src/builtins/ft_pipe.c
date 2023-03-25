@@ -6,11 +6,18 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 11:59:18 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/25 12:00:27 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	signal_handler_in_execcmd(int sig)
+{
+	write(1, "\n", 1);
+	if (sig == SIGINT)
+		return ;
+}
 
 static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 {
@@ -46,6 +53,7 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 	int	stdin;
 
 	stdin = dup(STDIN_FILENO);
+	signal(SIGINT, signal_handler_in_execcmd);
 	if (((t_cmd *)(cmd->content))->fd_in)
 		dup2(((t_cmd *)(cmd->content))->fd_in, STDIN_FILENO);
 	while (cmd)
