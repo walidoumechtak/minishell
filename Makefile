@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/24 15:33:37 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/24 15:39:59 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME			= minishell
 LIBREADLINE		= -L /goinfre/woumecht/homebrew/Cellar/readline/8.2.1/lib -lreadline
 INCREADLINE		=-I /goinfre/woumecht/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
-#CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 

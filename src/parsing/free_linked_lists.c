@@ -20,7 +20,6 @@ void	free_list_v2(t_minishell *ptr, t_list *temp1, t_list *temp4)
 
 	while (temp1)
 	{
-		//free_spilte(((t_cmd *)temp1->content)->cmd);
 		link_ofile = ((t_cmd *)temp1->content);
 		if (link_ofile->fd_in > 2)
 			close(link_ofile->fd_in);

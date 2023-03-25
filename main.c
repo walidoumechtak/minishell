@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/24 15:27:57 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/25 10:00:57 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void    all_errors_parsing(t_minishell *ptr, int state)
     if (state == 1)
     {
         ft_perror(ptr, "Error : sysntax Error\n", 258);
-        //free_linked_lists(ptr, 1);
     }
     else if (state == -9)
         ptr->exit_state = 1;
+    else if (state == 7 || state == 8)
+    {
+        free_linked_lists(ptr, 1);
+    }
 }
 
 void    close_fd(t_minishell *ptr)
@@ -126,7 +129,8 @@ int main(int ac, char **av, char **env)
         else
             ptr->exit_state = 0;
         ft_exec(ptr);
-        free_flag = 0;
+        //free_flag = 0;
+        close_fd(ptr);
         end_of_program(ptr);
     }
     free(ptr);
