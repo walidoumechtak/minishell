@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 10:00:57 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/25 10:30:56 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,7 @@ void    remove_heredoc_files(t_minishell *ptr)
 */
 
 void    signal_handler1(int sig)
-{
-    if (sig == SIGINT)
-    {
-        free_flag = 1;
-        write(STDOUT_FILENO, "\n", 2);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
+|
 }
 
 void end_of_program(t_minishell *ptr)
@@ -100,10 +92,10 @@ int main(int ac, char **av, char **env)
     free_flag = 0;
     ptr->env = build_env_list(env);
     ptr->exit_state = 0;
-    signal(SIGINT, signal_handler1);
     signal(SIGQUIT, SIG_IGN);
     while (1)
     {
+        signal(SIGINT, signal_handler1);
         if (free_flag == 1)
         {
             free_flag = 0;
