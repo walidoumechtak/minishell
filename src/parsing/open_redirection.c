@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:14:13 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 16:01:09 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/26 23:38:11 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_open_redirection
 	int			k;
 	int			l;
 	int			state;
+	int			len;
 }				t_open_redirection;
 
 static void	out_f(t_minishell *ptr, t_cmd_v1 *skin, int i)
@@ -43,14 +44,17 @@ static int	here_f(t_minishell *ptr, t_cmd_v1 *skin, int i, int l)
 	{
 		ptr->o_file->fd = 0;
 		if (open_heredoc(ptr, skin->cmd, i, 0) == 9)
+		{
+			free(ptr->o_file);
 			return (9);
+		}
 		l++;
 	}
 	else
 	{
 		ptr->o_file->fd = 0;
 		if (open_heredoc(ptr, skin->cmd, i, 404) == 9)
-			return (9);
+			return (free(ptr->o_file), 9);
 		l++;
 	}
 	return (0);
@@ -71,7 +75,7 @@ static int	all_cases(t_minishell *ptr, t_open_redirection *o)
 			&& o->skin->flags_red[o->k++] == 1)
 	{
 		if (here_f(ptr, o->skin, o->i, o->l) == 9)
-			return (free(o), 9);
+			return (9);
 	}
 	else if (ft_strncmp(o->skin->cmd[o->i], ">>", len) == 0
 			&& o->skin->flags_red[o->k++] == 1)
@@ -79,23 +83,20 @@ static int	all_cases(t_minishell *ptr, t_open_redirection *o)
 		ptr->o_file = malloc(sizeof(t_open_file));
 		open_file(ptr, o->skin->cmd, 3, o->i);
 	}
-	else if (o->skin->cmd == NULL)
-		return (1);
-	else
-	{
-		o->i++;
+	// else if (o->skin->cmd == NULL)
+	// 	return (1);
+	else if (++(o->i))
 		ptr->o_file = NULL;
-	}
 	return (0);
 }
 
-void	init_open_redirection(t_minishell *ptr, t_open_redirection *o, t_list **old_node,
-		t_cmd **new_cmd)
+void	init_open_redirection(t_minishell *ptr, t_open_redirection *o,
+		t_list **old_node, t_cmd **new_cmd)
 {
 	if (!o)
 	{
 		ft_putstr_fd("Failed to alloc memory", 2);
-		free (o);
+		free(o);
 		free_linked_lists(ptr, 1);
 		exit(404);
 	}
@@ -124,21 +125,21 @@ int	open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
 	{
 		o->state = all_cases(ptr, o);
 		if (o->state == 9)
-			return (o->state);
-		else if (o->state == 1)
-			break ;
+			return (free(o), 9);
+		// else if (o->state == 1)
+		// 	break ;
 		if (ptr->o_file != NULL && o->skin->cmd != NULL)
 		{
 			o->new = ft_lstnew(ptr->o_file);
 			if (!o->new)
 			{
+				ft_putstr_fd("Failed to alloc memory\n", 2);
 				free(o);
 				free_linked_lists(ptr, 1);
-				exit (404);
+				exit(404);
 			}
 			ft_lstadd_back(&o->new_c->opened_files, o->new);
 		}
 	}
-	free(o);
-	return (0);
+	return (free(o), 0);
 }

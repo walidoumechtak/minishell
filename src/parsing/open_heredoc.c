@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:24 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 11:03:33 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/26 23:31:15 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	signal_heredoc(int sig)
 {
 	(void)sig;
-	free_flag = 1;
+	//free_flag = 1;
 	exit(9);
 }
 
@@ -112,7 +112,7 @@ int	open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
 	else
 	{
 		if (wait_and_fill_fd(ptr, file) == 9)
-			return (9);
+			return (unlink(file) ,free(file), 9);
 		free_and_shift(arr, i);
 		rand++;
 	}

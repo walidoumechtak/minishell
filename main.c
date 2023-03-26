@@ -6,40 +6,11 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 15:57:52 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/26 23:23:44 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void    all_errors_parsing(t_minishell *ptr, int state)
-{
-    if (state == 1)
-    {
-        ft_perror(ptr, "Error : sysntax Error\n", 258);
-    }
-    else if (state == -9)
-        ptr->exit_state = 1;
-    else if (state == 7 || state == 8 || state == 126)
-    {
-        free_linked_lists(ptr, 1);
-    }
-}
-
-void    close_fd(t_minishell *ptr)
-{
-    t_list  *temp;
-
-    temp = ptr->list_cmd;
-    while (temp)
-    {
-        if (((t_cmd *)temp->content)->fd_in > 2)
-            close(((t_cmd *)temp->content)->fd_in);
-        if (((t_cmd *)temp->content)->fd_out > 2)
-            close(((t_cmd *)temp->content)->fd_out);
-        temp = temp->next;
-    }
-}
 
 void    remove_heredoc_files(t_minishell *ptr)
 {
@@ -66,6 +37,41 @@ void    remove_heredoc_files(t_minishell *ptr)
         temp1 = temp1->next;
     }
 }
+
+void    all_errors_parsing(t_minishell *ptr, int state)
+{
+    if (state == 1)
+    {
+        ft_perror(ptr, "Error : sysntax Error\n", 258);
+    }
+    else if (state == 9)
+    {
+        printf("here signal\n");
+        remove_heredoc_files(ptr);
+        free_linked_lists(ptr, 1);
+        ptr->exit_state = 1;
+    }
+    else if (state == 7 || state == 8 || state == 126)
+    {
+        free_linked_lists(ptr, 1);
+    }
+}
+
+void    close_fd(t_minishell *ptr)
+{
+    t_list  *temp;
+
+    temp = ptr->list_cmd;
+    while (temp)
+    {
+        if (((t_cmd *)temp->content)->fd_in > 2)
+            close(((t_cmd *)temp->content)->fd_in);
+        if (((t_cmd *)temp->content)->fd_out > 2)
+            close(((t_cmd *)temp->content)->fd_out);
+        temp = temp->next;
+    }
+}
+
 
 /**
  * signal_handler1 - function that handle the SIGINT signal in the main proccess
@@ -124,6 +130,7 @@ int main(int ac, char **av, char **env)
         state = parsing(ptr);
         if (state != 0)
         {
+            printf("hmhmhmhmhmhmhmhmhmhmhmhm\n");
             all_errors_parsing(ptr, state);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);
