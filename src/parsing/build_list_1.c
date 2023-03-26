@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_list_1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/26 13:43:03 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	build_flag_red_and_reaper(t_minishell *ptr, t_cmd_v1 *node_v1,
@@ -13,12 +25,12 @@ void	build_flag_red_and_reaper(t_minishell *ptr, t_cmd_v1 *node_v1,
 		fill_with(splited_space[j], '\t', ' ');
 		if ((ft_strchr(splited_space[j], '<') || ft_strchr(splited_space[j],
 					'>')) && (!(ft_strchr(splited_space[j], '\"'))
-						&& !(ft_strchr(splited_space[j], '\''))))
+				&& !(ft_strchr(splited_space[j], '\''))))
 		{
 			node_v1->flags_red[k++] = 1;
 		}
 		else if ((ft_strchr(splited_space[j], '<')
-					|| ft_strchr(splited_space[j], '>')))
+				|| ft_strchr(splited_space[j], '>')))
 		{
 			k++;
 		}
@@ -48,15 +60,13 @@ void	alloc_flag_redrection(t_cmd_v1 *node_v1, char *str)
 	free_spilte(arr);
 }
 
-void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
+void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 {
 	char	**arr;
 	int		cpt;
 	int		j;
-	int		i;
 
 	j = 0;
-	i = 0;
 	cpt = 0;
 	fill_with(str, '\t', ' ');
 	arr = ft_split(str, ' ');
@@ -70,8 +80,9 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str)
 	j = 0;
 	while (arr[j])
 	{
-		if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0 && (ft_strchr(arr[j
-					+ 1], '\"') == NULL && ft_strchr(arr[j + 1], '\'') == NULL))
+		if (ft_strncmp(arr[j], "<<", ft_strlen(arr[j])) == 0
+			&& (ft_strchr(arr[j + 1], '\"') == NULL
+				&& ft_strchr(arr[j + 1], '\'') == NULL))
 			node_v1->expaind_here[i++] = 1;
 		j++;
 	}
@@ -82,20 +93,20 @@ void	failed_malloc(t_minishell *ptr)
 {
 	free_list_v1(ptr, ptr->list_v1);
 	ft_putstr_fd("Faild to alloc memory!\n", 2);
-	exit(-3);
+	exit(404);
 }
 
 /**
  * build_list_1 - function that build the first linked list 
-
-	* here flage is used to check if the $USER should exapaind or not if there is here_doc exemple : "<<" $USER --> << woumecht
+ * here flage is used to check if the $USER should exapaind
+ * or not if there is here_doc exemple : "<<" $USER --> << woumecht
 */
 
 int	build_list_1(t_minishell *ptr)
 {
-	t_cmd_v1 *node_v1;
-	t_list *new;
-	int i;
+	t_cmd_v1	*node_v1;
+	t_list		*new;
+	int			i;
 
 	i = 0;
 	ptr->list_v1 = NULL;
@@ -107,7 +118,7 @@ int	build_list_1(t_minishell *ptr)
 			failed_malloc(ptr);
 		ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
 		alloc_flag_redrection(node_v1, ptr->splited_pipe[i]);
-		build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i]);
+		build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i], 0);
 		build_flag_red_and_reaper(ptr, node_v1, ptr->splited_space);
 		node_v1->cmd = ptr->splited_space;
 		new = ft_lstnew(node_v1);

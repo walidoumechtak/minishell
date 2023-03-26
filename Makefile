@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/25 15:54:33 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/26 14:34:09 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= minishell
 LIBREADLINE		= -L /goinfre/woumecht/homebrew/Cellar/readline/8.2.1/lib -lreadline
 INCREADLINE		= -I /goinfre/woumecht/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
-CFLAGS			= -Wall -Wextra #-Werror -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror -fsanitize=address
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
@@ -24,6 +24,7 @@ EXECUTILITIES	= ft_exec.c exec_is_builtins.c convert_list_env.c check_cmd.c add_
 SRCP= build_linked_list.c is_there_in_redirection.c is_there_out_redirection.c is_there_heredoc.c handle_quotes.c \
 	is_there_append.c ft_uncoted_expaind.c ft_coted_expaind.c build_list_1.c fill_with.c build_list_2.c \
 	 expaind_exit_state.c redirection_syntax.c expaind_heredoc.c free_linked_lists.c syntax.c open_out_file.c reaper_cmd.c open_heredoc.c\
+	 fill_fd.c open_redirection.c\
 
 PARSING= parsing.c init_struct.c ft_perror.c free_splite.c build_env.c open_error.c free_env.c free_and_shift.c\
 

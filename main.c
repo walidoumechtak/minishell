@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 18:22:30 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/26 15:57:52 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void end_of_program(t_minishell *ptr)
 {
     close_fd(ptr);
     remove_heredoc_files(ptr);
-    free_linked_lists(ptr, 1);
     free(ptr->str);
     free_spilte(ptr->splited_pipe);
+    free_linked_lists(ptr, 1);
 }
 
 int main(int ac, char **av, char **env)

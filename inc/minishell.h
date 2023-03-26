@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/25 15:52:24 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/26 11:34:20 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,13 @@ void			fill_with(char *str, char old, char c);
 int				open_out_file(t_open_file *link2);
 void			reaper_cmd(t_minishell *ptr, char **str);
 int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
+int	open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd);
+void	open_file(t_minishell *ptr, char **arr, int mode, int i);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);
 int				build_list_2(t_minishell *ptr);
+int				fill_fd(t_minishell *ptr);
 
 int				is_there_in_redirection(char *str);
 int				is_there_out_redirection(char *str);
@@ -159,7 +162,7 @@ void			free_spilte(char **str);
 void			free_linked_lists(t_minishell *ptr, int flag);
 void			free_list_v1(t_minishell *ptr, t_list *temp2);
 void			free_env(t_list **head);
-void	free_and_shift(char **arr, int i);
+void			free_and_shift(char **arr, int i);
 
 /* ===== readline func ======= */
 

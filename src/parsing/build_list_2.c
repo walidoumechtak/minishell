@@ -34,82 +34,7 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 	}
 }
 
-/*=====================================================================================================================*/
-int	open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
-{
-	t_list		*old;
-	t_list		*new;
-	t_cmd		*new_c;
-	t_cmd_v1	*skin;
-	int			i;
-	int			k;
-	int			l;
 
-	//int j;
-	i = 0;
-	new_c = *new_cmd;
-	old = *old_node;
-	skin = (t_cmd_v1 *)old->content;
-	new_c->opened_files = NULL;
-	k = 0;
-	l = 0;
-	while (((t_cmd_v1 *)old->content)->cmd[i] && skin->cmd[i][0] != '\0')
-	{
-		if (ft_strncmp(skin->cmd[i], ">", ft_strlen(skin->cmd[i])) == 0
-			&& skin->flags_red[k++] == 1)
-		{
-			ptr->o_file = malloc(sizeof(t_open_file));
-			open_file(ptr, skin->cmd, 2, i);
-		}
-		else if (ft_strncmp(skin->cmd[i], "<", ft_strlen(skin->cmd[i])) == 0
-				&& skin->flags_red[k++] == 1)
-		{
-			ptr->o_file = malloc(sizeof(t_open_file));
-			open_file(ptr, skin->cmd, 1, i);
-		}
-		else if (ft_strncmp(skin->cmd[i], "<<", ft_strlen(skin->cmd[i])) == 0
-				&& skin->flags_red[k++] == 1)
-		{
-			ptr->o_file = malloc(sizeof(t_open_file));
-			if (skin->expaind_here[l] == 1)
-			{
-				ptr->o_file->fd = 0;
-				if (open_heredoc(ptr, skin->cmd, i, 0) == 9)
-					return (9);
-				l++;
-			}
-			else
-			{
-				ptr->o_file->fd = 0;
-				if (open_heredoc(ptr, skin->cmd, i, 404) == 9)
-					return (9);
-				l++;
-			}
-		}
-		else if (ft_strncmp(skin->cmd[i], ">>", ft_strlen(skin->cmd[i])) == 0
-				&& skin->flags_red[k++] == 1)
-		{
-			ptr->o_file = malloc(sizeof(t_open_file));
-			open_file(ptr, skin->cmd, 3, i);
-		}
-		else if (skin->cmd == NULL)
-			break ;
-		else
-		{
-			i++;
-			ptr->o_file = NULL;
-		}
-		if (ptr->o_file != NULL && skin->cmd != NULL)
-		// create linked list of redrections < > << >>
-		{
-			new = ft_lstnew(ptr->o_file);
-			if (!new)
-				return (-1);
-			ft_lstadd_back(&new_c->opened_files, new);
-		}
-	}
-	return (0);
-}
 
 /*
 	modes :
@@ -145,6 +70,7 @@ int	build_list_2(t_minishell *ptr)
 		ptr->cmd->fd_in = 0;
 		ptr->cmd->fd_out = 1;
 		state = open_rederiction(ptr, &temp, &ptr->cmd);
+		//printf("fd in : %d \n", ptr->cmd->fd_in);
 		if (state != 0)
 			return (state);
 		if (ptr->signal_stop == -9)
