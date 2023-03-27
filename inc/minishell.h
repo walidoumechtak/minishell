@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 09:36:14 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 11:21:44 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,10 @@ void			fill_with(char *str, char old, char c);
 int				open_out_file(t_open_file *link2);
 void			reaper_cmd(t_minishell *ptr, char **str);
 int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
-int	open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd);
-void	open_file(t_minishell *ptr, char **arr, int mode, int i);
+int				open_rederiction(t_minishell *ptr, t_list **old_node,
+					t_cmd **new_cmd);
+void			open_file(t_minishell *ptr, char **arr, int mode, int i);
+void			add_space_redirection(char **str);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);
@@ -148,11 +150,11 @@ t_list			*build_env_list(char **env);
 
 /*  ===== main helper ===== */
 
-void	remove_heredoc_files(t_minishell *ptr);
-void	all_errors_parsing(t_minishell *ptr, int state);
-void	close_fd(t_minishell *ptr);
-void	signal_handler1(int sig);
-void	end_of_program(t_minishell *ptr);
+void			remove_heredoc_files(t_minishell *ptr);
+void			all_errors_parsing(t_minishell *ptr, int state);
+void			close_fd(t_minishell *ptr);
+void			signal_handler1(int sig);
+void			end_of_program(t_minishell *ptr);
 
 /*  ===== Error function ===== */
 int				check_pipe_2(char *str, int *i);
