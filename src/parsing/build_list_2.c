@@ -1,6 +1,11 @@
 #include "minishell.h"
 
-
+/**
+ * open_file
+	- function that open in-file only and just set the mode for out file
+ * with out open it 
+ * the outfiles are opend in another step (function - open_out())
+*/
 
 void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 {
@@ -16,25 +21,15 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 			ptr->o_file->fd = 2;
 		else
 			ptr->o_file->fd = open(arr[i + 1], O_RDONLY);
-		ptr->o_file->file = ft_strdup(arr[i + 1]);
 		ptr->o_file->mode = 1;
-		free_and_shift(arr, i);
 	}
 	else if (mode == 2)
-	{
-		ptr->o_file->file = ft_strdup(arr[i + 1]);
 		ptr->o_file->mode = 2;
-		free_and_shift(arr, i);
-	}
 	else if (mode == 3)
-	{
-		ptr->o_file->file = ft_strdup(arr[i + 1]);
 		ptr->o_file->mode = 3;
-		free_and_shift(arr, i);
-	}
+	ptr->o_file->file = ft_strdup(arr[i + 1]);
+	free_and_shift(arr, i);
 }
-
-
 
 /*
 	modes :
@@ -43,8 +38,6 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 	3 --> append
 	4 --> heredoc
 */
-
-/*=====================================================================================================================*/
 
 /**
 * build_list_2
@@ -70,13 +63,8 @@ int	build_list_2(t_minishell *ptr)
 		ptr->cmd->fd_in = 0;
 		ptr->cmd->fd_out = 1;
 		state = open_rederiction(ptr, &temp, &ptr->cmd);
-		//printf("fd in : %d \n", ptr->cmd->fd_in);
 		if (state != 0)
-			return (state);
-		if (ptr->signal_stop == -9)
-			return (-9);
-		if (state != 0)
-			return (state);
+			return (free(ptr->cmd), state);
 		ptr->cmd->cmd = ((t_cmd_v1 *)temp->content)->cmd;
 		new = ft_lstnew(ptr->cmd);
 		if (!new)

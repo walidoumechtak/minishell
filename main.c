@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 23:23:44 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:26:08 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int main(int ac, char **av, char **env)
         state = parsing(ptr);
         if (state != 0)
         {
-            printf("hmhmhmhmhmhmhmhmhmhmhmhm\n");
             all_errors_parsing(ptr, state);
             free(ptr->str);
             free_spilte(ptr->splited_pipe);
