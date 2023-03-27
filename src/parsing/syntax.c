@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:30:46 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/24 14:33:45 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 10:45:00 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	check_pipe_2(char *str, int *i)
 int	check_pipe_syntax(char *str)
 {
 	int	i;
+	int	temp;
 
 	i = 0;
 	if (!str || str[0] == '\0')
@@ -49,12 +50,12 @@ int	check_pipe_syntax(char *str)
 			i++;
 		if (str[i] == '|')
 			return (1);
-		if (check_pipe_2(str, &i) == 1)
+		temp = ft_strlen(str) - 1;
+		while (str[temp] == ' ')
+			temp--;
+		if (str[temp] == '|')
 			return (1);
-		i = ft_strlen(str) - 1;
-		while (str[i] == ' ')
-			i--;
-		if (str[i] == '|')
+		if (check_pipe_2(str, &i) == 1)
 			return (1);
 		return (0);
 	}
