@@ -6,21 +6,11 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/27 11:47:59 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 11:52:09 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_2d(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr[i])
-		free(ptr[i++]);
-	free(ptr);
-}
 
 static char	*get_value_of_path(t_list *env)
 {
@@ -44,8 +34,7 @@ static char	*check_cmd_with_path(char *cmd, char *path)
 	int		len_cmd;
 
 	start = 0;
-	i = 0;	ft_strlcpy(tmp, path + start, i - start);
-				ft_strlcat(tmp, cmd, (i - start) + len_cmd)
+	i = 0;
 	len_cmd = ft_strlen(cmd);
 	if (!cmd || !*cmd)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
