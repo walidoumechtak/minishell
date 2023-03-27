@@ -6,13 +6,11 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 09:34:42 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 12:15:32 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int main(int ac, char **av, char **env)
 {
@@ -35,8 +33,11 @@ int main(int ac, char **av, char **env)
     {
         signal(SIGINT, signal_handler1);
         ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
+        
         if (ptr->str == NULL || ptr->str[0] == '\0' || ptr->str[0] == '\n')
         {
+            if (ptr->str == NULL)
+                break ;
             free(ptr->str);
             continue ;
         }
