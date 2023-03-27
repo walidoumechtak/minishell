@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/26 23:09:11 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/27 09:33:55 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 	  $(addprefix ./src/, $(PARSING)) \
 	  $(addprefix ./src/builtins/utilities/, $(EXECUTILITIES)) \
 	  $(addprefix ./src/builtins/, $(BUILTINS)) \
- 	  main.c 
+ 	  main.c main_helper.c \
 	
 OBJ = $(SRC:.c=.o)
 

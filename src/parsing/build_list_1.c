@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 13:43:03 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:32:09 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 
 void	failed_malloc(t_minishell *ptr)
 {
-	free_list_v1(ptr, ptr->list_v1);
+	free_linked_lists(ptr, 0);
 	ft_putstr_fd("Faild to alloc memory!\n", 2);
 	exit(404);
 }

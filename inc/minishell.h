@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 11:34:20 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:36:14 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,14 @@ int				is_there_out_redirection(char *str);
 int				is_there_heredoc(char *str);
 int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
+
+/*  ===== main helper ===== */
+
+void	remove_heredoc_files(t_minishell *ptr);
+void	all_errors_parsing(t_minishell *ptr, int state);
+void	close_fd(t_minishell *ptr);
+void	signal_handler1(int sig);
+void	end_of_program(t_minishell *ptr);
 
 /*  ===== Error function ===== */
 int				check_pipe_2(char *str, int *i);
