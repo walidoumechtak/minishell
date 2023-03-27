@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 15:43:12 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 11:47:59 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	free_2d(char **ptr)
 	free(ptr);
 }
 
-static char	**get_path(t_list *env)
+static char	*get_value_of_path(t_list *env)
 {
 	char	**buff;
 
@@ -30,43 +30,52 @@ static char	**get_path(t_list *env)
 	while (env)
 	{
 		if (ft_strnstr(((t_env *)env->content)->env_var, "PATH", 4))
-		{
-			buff = ft_split(((t_env *)env->content)->env_value, ':');
-			if (!buff)
-			{
-				ft_putstr_fd("Error: memory allocation\n", 2);
-				exit(1);
-			}
-			return (buff);
-		}
+			return (((t_env *)env->content)->env_value);
 		env = env->next;
 	}
 	return (NULL);
 }
 
-static char	*check_cmd_with_path(char *cmd, char **path)
+static char	*check_cmd_with_path(char *cmd, char *path)
 {
 	char	*tmp;
 	int		i;
+	int		start;
+	int		len_cmd;
 
-	i = 0;
+	start = 0;
+	i = 0;	ft_strlcpy(tmp, path + start, i - start);
+				ft_strlcat(tmp, cmd, (i - start) + len_cmd)
+	len_cmd = ft_strlen(cmd);
 	if (!cmd || !*cmd)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i++], cmd);
-		if (!tmp)
-			return (ft_puterror("Error", "memory allocation", 1), NULL);
-		if (!access(tmp, F_OK))
+		if (path[i++] == ':')
 		{
-			if (!access(tmp, X_OK))
-				return (free_2d(path), tmp);
+			if (start == i - 1)
+				tmp = ft_strjoin(".", cmd);
 			else
-				return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
+			{
+				tmp = (char *)malloc(sizeof(char) * ((i - start) + len_cmd));
+				if (!tmp)
+					return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
+				ft_strlcpy(tmp, path + start, i - start);
+				ft_strlcat(tmp, cmd, (i - start) + len_cmd);
+			}
+			if (!tmp)
+				return (ft_puterror("Error", "memory allocation", 1), NULL);
+			if (!access(tmp, F_OK))
+			{
+				if (!access(tmp, X_OK))
+					return (tmp);
+				else
+					return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
+			}
+			free(tmp);
+			start = i;
 		}
-		free(tmp);
 	}
-	free_2d(path);
 	return (ft_puterror(&cmd[1], "command not found", 127), NULL);
 }
 
@@ -79,10 +88,7 @@ char	*check_cmd(char *cmd, t_list *env)
 			if (!access(cmd, X_OK))
 				return (cmd);
 			else
-			{
 				ft_puterror(cmd, "permission denied\n", 1);
-				exit(1);
-			}
 		}
 		else
 		{
@@ -95,5 +101,5 @@ char	*check_cmd(char *cmd, t_list *env)
 			exit(127);
 		}
 	}
-	return (check_cmd_with_path(ft_strjoin("/", cmd), get_path(env)));
+	return (check_cmd_with_path(ft_strjoin("/", cmd), get_value_of_path(env)));
 }
