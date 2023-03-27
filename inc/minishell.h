@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 11:21:44 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:46:09 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int				ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */
 void			add_to_env(t_minishell *shell, char **arg);
-char			*check_cmd(char *cmd, t_list *env);
+char			*get_cmd_by_checkit_withpath(char *cmd, t_list *env);
 void			ft_puterror(char *cmd, char *errormsg, int exit_status);
 
 /* =====  Exec function  ===== */
