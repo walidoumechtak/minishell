@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /**
- * exaind_heredoc - exaind every vaiable inside heredoc if the limiter has not quotes
+ * exaind_heredoc - exaind every variable inside heredoc if the limiter has no quotes
 */
 
 void    expaind_heredoc(t_minishell *ptr, char **str)
