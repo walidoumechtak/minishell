@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 15:41:12 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:41:30 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 		s = exec_is_builtins(shell, s_cmd->cmd, shell->env);
 		if (s != -1)
 			exit(s);
-		cmd = check_cmd(*s_cmd->cmd, shell->env);
+		cmd = get_cmd_by_checkit_withpath(*s_cmd->cmd, shell->env);
 		execve(cmd, s_cmd->cmd, convert_list_env(shell->env));
 	}
 	if (next)

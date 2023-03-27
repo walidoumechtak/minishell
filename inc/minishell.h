@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/27 15:42:16 by hbenfadd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -89,9 +101,9 @@ int		ft_exit(char **args);
 int 	ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */
-void	add_to_env(t_minishell *shell, char **arg);
-char	*check_cmd(char *cmd, t_list *env);
-void	ft_puterror(char *cmd, char *errormsg, int exit_status);
+void			add_to_env(t_minishell *shell, char **arg);
+char			*get_cmd_by_checkit_withpath(char *cmd, t_list *env);
+void			ft_puterror(char *cmd, char *errormsg, int exit_status);
 
 /* =====  Exec function  ===== */
 int		exec_is_builtins(t_minishell *shell, char **args, t_list *env);
