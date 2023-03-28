@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 14:53:30 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:52:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # ifndef FREE_FLAG
 #  define FREE_FLAG
 
-int				free_flag;
+int				g_free_flag;
 
 # endif
 
@@ -163,6 +163,13 @@ int				is_there_heredoc(char *str);
 int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
 
+/*  ===== reaper cmd cases ===== */
+
+void			part_double(t_minishell *ptr, t_repare_cmd *rep);
+void			part_single(t_minishell *ptr, t_repare_cmd *rep);
+void			part_dollar(t_minishell *ptr, t_repare_cmd *rep);
+void			part_string(t_minishell *ptr, t_repare_cmd *rep);
+
 /*  ===== main helper ===== */
 
 void			remove_heredoc_files(t_minishell *ptr);
@@ -172,6 +179,7 @@ void			signal_handler1(int sig);
 void			end_of_program(t_minishell *ptr);
 
 /*  ===== Error function ===== */
+
 int				check_pipe_2(char *str, int *i);
 int				check_pipe_syntax(char *str);
 int				check_semi_colum(char **arr);

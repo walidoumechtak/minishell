@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 12:19:01 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:53:21 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int ac, char **av, char **env)
         ft_putstr_fd("Failed to alloc memory\n", 2);
         exit (404);
     }
-    free_flag = 0;
+    g_free_flag = 0;
     ptr->env = build_env_list(env);
     ptr->exit_state = 0;
     signal(SIGQUIT, SIG_IGN);
@@ -42,9 +42,9 @@ int main(int ac, char **av, char **env)
             continue ;
         }
         add_history(ptr->str); // ==> add to cammand history
-        if (free_flag == 1)
+        if (g_free_flag == 1)
         {
-            free_flag = 0;
+            g_free_flag = 0;
             ptr->exit_state = 1;
         }
         init_struct(ptr);
