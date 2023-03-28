@@ -59,6 +59,7 @@ static int	update_value_var_env(t_minishell *shell, char *var)
 	}
 	if (ft_strlen(var) == 6)
 		return (add_oldpwd_to_env(shell));
+	return (0);
 }
 
 int	ft_cd(t_minishell *shell, char **args)
