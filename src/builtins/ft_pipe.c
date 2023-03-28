@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/27 15:56:17by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:50:11 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 	if (pid)
 	{
 		waitpid(pid, &shell->exit_state, 0);
-		shell->exit_state = WEXITSTATUS(shell->exit_state);
+		if (shell->exit_state == 2)
+			shell->exit_state = 130;
+		else
+			shell->exit_state = WEXITSTATUS(shell->exit_state);
 	}
 	else if (!pid)
 		shell->exit_state = 0;
