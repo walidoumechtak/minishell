@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   get_cmd_by_checkit_withpath.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/27 11:52:09 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:46:24 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*join_cmd_with_path(char *path, char *cmd, int end)
+{
+	char		*buff;
+	int			len_cmd;
+	static int	start;
+
+	len_cmd = ft_strlen(cmd);
+	if (start == end - 1)
+	{
+		buff = ft_strjoin(".", cmd);
+		if (!buff)
+			return (ft_puterror("Error", "memory allocation", 1), NULL);
+	}
+	else
+	{
+		buff = (char *)malloc(sizeof(char) * ((end - start) + len_cmd));
+		if (!buff)
+			return (ft_puterror("Error", "memory allocation", 1), NULL);
+		ft_strlcpy(buff, path + start, end - start);
+		ft_strlcat(buff, cmd, (end - start) + len_cmd);
+	}
+	start = end;
+	return (buff);
+}
 
 static char	*get_value_of_path(t_list *env)
 {
@@ -28,47 +53,31 @@ static char	*get_value_of_path(t_list *env)
 
 static char	*check_cmd_with_path(char *cmd, char *path)
 {
-	char	*tmp;
+	char	*joined_cmd;
 	int		i;
-	int		start;
-	int		len_cmd;
 
-	start = 0;
 	i = 0;
-	len_cmd = ft_strlen(cmd);
 	if (!cmd || !*cmd)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
 	while (path[i])
 	{
 		if (path[i++] == ':')
 		{
-			if (start == i - 1)
-				tmp = ft_strjoin(".", cmd);
-			else
+			joined_cmd = join_cmd_with_path(path, cmd, i);
+			if (!access(joined_cmd, F_OK))
 			{
-				tmp = (char *)malloc(sizeof(char) * ((i - start) + len_cmd));
-				if (!tmp)
-					return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
-				ft_strlcpy(tmp, path + start, i - start);
-				ft_strlcat(tmp, cmd, (i - start) + len_cmd);
-			}
-			if (!tmp)
-				return (ft_puterror("Error", "memory allocation", 1), NULL);
-			if (!access(tmp, F_OK))
-			{
-				if (!access(tmp, X_OK))
-					return (tmp);
+				if (!access(joined_cmd, X_OK))
+					return (joined_cmd);
 				else
 					return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
 			}
-			free(tmp);
-			start = i;
+			free(joined_cmd);
 		}
 	}
 	return (ft_puterror(&cmd[1], "command not found", 127), NULL);
 }
 
-char	*check_cmd(char *cmd, t_list *env)
+char	*get_cmd_by_checkit_withpath(char *cmd, t_list *env)
 {
 	if (!ft_isalpha(*cmd))
 	{

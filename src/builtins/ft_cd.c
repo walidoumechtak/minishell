@@ -3,16 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/16 12:36:04 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:14:07by hamza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	get_avr(t_minishell *shell, char *var)
+static int add_oldpwd_to_env(t_minishell *shell)
+{
+	t_env	*new_env;
+	char	*buff;
+	t_list	*new;
+
+	buff = NULL;
+	new_env = (t_env *)malloc(sizeof(t_env));
+	if (!new_env)
+		return (ft_putstr_fd("Error: memory allocation\n", 2), 1);
+	new_env->env_var = ft_strdup("OLDPWD");
+	if (!new_env->env_var)
+		return (ft_putstr_fd("Error: memory allocation\n", 2), 1);
+	new_env->env_value = getcwd(buff, 0);
+	if (!new_env->env_value)
+		return (perror("Error"), 1);
+	new	= ft_lstnew(new_env);
+	if (!new)
+		return (ft_putstr_fd("Error: memory allocation\n", 2), 1);
+	ft_lstadd_back(&shell->env, new);
+	return (0);
+}
+
+static int	update_value_var_env(t_minishell *shell, char *var)
 {
 	t_list	*tmp;
 	char	*env_var;
@@ -28,21 +51,28 @@ static void	get_avr(t_minishell *shell, char *var)
 		{
 			free(((t_env *)tmp->content)->env_value);
 			((t_env *)tmp->content)->env_value = getcwd(buff, 0);
-			return ;
+			if (!(((t_env *)tmp->content)->env_value))
+				return (perror("Error"), 1);
+			return (0);
 		}
 		tmp = tmp->next;
 	}
+	if (ft_strlen(var) == 6)
+		return (add_oldpwd_to_env(shell));
+	return (0);
 }
 
 int	ft_cd(t_minishell *shell, char **args)
 {
-	get_avr(shell, "OLDPWD");
+	if (update_value_var_env(shell, "OLDPWD"))
+		return (1);
 	if (chdir(*args) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(*args);
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
-	get_avr(shell, "PWD");
+	if (update_value_var_env(shell, "PWD"))
+		return (1);
 	return (EXIT_SUCCESS);
 }
