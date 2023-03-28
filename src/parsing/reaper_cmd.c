@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:15:59 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 15:57:09 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:03:32 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_rep(t_repare_cmd *rep, char **str)
 	rep->i = 0;
 }
 
-void	end_of_while(t_repare_cmd *rep, char **str)
+void	end_of_while(t_repare_cmd *rep)
 {
 	rep->temp = ft_strjoin(rep->result, rep->sub);
 	free(rep->sub);
@@ -58,7 +58,7 @@ void	reaper_cmd(t_minishell *ptr, char **str)
 		}
 		if (rep->iter[rep->i] != '\0')
 			rep->i++;
-		end_of_while(rep, str);
+		end_of_while(rep);
 	}
-	end_of_while(rep, str);
+	end_of_reaper(rep, str);
 }

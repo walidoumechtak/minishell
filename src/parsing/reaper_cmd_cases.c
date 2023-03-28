@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:50:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 16:00:54 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:02:21 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,15 @@ void	part_single(t_minishell *ptr, t_repare_cmd *rep)
  * rep->i : this because i increment the loop i++; 
  * so if we have $?walid for example i will point to
  *  w and i++ will point to a and then i lost 'w'
+ * dont forget this : 
+ * if (rep->iter[rep->i] == '\0')
+		rep->e = rep->i;
 */
 
 void	part_dollar(t_minishell *ptr, t_repare_cmd *rep)
 {
 	rep->s = rep->i;
-	rep->test = rep->s + 1; // to chekc if $ is followed by " or '
+	rep->test = rep->s + 1;
 	rep->i++;
 	while (((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
 			|| (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
@@ -61,8 +64,6 @@ void	part_dollar(t_minishell *ptr, t_repare_cmd *rep)
 		rep->i++;
 	if (rep->iter[rep->i] == '?') // $?
 		rep->i++;
-	// if (rep->iter[rep->i] == '\0')
-	// 	rep->e = rep->i;
 	if (rep->iter[rep->test] == '\'' || rep->iter[rep->test] == '\"')
 		rep->e = 0;
 	else
