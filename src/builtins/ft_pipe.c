@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 12:00:27 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:48:24 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,17 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 		exec_cmd(shell, cmd->content, cmd->next);
 		cmd = cmd->next;
 	}
-	while (wait(&shell->exit_state) > 0)
+	if (pid)
+	{
+		waitpid(pid, &shell->exit_state, 0);
+		if (shell->exit_state == 2)
+			shell->exit_state = 130;
+		else
+			shell->exit_state = WEXITSTATUS(shell->exit_state);
+	}
+	else if (!pid)
+		shell->exit_state = 0;
+	while (wait(NULL) > 0)
 		;
 	shell->exit_state = WEXITSTATUS(shell->exit_state);
 	dup2(stdin, STDIN_FILENO);
