@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_list_2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/28 11:24:03 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /**
@@ -40,9 +52,9 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 */
 
 /**
-* build_list_2
-	- building the final linked list that should be sned to execute part 
-* we loop throw a linked list of file and their file descriptor and assigne to each node 
+* build_list_2 - building the final linked list that should be
+* sned to execute part we loop throw a linked list of file and 
+* their file descriptor and assigne to each node 
 * hes **cmd and in_fd and out_fd
 */
 

@@ -6,28 +6,29 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 12:20:10 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/05 18:22:38 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:35:05 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_there_heredoc(char *str)
+int	is_there_heredoc(char *str)
 {
-    int i;
-    int cpt;
+	int	i;
+	int	cpt;
 
-    i = 0;
-    cpt = 0;
-    while (str[i])
-    {
-        if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] != '<' && (i == 0 || str[i - 1] != '>'))
-        {
-            cpt++;   
-            i += 2;
-            continue;
-        }
-        i++;
-    }
-    return (cpt);
+	i = 0;
+	cpt = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i
+			+ 2] != '<' && (i == 0 || str[i - 1] != '>'))
+		{
+			cpt++;
+			i += 2;
+			continue ;
+		}
+		i++;
+	}
+	return (cpt);
 }

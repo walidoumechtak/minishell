@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_linked_lists.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 11:30:29 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/28 11:30:40 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_list_v1(t_minishell *ptr, t_list *temp2)
@@ -34,7 +46,6 @@ void	free_list_v2(t_minishell *ptr, t_list *temp1, t_list *temp4)
 			link_ofile->opened_files = link_ofile->opened_files->next;
 		}
 		ft_lstclear(&temp4, del);
-		//free_spilte(((t_cmd *)temp1->content)->cmd);
 		temp1 = temp1->next;
 	}
 	ft_lstclear(&ptr->list_cmd, del);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 15:46:09 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:53:30 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,19 @@ typedef struct s_minishell
 	int			signal_stop;
 }				t_minishell;
 
+typedef struct s_open_redirection
+{
+	t_list		*old;
+	t_list		*new;
+	t_cmd		*new_c;
+	t_cmd_v1	*skin;
+	int			i;
+	int			k;
+	int			l;
+	int			state;
+	int			len;
+}				t_open_redirection;
+
 /* =====  Builtins  ===== */
 int				ft_echo(char **args);
 int				ft_cd(t_minishell *shell, char **args);
@@ -136,6 +149,8 @@ int				open_rederiction(t_minishell *ptr, t_list **old_node,
 					t_cmd **new_cmd);
 void			open_file(t_minishell *ptr, char **arr, int mode, int i);
 void			add_space_redirection(char **str);
+int				all_cases(t_minishell *ptr, t_open_redirection *o);
+void			expaind_it(t_minishell *ptr, char **str);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);

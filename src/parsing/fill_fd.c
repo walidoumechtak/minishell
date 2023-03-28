@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 08:57:58 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:26:14 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	other_mode(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 
 int	fill_fd(t_minishell *ptr)
 {
-	t_list *temp;
-	t_list *temp2;
-	t_cmd *link1;
-	t_open_file *link2;
-	int state;
+	t_list		*temp;
+	t_list		*temp2;
+	t_cmd		*link1;
+	t_open_file	*link2;
+	int			state;
 
 	temp = ptr->list_cmd;
 	while (temp)
