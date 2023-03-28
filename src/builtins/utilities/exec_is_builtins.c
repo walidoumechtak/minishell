@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:31:53 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 07:32:05 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:22:38 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_is_builtins(t_minishell *shell, char **args, t_list *env)
 	else if (len == 5 && ft_strnstr(cmd, "unset", len))
 		return (ft_unset(shell, args));
 	else if (len == 2 && ft_strnstr(cmd, "cd", len))
-		return (ft_cd(shell, args));
+		return (ft_cd(shell, --args));
 	else if (len == 3 && ft_strnstr(cmd, "env", len))
 		return (ft_env(env));
 	else if (len == 4 && ft_strnstr(cmd, "exit", len))

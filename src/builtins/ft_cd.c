@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/27 23:14:07by hamza            ###   ########.fr       */
+/*   Updated: 2023/03/28 13:38:06 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int add_oldpwd_to_env(t_minishell *shell)
+static int	add_oldpwd_to_env(t_minishell *shell)
 {
 	t_env	*new_env;
 	char	*buff;
@@ -28,7 +28,7 @@ static int add_oldpwd_to_env(t_minishell *shell)
 	new_env->env_value = getcwd(buff, 0);
 	if (!new_env->env_value)
 		return (perror("Error"), 1);
-	new	= ft_lstnew(new_env);
+	new = ft_lstnew(new_env);
 	if (!new)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), 1);
 	ft_lstadd_back(&shell->env, new);
@@ -62,17 +62,70 @@ static int	update_value_var_env(t_minishell *shell, char *var)
 	return (0);
 }
 
-int	ft_cd(t_minishell *shell, char **args)
+static char	*get_value_of_specific_var(t_list *env, char *var)
 {
-	if (update_value_var_env(shell, "OLDPWD"))
-		return (1);
-	if (chdir(*args) == -1)
+	char	*env_var;
+	char	*env_value;
+
+	env_value = NULL;
+	while (env)
+	{
+		env_var = ((t_env *)env->content)->env_var;
+		if (ft_strnstr(env_var, var, ft_strlen(var))
+			&& ft_strlen(var) == ft_strlen(env_var))
+		{
+			env_value = ft_strdup(((t_env *)env->content)->env_value);
+			if (!env_value)
+				return (ft_puterror("Error :cd", "memory allocation", 1), NULL);
+			return (env_value);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}
+
+static int	change_dir(t_minishell *shell, char *path)
+{
+	if (!access(path, F_OK))
+	{
+		if (update_value_var_env(shell, "OLDPWD"))
+			return (EXIT_FAILURE);
+	}
+	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		perror(*args);
+		perror(path);
 		return (EXIT_FAILURE);
 	}
 	if (update_value_var_env(shell, "PWD"))
-		return (1);
+		return (EXIT_FAILURE);
+	return (EXIT_FAILURE);
+}
+
+int	ft_cd(t_minishell *shell, char **args)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (!(args + 1) || !*(args + 1))
+	{
+		tmp = get_value_of_specific_var(shell->env, "HOME");
+		if (!tmp)
+			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
+		free(*args);
+		*args = tmp;
+	}
+	else if (!**(++args))
+		return (EXIT_SUCCESS);
+	else if (args[0][0] == '-' && args[0][1] == '\0')
+	{
+		tmp = get_value_of_specific_var(shell->env, "OLDPWD");
+		if (!tmp)
+			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
+		free(*args);
+		*args = tmp;
+	}
+	if (change_dir(shell, *args))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
