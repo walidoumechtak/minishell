@@ -6,21 +6,12 @@
 #include <fcntl.h>
 #include <signal.h>
 
-void handle_signal(int sig)
-{
-    printf("Received signal %d\n", sig);
-}
 
 int main()
 {
-    signal(SIGINT, handle_signal);
-
-    while (1)
-    {
-        printf("Program is running...\n");
-        sleep(1);
-    }
-
+    char *str = "      time | echo walid";
+    char    *new = ft_strtrim(str, "time");
+    printf("the new string : -%s-\n", new);
     return 0;
 }
 
