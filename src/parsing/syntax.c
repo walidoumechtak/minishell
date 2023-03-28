@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:30:46 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 10:59:45 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:19:23 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	check_pipe_syntax(char *str)
 	{
 		while (str[i] == ' ')
 			i++;
-		str = ft_strtrim(str, "time");
+		str = ft_strtrim(str + i, "time");
+		i = 0;
 		while (str[i] == ' ')
 			i++;
 		if (str[i] == '|')
