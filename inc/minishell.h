@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 15:46:09 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:52:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # ifndef FREE_FLAG
 #  define FREE_FLAG
 
-int				free_flag;
+int				g_free_flag;
 
 # endif
 
@@ -100,6 +100,19 @@ typedef struct s_minishell
 	int			signal_stop;
 }				t_minishell;
 
+typedef struct s_open_redirection
+{
+	t_list		*old;
+	t_list		*new;
+	t_cmd		*new_c;
+	t_cmd_v1	*skin;
+	int			i;
+	int			k;
+	int			l;
+	int			state;
+	int			len;
+}				t_open_redirection;
+
 /* =====  Builtins  ===== */
 int				ft_echo(char **args);
 int				ft_cd(t_minishell *shell, char **args);
@@ -136,6 +149,8 @@ int				open_rederiction(t_minishell *ptr, t_list **old_node,
 					t_cmd **new_cmd);
 void			open_file(t_minishell *ptr, char **arr, int mode, int i);
 void			add_space_redirection(char **str);
+int				all_cases(t_minishell *ptr, t_open_redirection *o);
+void			expaind_it(t_minishell *ptr, char **str);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);
@@ -148,6 +163,13 @@ int				is_there_heredoc(char *str);
 int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
 
+/*  ===== reaper cmd cases ===== */
+
+void			part_double(t_minishell *ptr, t_repare_cmd *rep);
+void			part_single(t_minishell *ptr, t_repare_cmd *rep);
+void			part_dollar(t_minishell *ptr, t_repare_cmd *rep);
+void			part_string(t_minishell *ptr, t_repare_cmd *rep);
+
 /*  ===== main helper ===== */
 
 void			remove_heredoc_files(t_minishell *ptr);
@@ -157,6 +179,7 @@ void			signal_handler1(int sig);
 void			end_of_program(t_minishell *ptr);
 
 /*  ===== Error function ===== */
+
 int				check_pipe_2(char *str, int *i);
 int				check_pipe_syntax(char *str);
 int				check_semi_colum(char **arr);

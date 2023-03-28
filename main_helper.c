@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:34:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 10:40:41 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:53:36 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	signal_handler1(int sig)
 {
 	if (sig == SIGINT)
 	{
-		free_flag = 1;
+		g_free_flag = 1;
 		write(STDOUT_FILENO, "\n", 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();

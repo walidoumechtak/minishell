@@ -1,97 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_coted_expaind.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 14:39:56 by woumecht          #+#    #+#             */
+/*   Updated: 2023/03/28 15:04:52 by woumecht         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+typedef struct s_coted_expaind
+{
+	char	*temp;
+	char	*res;
+	char	*temp_join;
+	char	*sub;
+	int		i;
+	int		s;
+	int		e;
+}			t_coted_expaind;
 
 // return the value with out any split.
 
-void expaind_it(t_minishell *ptr, char **str)
+void	init_c_e(t_coted_expaind *c_e, char **str)
 {
-    t_list  *exp;
-    char *temp;
-
-    temp = *str;
-    exp = ptr->env;
-    if (temp[0] == '$' && temp[1] == '\0')
-        return ;
-    while (exp)
-    {
-        if (ft_strncmp(((t_env *)exp->content)->env_var, temp + 1, ft_strlen(temp + 1) + ft_strlen(((t_env *)exp->content)->env_var)) == 0)
-        {
-            free(*str);
-            *str = ft_strdup(((t_env *)exp->content)->env_value);
-            return ;
-        }
-        exp = exp->next;
-    }
-    free(*str);
-    *str = ft_calloc(1,1);
+	c_e->i = 0;
+	c_e->temp = *str;
+	c_e->res = NULL;
 }
 
-int    ft_coted_exapaind(t_minishell *ptr, char **str)
-{
-    char *temp;
-    char *res;
-    char    *temp_join;
-    char *sub;
-    int i;
-    int s;
-    int e;
+/**
+ * double_dollar_c - function that do this :
+ * if we have $$$$4 we skip $$$ and last one past to expaind it
+*/
 
-    i = 0;
-    temp = *str;
-    res = NULL;
-    if (temp[0] && temp[1] == '\0')
-        return 0;
-    if (temp[0] == '$' && temp[1] == '?')
-        return (0);
-    while (temp[i])
-    {
-        if (temp[i] == '$')
-        {
-            s = i;
-            if (temp[i] == '$' && temp[i + 1] == '$')
-            {
-                while (temp[i] && temp[i] == '$') // if we have $$$$4 we skip $$$ and last one past to expaind it
-                    i++;
-                i--;
-                e = i - s;
-                sub = ft_substr(temp, s, e);
-                temp_join = ft_strjoin(res, sub);
-                free(sub);
-                free(res);
-                res = temp_join; // here end the operation of double $$$$ .....
-            }
-            s = i;
-            i++;
-            while (temp[i] && ((temp[i] >= 'a' && temp[i] <= 'z') 
-            || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= '0' && temp[i] <= '9')))
-            {
-                i++;
-            }
-            if (temp[i] == '\0')
-                e = i;
-            else
-                e = i - s;
-            sub = ft_substr(temp, s, e);
-            expaind_it(ptr, &sub);
-        }
-        else
-        {
-            s = i;
-            while (temp[i] && temp[i] != '$')
-            {
-                i++;
-            }
-            if (temp[i] == '\0')
-                e = i;
-            else
-                e = i - s;
-            sub = ft_substr(temp, s, e);
-        }
-        temp_join = ft_strjoin(res, sub);
-        free(res);
-        free(sub);
-        res = temp_join;
-    }
-    free(*str);
-    *str = res;
-    return (0);
+void	double_dollar_c(t_coted_expaind *c_e)
+{
+	while (c_e->temp[c_e->i] && c_e->temp[c_e->i] == '$')
+		c_e->i++;
+	c_e->i--;
+	c_e->e = c_e->i - c_e->s;
+	c_e->sub = ft_substr(c_e->temp, c_e->s, c_e->e);
+	printf("gouble $ is %s\n", c_e->sub);
+	c_e->temp_join = ft_strjoin(c_e->res, c_e->sub);
+	free(c_e->sub);
+	free(c_e->res);
+	c_e->res = c_e->temp_join;
+}
+
+/**
+ * normal_dollar_case - function that normaly expaind the var
+*/
+
+void	normal_dollar_case(t_minishell *ptr, t_coted_expaind *c_e)
+{
+	c_e->s = c_e->i;
+	c_e->i++;
+	while (c_e->temp[c_e->i] && ((c_e->temp[c_e->i] >= 'a'
+				&& c_e->temp[c_e->i] <= 'z') || (c_e->temp[c_e->i] >= 'A'
+				&& c_e->temp[c_e->i] <= 'Z') || (c_e->temp[c_e->i] >= '0'
+				&& c_e->temp[c_e->i] <= '9')))
+	{
+		c_e->i++;
+	}
+	if (c_e->temp[c_e->i] == '\0')
+		c_e->e = c_e->i;
+	else
+		c_e->e = c_e->i - c_e->s;
+	c_e->sub = ft_substr(c_e->temp, c_e->s, c_e->e);
+	expaind_it(ptr, &c_e->sub);
+	c_e->temp_join = ft_strjoin(c_e->res, c_e->sub);
+}
+
+/**
+ * string_case - function that skip string
+ * but we keep this data we don't want to ignore it
+*/
+
+void	string_case(t_coted_expaind *c_e)
+{
+	c_e->s = c_e->i;
+	while (c_e->temp[c_e->i] && c_e->temp[c_e->i] != '$')
+	{
+		c_e->i++;
+	}
+	if (c_e->temp[c_e->i] == '\0')
+		c_e->e = c_e->i;
+	else
+		c_e->e = c_e->i - c_e->s;
+	c_e->sub = ft_substr(c_e->temp, c_e->s, c_e->e);
+	c_e->temp_join = ft_strjoin(c_e->res, c_e->sub);
+}
+
+int	ft_coted_exapaind(t_minishell *ptr, char **str)
+{
+	t_coted_expaind	*c_e;
+
+	c_e = malloc(sizeof(t_coted_expaind));
+	init_c_e(c_e, str);
+	if ((c_e->temp[0] && c_e->temp[1] == '\0') || (c_e->temp[0] == '$'
+			&& c_e->temp[1] == '?'))
+		return (free(c_e), 0);
+	while (c_e->temp[c_e->i])
+	{
+		if (c_e->temp[c_e->i] == '$')
+		{
+			c_e->s = c_e->i;
+			if (c_e->temp[c_e->i] == '$' && c_e->temp[c_e->i + 1] == '$')
+				double_dollar_c(c_e);
+			normal_dollar_case(ptr, c_e);
+		}
+		else
+			string_case(c_e);
+		free(c_e->res);
+		free(c_e->sub);
+		c_e->res = c_e->temp_join;
+	}
+	free(*str);
+	*str = c_e->res;
+	return (free(c_e), 0);
 }
