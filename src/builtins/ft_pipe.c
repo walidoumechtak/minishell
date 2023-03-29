@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/29 12:31:50 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:33:48 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ static pid_t	dup_int_get_pid(int *fd, t_list *next, int pid)
 	return (0);
 }
 
-static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
+static pid_t	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 {
 	int		fd[2];
 	int		s;
 	char	*cmd;
+	int		pid;
 
 	pipe(fd);
-	if (fork() == 0)
+	pid = fork();
+	if (!pid)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (s_cmd->fd_in == -1 || s_cmd->fd_out == -1)
@@ -46,7 +48,7 @@ static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 		s = exec_is_builtins(shell, s_cmd->cmd, shell->env);
 		if (s != -1)
 			exit(s);
-		cmd = check_cmd(*s_cmd->cmd, shell->env);
+		cmd = get_cmd_by_checkit_withpath(*s_cmd->cmd, shell->env);
 		execve(cmd, s_cmd->cmd, convert_list_env(shell->env));
 	}
 	return (dup_int_get_pid(fd, next, pid));
@@ -73,17 +75,24 @@ static void	return_status(t_minishell *shell, int pid, int stdin)
 
 void	ft_pipe(t_minishell *shell, t_list *cmd)
 {
-	int	stdin;
+	int		stdin;
+	pid_t	pid;
 
+	pid = 0;
 	stdin = dup(STDIN_FILENO);
 	signal(SIGINT, SIG_IGN);
 	if (((t_cmd *)(cmd->content))->fd_in)
 		dup2(((t_cmd *)(cmd->content))->fd_in, STDIN_FILENO);
 	while (cmd)
 	{
-		if (((t_cmd *)cmd->content)->fd_in == 1)
-			dup2(stdin, STDIN_FILENO);
-		exec_cmd(shell, cmd->content, cmd->next);
+		if (*((t_cmd *)cmd->content)->cmd)
+		{
+			if (((t_cmd *)cmd->content)->fd_in == 1)
+				dup2(stdin, STDIN_FILENO);
+			else if (((t_cmd *)cmd->content)->fd_in > 1)
+				dup2(((t_cmd *)cmd->content)->fd_in, STDIN_FILENO);
+			pid = exec_cmd(shell, cmd->content, cmd->next);
+		}
 		cmd = cmd->next;
 	}
 	return_status(shell, pid, stdin);

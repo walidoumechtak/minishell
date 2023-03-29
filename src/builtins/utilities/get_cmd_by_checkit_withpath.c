@@ -1,28 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   get_cmd_by_checkit_withpath.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/23 10:42:53 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:39:43 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_2d(char **ptr)
+static char	*join_cmd_with_path(char *path, char *cmd, int end)
 {
-	int	i;
+	char		*buff;
+	int			len_cmd;
+	static int	start;
 
-	i = 0;
-	while (ptr[i])
-		free(ptr[i++]);
-	free(ptr);
+	len_cmd = ft_strlen(cmd);
+	if (start == end - 1)
+	{
+		buff = ft_strjoin(".", cmd);
+		if (!buff)
+			return (ft_puterror("Error", "memory allocation", 1), NULL);
+	}
+	else
+	{
+		buff = (char *)malloc(sizeof(char) * ((end - start) + len_cmd));
+		if (!buff)
+			return (ft_puterror("Error", "memory allocation", 1), NULL);
+		ft_strlcpy(buff, path + start, end - start);
+		ft_strlcat(buff, cmd, (end - start) + len_cmd);
+	}
+	start = end;
+	return (buff);
 }
 
-static char	**get_path(t_list *env)
+static char	*get_value_of_path(t_list *env)
 {
 	char	**buff;
 
@@ -30,23 +45,15 @@ static char	**get_path(t_list *env)
 	while (env)
 	{
 		if (ft_strnstr(((t_env *)env->content)->env_var, "PATH", 4))
-		{
-			buff = ft_split(((t_env *)env->content)->env_value, ':');
-			if (!buff)
-			{
-				ft_putstr_fd("Error: memory allocation\n", 2);
-				exit(1);
-			}
-			return (buff);
-		}
+			return (((t_env *)env->content)->env_value);
 		env = env->next;
 	}
 	return (NULL);
 }
 
-static char	*check_cmd_with_path(char *cmd, char **path)
+static char	*check_cmd_with_path(char *cmd, char *path)
 {
-	char	*tmp;
+	char	*joined_cmd;
 	int		i;
 
 	i = 0;
@@ -54,23 +61,23 @@ static char	*check_cmd_with_path(char *cmd, char **path)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i++], cmd);
-		if (!tmp)
-			return (ft_puterror("Error", "memory allocation", 1), NULL);
-		if (!access(tmp, F_OK))
+		if (path[i++] == ':')
 		{
-			if (!access(tmp, X_OK))
-				return (free_2d(path), tmp);
-			else
-				return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
+			joined_cmd = join_cmd_with_path(path, cmd, i);
+			if (!access(joined_cmd, F_OK))
+			{
+				if (!access(joined_cmd, X_OK))
+					return (joined_cmd);
+				else
+					return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
+			}
+			free(joined_cmd);
 		}
-		free(tmp);
 	}
-	free_2d(path);
 	return (ft_puterror(&cmd[1], "command not found", 127), NULL);
 }
 
-char	*check_cmd(char *cmd, t_list *env)
+char	*get_cmd_by_checkit_withpath(char *cmd, t_list *env)
 {
 	if (!ft_isalpha(*cmd))
 	{
@@ -79,10 +86,7 @@ char	*check_cmd(char *cmd, t_list *env)
 			if (!access(cmd, X_OK))
 				return (cmd);
 			else
-			{
-				ft_puterror(cmd, "permission denied", 1);
-				exit(1);
-			}
+				ft_puterror(cmd, "permission denied\n", 1);
 		}
 		else
 		{
@@ -95,5 +99,5 @@ char	*check_cmd(char *cmd, t_list *env)
 			exit(127);
 		}
 	}
-	return (check_cmd_with_path(ft_strjoin("/", cmd), get_path(env)));
+	return (check_cmd_with_path(ft_strjoin("/", cmd), get_value_of_path(env)));
 }
