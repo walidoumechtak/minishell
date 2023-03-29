@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:26:14 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 10:40:06 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 	if (link2->fd == -1)
 	{
 		link1->fd_in = -1;
-		open_error(ptr, link2->file, ": No such file or directory\n", 1);
+		perror(link2->file);
+		//open_error(ptr, link2->file, ": No such file or directory\n", 1);
 		ptr->exit_state = 1;
 		return (7);
 	}
@@ -73,13 +74,13 @@ int	fill_fd(t_minishell *ptr)
 		state = 0;
 		link1 = ((t_cmd *)temp->content);
 		temp2 = ((t_cmd *)temp->content)->opened_files;
-		while (temp2 && state != 7)
+		while (temp2 && state != 7 && state != 8)
 		{
 			link2 = ((t_open_file *)temp2->content);
 			if (link2->mode == 1 && mode1(ptr, link1, link2) == 7)
 				state = 7;
 			else if (other_mode(ptr, link1, link2) == 8)
-				return (8);
+				state = 8;
 			temp2 = temp2->next;
 		}
 		temp = temp->next;

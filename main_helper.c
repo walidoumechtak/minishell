@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:34:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 15:53:36 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:55:34 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ void	remove_heredoc_files(t_minishell *ptr)
 		while (temp2)
 		{
 			if (((t_open_file *)temp2->content)->mode == 4)
-			{
-				//free(((t_open_file *)temp2->content)->file);
 				unlink(((t_open_file *)temp2->content)->file);
-			}
 			temp2 = temp2->next;
 		}
 		temp1 = temp1->next;
@@ -46,7 +43,6 @@ void	all_errors_parsing(t_minishell *ptr, int state)
 	}
 	else if (state == 9)
 	{
-		printf("here signal\n");
 		remove_heredoc_files(ptr);
 		free_linked_lists(ptr, 1);
 		ptr->exit_state = 1;
@@ -90,7 +86,7 @@ void	signal_handler1(int sig)
 
 void	end_of_program(t_minishell *ptr)
 {
-	close_fd(ptr);
+	//close_fd(ptr);
 	remove_heredoc_files(ptr);
 	free(ptr->str);
 	free_spilte(ptr->splited_pipe);
