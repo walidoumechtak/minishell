@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/29 12:21:21 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:25:06 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static pid_t	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 	if (!pid)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (s_cmd->fd_in == -1 || s_cmd->fd_out == -1)
 			exit(1);
 		if (next != NULL && s_cmd->fd_out == STDOUT_FILENO)
@@ -44,7 +45,6 @@ static pid_t	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 		else
 			dup2(s_cmd->fd_out, STDOUT_FILENO);
 		close(fd[1]);
-		close(fd[0]);
 		s = exec_is_builtins(shell, s_cmd->cmd, shell->env);
 		if (s != -1)
 			exit(s);
@@ -61,6 +61,8 @@ static void	return_status(t_minishell *shell, int pid, int stdin)
 		waitpid(pid, &shell->exit_state, 0);
 		if (shell->exit_state == 2)
 			shell->exit_state = 130;
+		else if (shell->exit_state == 3)
+			shell->exit_state = 131;
 		else
 			shell->exit_state = WEXITSTATUS(shell->exit_state);
 	}
