@@ -6,17 +6,23 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/28 15:48:24 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:31:50 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	signal_handler_in_execcmd(int sig)
+static pid_t	dup_int_get_pid(int *fd, t_list *next, int pid)
 {
-	write(1, "\n", 1);
-	if (sig == SIGINT)
-		return ;
+	if (next)
+		dup2(fd[0], STDIN_FILENO);
+	else
+		close(0);
+	close(fd[1]);
+	close(fd[0]);
+	if (!next)
+		return (pid);
+	return (0);
 }
 
 static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
@@ -28,6 +34,7 @@ static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 	pipe(fd);
 	if (fork() == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (s_cmd->fd_in == -1 || s_cmd->fd_out == -1)
 			exit(1);
 		if (next != NULL && s_cmd->fd_out == STDOUT_FILENO)
@@ -42,27 +49,11 @@ static void	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 		cmd = check_cmd(*s_cmd->cmd, shell->env);
 		execve(cmd, s_cmd->cmd, convert_list_env(shell->env));
 	}
-	if (next)
-		dup2(fd[0], STDIN_FILENO);
-	close(fd[1]);
-	close(fd[0]);
+	return (dup_int_get_pid(fd, next, pid));
 }
 
-void	ft_pipe(t_minishell *shell, t_list *cmd)
+static void	return_status(t_minishell *shell, int pid, int stdin)
 {
-	int	stdin;
-
-	stdin = dup(STDIN_FILENO);
-	signal(SIGINT, signal_handler_in_execcmd);
-	if (((t_cmd *)(cmd->content))->fd_in)
-		dup2(((t_cmd *)(cmd->content))->fd_in, STDIN_FILENO);
-	while (cmd)
-	{
-		if (((t_cmd *)cmd->content)->fd_in == 1)
-			dup2(stdin, STDIN_FILENO);
-		exec_cmd(shell, cmd->content, cmd->next);
-		cmd = cmd->next;
-	}
 	if (pid)
 	{
 		waitpid(pid, &shell->exit_state, 0);
@@ -75,7 +66,25 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 		shell->exit_state = 0;
 	while (wait(NULL) > 0)
 		;
-	shell->exit_state = WEXITSTATUS(shell->exit_state);
+	close(0);
 	dup2(stdin, STDIN_FILENO);
 	close(stdin);
+}
+
+void	ft_pipe(t_minishell *shell, t_list *cmd)
+{
+	int	stdin;
+
+	stdin = dup(STDIN_FILENO);
+	signal(SIGINT, SIG_IGN);
+	if (((t_cmd *)(cmd->content))->fd_in)
+		dup2(((t_cmd *)(cmd->content))->fd_in, STDIN_FILENO);
+	while (cmd)
+	{
+		if (((t_cmd *)cmd->content)->fd_in == 1)
+			dup2(stdin, STDIN_FILENO);
+		exec_cmd(shell, cmd->content, cmd->next);
+		cmd = cmd->next;
+	}
+	return_status(shell, pid, stdin);
 }
