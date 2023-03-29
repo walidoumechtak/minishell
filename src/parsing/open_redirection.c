@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:14:13 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 10:16:03 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:44:12 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	init_open_redirection(t_minishell *ptr, t_open_redirection *o,
 {
 	if (!o)
 	{
-		ft_putstr_fd("Error: Failed to alloc memory\n", 2);
-		free(o);
+		ft_putstr_fd("Error: memory allocation\n", 2);
 		free_linked_lists(ptr, 1);
-		exit(404);
+		exit(1);
 	}
 	o->i = 0;
 	o->new_c = *new_cmd;
@@ -53,10 +52,10 @@ int	open_rederiction(t_minishell *ptr, t_list **old_node, t_cmd **new_cmd)
 			o->new = ft_lstnew(ptr->o_file);
 			if (!o->new)
 			{
-				ft_putstr_fd("Failed to alloc memory\n", 2);
+				ft_putstr_fd("Error: memory allocation\n", 2);
 				free(o);
 				free_linked_lists(ptr, 1);
-				exit(404);
+				exit(1);
 			}
 			ft_lstadd_back(&o->new_c->opened_files, o->new);
 		}

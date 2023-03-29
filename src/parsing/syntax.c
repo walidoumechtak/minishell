@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:30:46 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:19:23 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:19:40 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	check_pipe_2(char *str, int *i)
 			if (str[*i] == '|')
 				return (1);
 		}
-		(*i)++;
+		if (str[*i] != '\0')
+			(*i)++;
 	}
 	return (0);
 }

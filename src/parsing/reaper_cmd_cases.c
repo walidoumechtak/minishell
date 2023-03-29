@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:50:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 16:02:21 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:40:51 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	part_single(t_minishell *ptr, t_repare_cmd *rep)
 
 /**
  * part_dollar - we check if $ is followed by " or '
- * rep->i : this because i increment the loop i++; 
+ * rep->i-- : this because i increment the loop i++; 
  * so if we have $?walid for example i will point to
  *  w and i++ will point to a and then i lost 'w'
  * dont forget this : 
@@ -62,7 +62,7 @@ void	part_dollar(t_minishell *ptr, t_repare_cmd *rep)
 			|| (rep->iter[rep->i] >= '0' && rep->iter[rep->i] <= '9'))
 		&& rep->iter[rep->i] != '\0')
 		rep->i++;
-	if (rep->iter[rep->i] == '?') // $?
+	if (rep->iter[rep->i] == '?')
 		rep->i++;
 	if (rep->iter[rep->test] == '\'' || rep->iter[rep->test] == '\"')
 		rep->e = 0;
@@ -85,9 +85,6 @@ void	part_string(t_minishell *ptr, t_repare_cmd *rep)
 	while (rep->iter[rep->i] != '$' && rep->iter[rep->i] != '\"'
 		&& rep->iter[rep->i] != '\'' && rep->iter[rep->i])
 		rep->i++;
-	// if (rep->iter[rep->i] == '\0')
-	// 	rep->e = rep->i;
-	// else
 	rep->e = rep->i - rep->s;
 	rep->sub = ft_substr(rep->iter, rep->s, rep->e);
 	if (rep->iter[rep->i] != '\0')

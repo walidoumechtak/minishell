@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 10:40:06 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:04:44 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 	{
 		link1->fd_in = -1;
 		perror(link2->file);
-		//open_error(ptr, link2->file, ": No such file or directory\n", 1);
 		ptr->exit_state = 1;
 		return (7);
 	}

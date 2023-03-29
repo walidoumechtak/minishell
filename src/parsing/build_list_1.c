@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 09:32:09 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:22:56 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, '\t', ' ');
+	fill_with(str, ' ', '\t');
 	arr = ft_split(str, ' ');
 	while (arr[j++])
 	{
@@ -92,8 +92,8 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 void	failed_malloc(t_minishell *ptr)
 {
 	free_linked_lists(ptr, 0);
-	ft_putstr_fd("Faild to alloc memory!\n", 2);
-	exit(404);
+	ft_putstr_fd("Error: memory allocation\n", 2);
+	exit(1);
 }
 
 /**

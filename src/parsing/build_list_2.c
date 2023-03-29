@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:24:03 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:02:58 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 * hes **cmd and in_fd and out_fd
 */
 
+void	failed_alloc_listv2(t_minishell *ptr)
+{
+	free_linked_lists(ptr, 1);
+	ft_putendl_fd("Error: memory allocation", 2);
+	exit(1);
+}
+
 int	build_list_2(t_minishell *ptr)
 {
 	t_list	*temp;
@@ -66,21 +73,22 @@ int	build_list_2(t_minishell *ptr)
 	int		i;
 
 	i = 0;
-	ptr->signal_stop = 0;
 	temp = ptr->list_v1;
 	ptr->list_cmd = NULL;
 	while (temp)
 	{
 		ptr->cmd = malloc(sizeof(t_cmd));
+		if (!ptr->cmd)
+			failed_alloc_listv2(ptr);
 		ptr->cmd->fd_in = 0;
 		ptr->cmd->fd_out = 1;
 		state = open_rederiction(ptr, &temp, &ptr->cmd);
 		if (state != 0)
-			return (free(ptr->cmd), state);
+			return (state);
 		ptr->cmd->cmd = ((t_cmd_v1 *)temp->content)->cmd;
 		new = ft_lstnew(ptr->cmd);
 		if (!new)
-			return (-1);
+			failed_alloc_listv2(ptr);
 		ft_lstadd_back(&ptr->list_cmd, new);
 		temp = temp->next;
 	}

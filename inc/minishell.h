@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 15:52:50 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:32:55 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
 int				open_rederiction(t_minishell *ptr, t_list **old_node,
 					t_cmd **new_cmd);
 void			open_file(t_minishell *ptr, char **arr, int mode, int i);
-void			add_space_redirection(char **str);
+int	add_space_redirection(char **str);
 int				all_cases(t_minishell *ptr, t_open_redirection *o);
 void			expaind_it(t_minishell *ptr, char **str);
 

@@ -6,18 +6,21 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:15:59 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 16:03:32 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:32:00 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_rep(t_repare_cmd *rep, char **str)
+int	init_rep(t_repare_cmd *rep, char **str)
 {
 	rep->iter = *str;
+	if (!rep->iter)
+		return (1);
 	rep->result = NULL;
 	rep->sub = NULL;
 	rep->i = 0;
+	return (0);
 }
 
 void	end_of_while(t_repare_cmd *rep)
@@ -35,13 +38,21 @@ void	end_of_reaper(t_repare_cmd *rep, char **str)
 	free(rep);
 }
 
+void	failed_alloc_reaper(t_minishell *ptr)
+{
+	free_linked_lists(ptr, 0);
+	ft_putendl_fd("Error: memory allocation", 2);
+	exit(1);
+}
+
 void	reaper_cmd(t_minishell *ptr, char **str)
 {
 	t_repare_cmd	*rep;
 
 	rep = malloc(sizeof(t_repare_cmd));
-	init_rep(rep, str);
-	if (!rep->iter)
+	if (!rep)
+		failed_alloc_reaper(ptr);
+	if (init_rep(rep, str) == 1)
 		return ;
 	while (rep->iter[rep->i])
 	{

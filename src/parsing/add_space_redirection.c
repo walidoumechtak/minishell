@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 11:20:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/27 11:22:32 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:09:26 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	body_loop(int *j, int *i, char *iter, char *temp)
 	}
 }
 
-void	add_space_redirection(char **str)
+int	add_space_redirection(char **str)
 {
 	char	*temp;
 	char	*iter;
@@ -77,11 +77,12 @@ void	add_space_redirection(char **str)
 	i = 0;
 	j = -1;
 	if (!str || !*str)
-		return ;
+		return (0);
 	size = (is_there_append(*str) + is_there_heredoc(*str)
-			+ is_there_in_redirection(*str) + is_there_out_redirection(*str))
-		* 2 + 2;
+			+ is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2;
 	temp = malloc((ft_strlen(*str) + size + 1) * sizeof(char));
+	if (!temp)
+		return (-1);
 	iter = *str;
 	while (iter[i])
 	{
@@ -91,4 +92,5 @@ void	add_space_redirection(char **str)
 	temp[++j] = '\0';
 	free(*str);
 	*str = temp;
+	return (0);
 }

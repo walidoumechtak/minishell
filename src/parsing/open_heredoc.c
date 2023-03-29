@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:24 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:36:26 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:52:03 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,27 @@ void	child_heredoc(t_minishell *ptr, char **arr, char *file, int *data)
 {
 	int		fd_file;
 	char	*str;
+	char	*temp;
 
 	signal(SIGINT, signal_heredoc);
 	fd_file = open(file, O_RDWR | O_CREAT, 0777);
 	str = get_next_line(0);
+	temp = ft_strtrim(str, "\n");
+	free(str);
+	str = temp;
 	while (str != NULL)
 	{
-		if (ft_strncmp(str, arr[data[0] + 1], ft_strlen(str) - 1) == 0
-			&& ft_strlen(str) > 1)
+		if (ft_strncmp(str, arr[data[0] + 1], ft_strlen(str)
+				+ ft_strlen(arr[data[0] + 1])) == 0 && str[0] != '\0')
 			break ;
 		if (data[1] == 0)
 			expaind_heredoc(ptr, &str);
 		ft_putstr_fd(str, fd_file);
 		free(str);
 		str = get_next_line(0);
+		temp = ft_strtrim(str, "\n");
+		free(str);
+		str = temp;
 	}
 	exit(0);
 }
@@ -104,7 +111,7 @@ int	open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp)
 	file_heredoc(rand, &file);
 	pid = fork();
 	if (pid < 0)
-		return (-2);
+		return (perror("fork"), 202);
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		child_heredoc(ptr, arr, file, data);

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 09:57:34 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:35:00 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int ac, char **av, char **env)
     ptr = malloc(sizeof(t_minishell));
     if (!ptr)
     {
-        ft_putstr_fd("Failed to alloc memory\n", 2);
+        ft_putstr_fd("Error: memory allocation\n", 2);
         exit (404);
     }
     g_free_flag = 0;
