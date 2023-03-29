@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:39:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 15:04:52 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:42:01 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ typedef struct s_coted_expaind
 	int		s;
 	int		e;
 }			t_coted_expaind;
-
-// return the value with out any split.
 
 void	init_c_e(t_coted_expaind *c_e, char **str)
 {
@@ -44,7 +42,6 @@ void	double_dollar_c(t_coted_expaind *c_e)
 	c_e->i--;
 	c_e->e = c_e->i - c_e->s;
 	c_e->sub = ft_substr(c_e->temp, c_e->s, c_e->e);
-	printf("gouble $ is %s\n", c_e->sub);
 	c_e->temp_join = ft_strjoin(c_e->res, c_e->sub);
 	free(c_e->sub);
 	free(c_e->res);

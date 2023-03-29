@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:34:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 09:55:34 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:50:26 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	signal_handler1(int sig)
 
 void	end_of_program(t_minishell *ptr)
 {
-	//close_fd(ptr);
+	close_fd(ptr);
 	remove_heredoc_files(ptr);
 	free(ptr->str);
 	free_spilte(ptr->splited_pipe);

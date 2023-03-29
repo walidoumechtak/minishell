@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 11:20:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 12:09:26 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:48:17 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	add_space_redirection(char **str)
 	if (!str || !*str)
 		return (0);
 	size = (is_there_append(*str) + is_there_heredoc(*str)
-			+ is_there_in_redirection(*str) + is_there_out_redirection(*str)) * 2;
+			+ is_there_in_red(*str) + is_there_out_red(*str)) * 2;
 	temp = malloc((ft_strlen(*str) + size + 1) * sizeof(char));
 	if (!temp)
 		return (-1);

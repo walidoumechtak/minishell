@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:52:08 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/26 08:59:09 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:48:48 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	free_and_shift(char **arr, int i)
 {
-	int j;
-	int temp;
-	int sim_i;
+	int	j;
+	int	temp;
+	int	sim_i;
 
 	temp = 0;
 	while (arr[temp])

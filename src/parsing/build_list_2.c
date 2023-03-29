@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:02:58 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:46:52 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ int	build_list_2(t_minishell *ptr)
 	t_list	*temp;
 	t_list	*new;
 	int		state;
-	int		i;
 
-	i = 0;
 	temp = ptr->list_v1;
 	ptr->list_cmd = NULL;
 	while (temp)

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 11:32:55 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:47:51 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
 int				open_rederiction(t_minishell *ptr, t_list **old_node,
 					t_cmd **new_cmd);
 void			open_file(t_minishell *ptr, char **arr, int mode, int i);
-int	add_space_redirection(char **str);
+int				add_space_redirection(char **str);
 int				all_cases(t_minishell *ptr, t_open_redirection *o);
 void			expaind_it(t_minishell *ptr, char **str);
 
@@ -157,8 +157,8 @@ int				build_list_1(t_minishell *ptr);
 int				build_list_2(t_minishell *ptr);
 int				fill_fd(t_minishell *ptr);
 
-int				is_there_in_redirection(char *str);
-int				is_there_out_redirection(char *str);
+int				is_there_in_red(char *str);
+int				is_there_out_red(char *str);
 int				is_there_heredoc(char *str);
 int				is_there_append(char *str);
 t_list			*build_env_list(char **env);
