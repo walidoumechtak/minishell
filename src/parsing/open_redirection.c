@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:14:13 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:52:42 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 10:16:03 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_open_redirection(t_minishell *ptr, t_open_redirection *o,
 {
 	if (!o)
 	{
-		ft_putstr_fd("Failed to alloc memory", 2);
+		ft_putstr_fd("Error: Failed to alloc memory\n", 2);
 		free(o);
 		free_linked_lists(ptr, 1);
 		exit(404);

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 16:04:38 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:57:34 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,14 @@ int main(int ac, char **av, char **env)
     {
         signal(SIGINT, signal_handler1);
         ptr->str = readline(RED"Minishell"NONE GREEN"-$ "NONE);
-        
-        if (ptr->str == NULL || ptr->str[0] == '\0' || ptr->str[0] == '\n')
+        if (ptr->str == NULL || ptr->str[0] == '\0')
         {
             if (ptr->str == NULL)
                 break ;
             free(ptr->str);
             continue ;
         }
-        add_history(ptr->str); // ==> add to cammand history
+        add_history(ptr->str);
         if (g_free_flag == 1)
         {
             g_free_flag = 0;
