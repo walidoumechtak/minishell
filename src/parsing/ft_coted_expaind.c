@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 14:39:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:42:01 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/29 22:14:13 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	normal_dollar_case(t_minishell *ptr, t_coted_expaind *c_e)
 	while (c_e->temp[c_e->i] && ((c_e->temp[c_e->i] >= 'a'
 				&& c_e->temp[c_e->i] <= 'z') || (c_e->temp[c_e->i] >= 'A'
 				&& c_e->temp[c_e->i] <= 'Z') || (c_e->temp[c_e->i] >= '0'
-				&& c_e->temp[c_e->i] <= '9')))
+				&& c_e->temp[c_e->i] <= '9') || c_e->temp[c_e->i] == '_'))
 	{
 		c_e->i++;
 	}

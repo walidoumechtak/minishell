@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:50:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 14:40:51 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 06:24:16 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	part_dollar(t_minishell *ptr, t_repare_cmd *rep)
 	rep->i++;
 	while (((rep->iter[rep->i] >= 'a' && rep->iter[rep->i] <= 'z')
 			|| (rep->iter[rep->i] >= 'A' && rep->iter[rep->i] <= 'Z')
-			|| (rep->iter[rep->i] >= '0' && rep->iter[rep->i] <= '9'))
-		&& rep->iter[rep->i] != '\0')
+			|| (rep->iter[rep->i] >= '0' && rep->iter[rep->i] <= '9')
+			|| rep->iter[rep->i] == '_') && rep->iter[rep->i] != '\0')
 		rep->i++;
 	if (rep->iter[rep->i] == '?')
 		rep->i++;

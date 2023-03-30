@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 12:22:56 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:13:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, ' ', '\t');
+	fill_with(str, '\t', ' ');
 	arr = ft_split(str, ' ');
 	while (arr[j++])
 	{
