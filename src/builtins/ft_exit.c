@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 08:28:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/25 15:49:40 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:10:05 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exit(char **args)
 		exit(0);
 	while ((*args)[i])
 	{
-		if (ft_isalpha((*args)[i]))
+		if (ft_isalpha((*args)[i]) || ft_isdigit((*args)[i + 1]))
 		{
 			ft_putstr_fd("exit\nminishell: exit: ", 2);
 			ft_putstr_fd(*args, 2);
