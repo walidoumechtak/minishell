@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 11:20:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:48:17 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:05:18 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,26 @@ static void	fill_inside_double_q(int *j, int *i, char *iter, char *temp)
 	temp[++(*j)] = iter[(*i)];
 }
 
+/**
+ * (*i)i-- : because there is i++ in the parent code
+ * // while (iter[*i] == '>' || iter[*i] == '<')
+ * // {
+ * // }
+*/
+
 static void	add_space(int *j, int *i, char *iter, char *temp)
 {
-	while (iter[*i] == '>' || iter[*i] == '<')
+	if (iter[*i] == '>')
 	{
-		if (iter[*i] == '>')
-		{
-			temp[++(*j)] = ' ';
-			while (iter[*i] == '>')
-				temp[++(*j)] = iter[(*i)++];
-		}
-		if (iter[*i] == '<')
-		{
-			temp[++(*j)] = ' ';
-			while (iter[*i] == '<')
-				temp[++(*j)] = iter[(*i)++];
-		}
+		temp[++(*j)] = ' ';
+		while (iter[*i] == '>')
+			temp[++(*j)] = iter[(*i)++];
+	}
+	if (iter[*i] == '<')
+	{
+		temp[++(*j)] = ' ';
+		while (iter[*i] == '<')
+			temp[++(*j)] = iter[(*i)++];
 	}
 	(*i)--;
 	temp[++(*j)] = ' ';

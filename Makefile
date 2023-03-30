@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/30 11:17:46 by woumecht         ###   ########.fr        #
+#    Updated: 2023/03/30 13:36:46 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= minishell
 LIBREADLINE		= -L /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib -lreadline
 INCREADLINE		= -I /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
-CFLAGS			= -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror $(HEADER) #-fsanitize=address
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
@@ -37,10 +37,6 @@ SRC = $(addprefix ./src/parsing/, $(SRCP)) \
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
-
-%.o:%.c
-	@$(CC) $(CFLAGS) $(HEADER) $(INCB) -c $^ -o $@
-	@echo "compiling ..."
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
