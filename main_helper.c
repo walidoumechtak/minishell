@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:34:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:50:26 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:17:27 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	all_errors_parsing(t_minishell *ptr, int state)
 	}
 	else if (state == 7 || state == 8 || state == 126)
 	{
+		if (state == 7 || state == 8)
+			ptr->exit_state = 1;
 		free_linked_lists(ptr, 1);
 	}
 }

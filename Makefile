@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/03/29 13:13:14 by hbenfadd         ###   ########.fr        #
+#    Updated: 2023/03/30 11:17:46 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= minishell
-LIBREADLINE		= -L /goinfre/hbenfadd/homebrew/Cellar/readline/8.2.1/lib -lreadline
-INCREADLINE		= -I /goinfre/hbenfadd/homebrew/Cellar/readline/8.2.1/include
+LIBREADLINE		= -L /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib -lreadline
+INCREADLINE		= -I /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
 CFLAGS			= -Wall -Wextra -Werror #-fsanitize=address
 LIBFT			= ./libft/libft.a
@@ -44,7 +44,6 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
-	#$(CC) $(CFLAGS) $(HEADER)  $(OBJ) $(CLIB) -o $(NAME) 
 
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"

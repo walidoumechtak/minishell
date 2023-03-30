@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:46:52 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:06:14 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	build_list_2(t_minishell *ptr)
 		ptr->cmd->fd_out = 1;
 		state = open_rederiction(ptr, &temp, &ptr->cmd);
 		if (state != 0)
-			return (state);
+			return (free(ptr->cmd), state);
 		ptr->cmd->cmd = ((t_cmd_v1 *)temp->content)->cmd;
 		new = ft_lstnew(ptr->cmd);
 		if (!new)

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 16:04:44 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:16:16 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 	return (0);
 }
 
-int	other_mode(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
+int	other_mode(t_cmd *link1, t_open_file *link2)
 {
 	int	fd_out;
 
@@ -46,7 +46,7 @@ int	other_mode(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 		if (fd_out < 0)
 		{
 			link1->fd_out = -1;
-			open_error(ptr, link2->file, ": Permission denied\n", 1);
+			perror(link2->file);
 			return (8);
 		}
 		else
@@ -78,7 +78,7 @@ int	fill_fd(t_minishell *ptr)
 			link2 = ((t_open_file *)temp2->content);
 			if (link2->mode == 1 && mode1(ptr, link1, link2) == 7)
 				state = 7;
-			else if (other_mode(ptr, link1, link2) == 8)
+			else if (other_mode(link1, link2) == 8)
 				state = 8;
 			temp2 = temp2->next;
 		}
