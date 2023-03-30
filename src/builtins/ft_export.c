@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/30 10:59:39 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:29:53 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,49 @@ static void	ft_putenv(t_list *env)
 	}
 }
 
+static int	check_varaible(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i])
+	{
+		if (var[0] == '-')
+		{
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd("usage: export [with no options]", 2);
+			ft_putstr_fd("[name[=value] ...] or export\n", 2);
+			return (2);
+		}
+		if (ft_isdigit(var[i]) || (var[i] != '_' && !ft_isalpha(var[i])))
+		{
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(var, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	ft_export(t_minishell *shell, char **args)
 {
 	char	**temp;
+	int		r;
 
+	r = 0;
 	temp = (char **)malloc(sizeof(char *) * 2);
 	temp[1] = NULL;
 	if (!args || !*args)
 		ft_putenv(shell->env);
 	while (args && *args)
 	{
-		if (ft_isdigit(**args) || !ft_isalpha(**args))
-		{
-			ft_putstr_fd("minishell: export: '", 2);
-			ft_putstr_fd(*args, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
-		else
-		{
-			temp[0] = *args;
-			add_to_env(shell, temp);
-		}
+		r = check_varaible(*args);
+		if (r)
+			return (free(temp), r);
+		temp[0] = *args;
+		add_to_env(shell, temp);
 		args++;
 	}
 	free(temp);
