@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamza <hamza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/22 12:09:23 by hamza            ###   ########.fr       */
+/*   Updated: 2023/03/30 10:59:39 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_putenv(t_list *env)
 		printf("declare -x ");
 		printf("%s", ((t_env *)env->content)->env_var);
 		if (((t_env *)env->content)->env_value)
-			printf("=%s", ((t_env *)env->content)->env_value);
+			printf("=\"%s\"", ((t_env *)env->content)->env_value);
 		printf("\n");
 		env = env->next;
 	}
