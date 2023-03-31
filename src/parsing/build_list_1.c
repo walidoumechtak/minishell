@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 11:13:50 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:11:58 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	build_list_1(t_minishell *ptr)
 		ptr->splited_space = ft_split(ptr->splited_pipe[i], ' ');
 		alloc_flag_redrection(node_v1, ptr->splited_pipe[i]);
 		build_if_expaind_heredoc(node_v1, ptr->splited_pipe[i], 0);
+		ptr->max_here += node_v1->cpt_exp_here;
 		build_flag_red_and_reaper(ptr, node_v1, ptr->splited_space);
 		node_v1->cmd = ptr->splited_space;
 		new = ft_lstnew(node_v1);

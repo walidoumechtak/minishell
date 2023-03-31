@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 13:35:05 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:36:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ typedef struct s_minishell
 	int			here_flag;
 	int			exit_state;
 	int			out_access;
-	int			signal_stop;
+	int			max_here;
+	
 }				t_minishell;
 
 typedef struct s_open_redirection

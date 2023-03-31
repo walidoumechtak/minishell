@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:24 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 15:52:03 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:14:08 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,21 @@ void	child_heredoc(t_minishell *ptr, char **arr, char *file, int *data)
 
 	signal(SIGINT, signal_heredoc);
 	fd_file = open(file, O_RDWR | O_CREAT, 0777);
+	ft_putstr_fd(">> ", 1);
 	str = get_next_line(0);
 	temp = ft_strtrim(str, "\n");
-	free(str);
-	str = temp;
 	while (str != NULL)
 	{
-		if (ft_strncmp(str, arr[data[0] + 1], ft_strlen(str)
-				+ ft_strlen(arr[data[0] + 1])) == 0 && str[0] != '\0')
+		if (ft_strncmp(temp, arr[data[0] + 1], ft_strlen(temp)
+				+ ft_strlen(arr[data[0] + 1])) == 0 || str[0] == '\0')
 			break ;
 		if (data[1] == 0)
 			expaind_heredoc(ptr, &str);
 		ft_putstr_fd(str, fd_file);
 		free(str);
+		ft_putstr_fd(">> ", 1);
 		str = get_next_line(0);
 		temp = ft_strtrim(str, "\n");
-		free(str);
-		str = temp;
 	}
 	exit(0);
 }
@@ -83,7 +81,6 @@ int	wait_and_fill_fd(t_minishell *ptr, char *file)
 	wait(&e_s);
 	if (WEXITSTATUS(e_s) == 9)
 	{
-		ptr->signal_stop = -9;
 		ptr->exit_state = 1;
 		return (9);
 	}
