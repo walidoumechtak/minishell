@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:56:21 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:24 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 {
 	if (mode == 1)
 	{
-		if (check_ambiguous(arr[i + 1]) != 0 || (arr[i + 1][0] == '\t' && arr[i
+		if (check_ambiguous(arr[i + 1]) != 0 || (arr[i + 1][0] == '\b' && arr[i
 				+ 1][1] == '\0'))
 			ptr->o_file->fd = -2;
 		else if (ft_strncmp(arr[i + 1], "/dev/stdin", ft_strlen(arr[i + 1])

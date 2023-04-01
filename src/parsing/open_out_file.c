@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:42:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:56:12 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:53 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	mode2(t_open_file *link2, int *fd)
 {
-	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\t'
+	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\b'
 			&& link2->file[1] == '\0'))
 		*fd = -2;
 	else if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)
@@ -32,7 +32,7 @@ static void	mode2(t_open_file *link2, int *fd)
 
 static void	mode3(t_open_file *link2, int *fd)
 {
-	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\t'
+	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\b'
 			&& link2->file[1] == '\0'))
 		*fd = -2;
 	else if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)

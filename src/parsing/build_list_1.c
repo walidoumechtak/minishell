@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/31 15:11:58 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:15 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	build_flag_red_and_reaper(t_minishell *ptr, t_cmd_v1 *node_v1,
 	k = 0;
 	while (splited_space[j])
 	{
-		fill_with(splited_space[j], '\t', ' ');
+		fill_with(splited_space[j], '\b', ' ');
 		if ((ft_strchr(splited_space[j], '<') || ft_strchr(splited_space[j],
 					'>')) && (!(ft_strchr(splited_space[j], '\"'))
 				&& !(ft_strchr(splited_space[j], '\''))))
@@ -47,7 +47,7 @@ void	alloc_flag_redrection(t_cmd_v1 *node_v1, char *str)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, '\t', ' ');
+	fill_with(str, '\b', ' ');
 	arr = ft_split(str, ' ');
 	while (arr[j])
 	{
@@ -68,7 +68,7 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, '\t', ' ');
+	fill_with(str, '\b', ' ');
 	arr = ft_split(str, ' ');
 	while (arr[j++])
 	{

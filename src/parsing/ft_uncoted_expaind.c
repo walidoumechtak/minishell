@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 13:44:07 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:39 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	body_u_e(t_uncoted_expaind *u_e, char **str)
 	}
 	free(*str);
 	free_spilte(u_e->split_var);
-	fill_with2(&u_e->res, ' ', '\t');
+	fill_with2(&u_e->res, ' ', '\b');
 	*str = u_e->res;
 }
 
@@ -81,6 +81,6 @@ int	ft_uncoted_exapaind(t_minishell *ptr, char **str)
 	free(*str);
 	free_spilte(u_e->split_var);
 	*str = ft_calloc(2, 1);
-	*str[0] = '\t';
+	*str[0] = '\b';
 	return (free(u_e), 0);
 }
