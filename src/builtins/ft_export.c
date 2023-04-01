@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/01 16:04:28 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/01 17:10:51 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_varaible(char *var)
 	int	i;
 
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while ((var[i] && var[i] != '=') || var[0] == '=')
 	{
 		if (var[0] == '-')
 		{
