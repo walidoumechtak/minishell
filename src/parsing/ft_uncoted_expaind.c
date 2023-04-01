@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 14:36:18 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 11:06:23 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	body_u_e(t_uncoted_expaind *u_e, char **str)
 	}
 	free(*str);
 	free_spilte(u_e->split_var);
+	fill_with2(&u_e->res, ' ', '\t');
 	*str = u_e->res;
 }
 
