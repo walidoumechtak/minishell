@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 11:06:23 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 13:44:07 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	ft_uncoted_exapaind(t_minishell *ptr, char **str)
 	}
 	free(*str);
 	free_spilte(u_e->split_var);
-	*str = ft_calloc(1, 1);
+	*str = ft_calloc(2, 1);
+	*str[0] = '\t';
 	return (free(u_e), 0);
 }
