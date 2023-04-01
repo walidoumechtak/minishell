@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 10:30:41 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 11:53:53 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:45 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	handle_quotes(t_minishell *ptr)
 	i = 0;
 	while (ptr->splited_pipe[i])
 	{
-		fill_with(ptr->splited_pipe[i], '\t', '|');
-		fill_with(ptr->splited_pipe[i], ' ', '\t');
+		fill_with(ptr->splited_pipe[i], '\b', '|');
+		fill_with(ptr->splited_pipe[i], ' ', '\b');
 		if (number_between_red(ptr->splited_pipe[i]) == 1)
 			return (1);
 		if (add_space_redirection(&ptr->splited_pipe[i]) == -1)

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_struct.c                                      :+:      :+:    :+:   */
+/*   fill_with2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 13:46:19 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:57:00 by woumecht         ###   ########.fr       */
+/*   Created: 2023/04/01 10:03:19 by woumecht          #+#    #+#             */
+/*   Updated: 2023/04/01 12:06:05 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_struct(t_minishell *ptr)
+void	fill_with2(char **str, char old, char c)
 {
-	fill_with(ptr->str, '|', '\b');
-	ptr->splited_pipe = ft_split(ptr->str, '|');
-	ptr->out_access = 0;
-	ptr->max_here = 0;
-	ptr->o_file = NULL;
+	char	*iter;
+	int		i;
+
+	iter = *str;
+	i = 0;
+	if (!str || !*str)
+		return ;
+	while (iter[i])
+	{
+		if (iter[i] == old)
+		{
+			iter[i] = c;
+		}
+		i++;
+	}
 }

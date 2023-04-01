@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 11:06:14 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:24 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 {
 	if (mode == 1)
 	{
-		if (ft_strncmp(arr[i + 1], "/dev/stdin", ft_strlen(arr[i + 1])) == 0)
+		if (check_ambiguous(arr[i + 1]) != 0 || (arr[i + 1][0] == '\b' && arr[i
+				+ 1][1] == '\0'))
+			ptr->o_file->fd = -2;
+		else if (ft_strncmp(arr[i + 1], "/dev/stdin", ft_strlen(arr[i + 1])
+				+ ft_strlen("/dev/stdin")) == 0)
 			ptr->o_file->fd = 0;
-		else if (ft_strncmp(arr[i + 1], "/dev/stdout", ft_strlen(arr[i
-						+ 1])) == 0)
+		else if (ft_strncmp(arr[i + 1], "/dev/stdout", ft_strlen(arr[i + 1])
+				+ ft_strlen("/dev/stdout")) == 0)
 			ptr->o_file->fd = 1;
-		else if (ft_strncmp(arr[i + 1], "/dev/stderr", ft_strlen(arr[i
-						+ 1])) == 0)
+		else if (ft_strncmp(arr[i + 1], "/dev/stderr", ft_strlen(arr[i + 1])
+				+ ft_strlen("/dev/stderr")) == 0)
 			ptr->o_file->fd = 2;
 		else
 			ptr->o_file->fd = open(arr[i + 1], O_RDONLY);

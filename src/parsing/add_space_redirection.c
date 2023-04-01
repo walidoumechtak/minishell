@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 11:20:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 12:05:18 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:59:36 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	add_space(int *j, int *i, char *iter, char *temp)
 		while (iter[*i] == '<')
 			temp[++(*j)] = iter[(*i)++];
 	}
-	(*i)--;
 	temp[++(*j)] = ' ';
+	(*i)--;
 }
 
 static void	body_loop(int *j, int *i, char *iter, char *temp)

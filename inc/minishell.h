@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 13:35:05 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 11:47:06 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ typedef struct s_minishell
 	int			here_flag;
 	int			exit_state;
 	int			out_access;
-	int			signal_stop;
+	int			max_here;
+
 }				t_minishell;
 
 typedef struct s_open_redirection
@@ -142,6 +143,7 @@ int				ft_coted_exapaind(t_minishell *ptr, char **str);
 void			expaind_exit_state(t_minishell *ptr, char **str);
 void			expaind_heredoc(t_minishell *ptr, char **str);
 void			fill_with(char *str, char old, char c);
+void			fill_with2(char **str, char old, char c);
 int				open_out_file(t_open_file *link2);
 void			reaper_cmd(t_minishell *ptr, char **str);
 int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);
@@ -151,6 +153,7 @@ void			open_file(t_minishell *ptr, char **arr, int mode, int i);
 int				add_space_redirection(char **str);
 int				all_cases(t_minishell *ptr, t_open_redirection *o);
 void			expaind_it(t_minishell *ptr, char **str);
+int				check_ambiguous(char *str);
 
 int				build_linked_list(t_minishell *ptr);
 int				build_list_1(t_minishell *ptr);

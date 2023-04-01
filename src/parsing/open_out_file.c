@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:42:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 11:49:29 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:57:53 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 static void	mode2(t_open_file *link2, int *fd)
 {
-	if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0)
+	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\b'
+			&& link2->file[1] == '\0'))
+		*fd = -2;
+	else if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stdin")) == 0)
 		*fd = 0;
-	else if (ft_strncmp(link2->file, "/dev/stdout",
-			ft_strlen(link2->file)) == 0)
+	else if (ft_strncmp(link2->file, "/dev/stdout", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stdout")) == 0)
 		*fd = 1;
-	else if (ft_strncmp(link2->file, "/dev/stderr",
-			ft_strlen(link2->file)) == 0)
+	else if (ft_strncmp(link2->file, "/dev/stderr", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stderr")) == 0)
 		*fd = 2;
 	else
 		*fd = open(link2->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -28,13 +32,17 @@ static void	mode2(t_open_file *link2, int *fd)
 
 static void	mode3(t_open_file *link2, int *fd)
 {
-	if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)) == 0)
+	if (check_ambiguous(link2->file) != 0 || (link2->file[0] == '\b'
+			&& link2->file[1] == '\0'))
+		*fd = -2;
+	else if (ft_strncmp(link2->file, "/dev/stdin", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stdin")) == 0)
 		*fd = 0;
-	else if (ft_strncmp(link2->file, "/dev/stdout",
-			ft_strlen(link2->file)) == 0)
+	else if (ft_strncmp(link2->file, "/dev/stdout", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stdout")) == 0)
 		*fd = 1;
-	else if (ft_strncmp(link2->file, "/dev/stderr",
-			ft_strlen(link2->file)) == 0)
+	else if (ft_strncmp(link2->file, "/dev/stderr", ft_strlen(link2->file)
+			+ ft_strlen("/dev/stderr")) == 0)
 		*fd = 2;
 	else
 		*fd = open(link2->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
