@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:07:22 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/01 16:51:38 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:58:09 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,11 @@ void	add_to_env(t_minishell *shell, char **arg)
 	else
 	{
 		tmp = ft_strnstr(*arg, "=", len);
-		if (!tmp)
-			return ;
 		env[0] = ft_substr(*arg, 0, len - ft_strlen(tmp));
-		env[1] = ft_strdup(++tmp);
+		if (tmp)
+			env[1] = ft_strdup(++tmp);
+		else
+			env[1] = NULL;
 		if (is_var_found(shell, env[0], env[1]) == 0)
 			add_back_to_env(shell, env[0], env[1]);
 	}
