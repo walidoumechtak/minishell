@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:07:22 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/01 16:00:31 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:51:38 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,27 +79,26 @@ static void	add_back_to_env(t_minishell *shell, char *var, char *value)
 void	add_to_env(t_minishell *shell, char **arg)
 {
 	char	*tmp;
-	char	*value;
-	char	*var;
+	char	*(env[2]);
 	size_t	len;
 
 	len = ft_strlen(*arg);
-	value = NULL;
-	var = NULL;
 	tmp = ft_strnstr(*arg, "+=", len);
 	if (tmp)
 	{
-		var = ft_substr(*arg, 0, len - ft_strlen(tmp));
-		value = ft_strdup(tmp + 2);
-		if (appent_env_value(shell, var, value))
-			add_back_to_env(shell, var, value);
+		env[0] = ft_substr(*arg, 0, len - ft_strlen(tmp));
+		env[1] = ft_strdup(tmp + 2);
+		if (appent_env_value(shell, env[0], env[1]))
+			add_back_to_env(shell, env[0], env[1]);
 	}
 	else
 	{
 		tmp = ft_strnstr(*arg, "=", len);
-		var = ft_substr(*arg, 0, len - ft_strlen(tmp));
-		value = ft_strdup(++tmp);
-		if (is_var_found(shell, var, value) == 0)
-			add_back_to_env(shell, var, value);
+		if (!tmp)
+			return ;
+		env[0] = ft_substr(*arg, 0, len - ft_strlen(tmp));
+		env[1] = ft_strdup(++tmp);
+		if (is_var_found(shell, env[0], env[1]) == 0)
+			add_back_to_env(shell, env[0], env[1]);
 	}
 }
