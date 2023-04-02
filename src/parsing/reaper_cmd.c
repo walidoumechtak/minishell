@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:15:59 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 12:32:00 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:50:04 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,19 @@ int	init_rep(t_repare_cmd *rep, char **str)
 	return (0);
 }
 
+/**
+ * if (rep->result != NULL && rep->result[0] != '\0' 
+ *		&& rep->sub[0] == '\b' && rep->sub[1] == '\0')
+ *	in case of : $USER$adf--- if we don't do the cond : woumecht ---
+*/
+
 void	end_of_while(t_repare_cmd *rep)
 {
+	if (rep->result != NULL && rep->result[0] != '\0' && rep->sub[0] == '\b'
+		&& rep->sub[1] == '\0')
+	{
+		rep->sub[0] = '\0';
+	}
 	rep->temp = ft_strjoin(rep->result, rep->sub);
 	free(rep->sub);
 	free(rep->result);

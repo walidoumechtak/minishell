@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/04/02 10:36:55 by woumecht         ###   ########.fr        #
+#    Updated: 2023/04/02 11:42:07 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
+# $(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
+	$(CC) $(CFLAGS) $(HEADER)  $(OBJ) $(CLIB)  -o $(NAME) -lreadline
 
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"
