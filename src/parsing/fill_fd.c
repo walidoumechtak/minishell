@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 06:32:20 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:16:40 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 		link1->fd_in = -1;
 		ft_putendl_fd("ambiguous redirect", 2);
 		ptr->exit_state = 1;
+		return (7);
 	}
 	else if (link2->fd == -1)
 	{
@@ -36,26 +37,31 @@ int	mode1(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 	return (0);
 }
 
-void	mode_here(t_cmd *link1, t_open_file *link2)
+int	mode_here(t_minishell *ptr, t_cmd *link1, t_open_file *link2, int state)
 {
 	if (link2->mode == 4)
 	{
 		if (link1->fd_in > 2)
 			close(link1->fd_in);
+		if (link2->fd < 0)
+		{
+			link1->fd_in = -1;
+			perror(link2->file);
+			ptr->exit_state = 1;
+			return (7);
+		}
 		link1->fd_in = link2->fd;
 	}
+	return (state);
 }
 
 int	other_mode(t_cmd *link1, t_open_file *link2)
 {
-	int	fd_out;
-
 	if ((link2->mode == 2 || link2->mode == 3))
 	{
-		fd_out = open_out_file(link2);
-		if (fd_out < 0)
+		if (link2->fd < 0)
 		{
-			if (fd_out == -2)
+			if (link2->fd == -2)
 				ft_putendl_fd("ambiguous redirect", 2);
 			else
 				perror(link2->file);
@@ -66,7 +72,7 @@ int	other_mode(t_cmd *link1, t_open_file *link2)
 		{
 			if (link1->fd_out > 2)
 				close(link1->fd_out);
-			link1->fd_out = fd_out;
+			link1->fd_out = link2->fd;
 		}
 	}
 	return (0);
@@ -93,7 +99,7 @@ int	fill_fd(t_minishell *ptr)
 				state = 7;
 			else if (other_mode(link1, link2) == 8)
 				state = 8;
-			mode_here(link1, link2);
+			state = mode_here(ptr, link1, link2, state);
 			temp2 = temp2->next;
 		}
 		temp = temp->next;

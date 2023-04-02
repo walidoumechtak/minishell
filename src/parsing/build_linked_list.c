@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:05:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 06:32:52 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:33:43 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	build_linked_list(t_minishell *ptr)
 		return (state);
 	if (ptr->max_here > 16)
 	{
-		ft_putstr_fd("maximum here-document count exceeded", 2);
+		ft_putstr_fd("maximum here-document count exceeded\n", 2);
 		free_linked_lists(ptr, 0);
 		exit(2);
 	}
