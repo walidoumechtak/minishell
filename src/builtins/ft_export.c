@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/01 17:10:51 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:49:23 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ static int	check_varaible(char *var)
 
 int	ft_export(t_minishell *shell, char **args)
 {
-	char	**temp;
+	char	*(temp[2]);
 	int		r;
 
 	r = 0;
-	temp = (char **)malloc(sizeof(char *) * 2);
 	temp[1] = NULL;
 	if (!args || !*args)
 		ft_putenv(shell->env);

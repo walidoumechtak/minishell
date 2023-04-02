@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:51:17 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/29 12:24:52 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:55:00 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	ft_exec(t_minishell *shell)
 
 	if (ft_lstsize(shell->list_cmd) == 1)
 	{
+		if (((t_cmd *)shell->list_cmd->content)->fd_in == -1
+			|| ((t_cmd *)shell->list_cmd->content)->fd_in == -1)
+			return ;
 		std[0] = dup(STDIN_FILENO);
 		std[1] = dup(STDOUT_FILENO);
 		if (((t_cmd *)shell->list_cmd->content)->fd_in)
@@ -33,8 +36,6 @@ void	ft_exec(t_minishell *shell)
 		close(std[0]);
 		close(std[1]);
 	}
-	else
-		ft_pipe(shell, shell->list_cmd);
-	if (shell->exit_state == -1)
+	if (ft_lstsize(shell->list_cmd) > 1 || shell->exit_state == -1)
 		ft_pipe(shell, shell->list_cmd);
 }
