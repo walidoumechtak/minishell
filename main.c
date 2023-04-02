@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/30 11:29:57 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 14:33:23 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	main_support(t_minishell *ptr)
 {
 	int	state;
 
-	if (g_free_flag == 1)
+	if (g_state_sigint == 1)
 	{
-		g_free_flag = 0;
+		g_state_sigint = 0;
 		ptr->exit_state = 1;
 	}
 	init_struct(ptr);
@@ -39,7 +39,7 @@ int	main_support(t_minishell *ptr)
 
 void	ptr_failed(t_minishell *ptr)
 {
-	g_free_flag = 0;
+	g_state_sigint = 0;
 	if (!ptr)
 	{
 		ft_putstr_fd("Error: memory allocation\n", 2);
