@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/02 11:26:57 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 12:18:42 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_varaible(char *var)
 	i = 0;
 	while ((var[i] && var[i] != '=') || var[0] == '=')
 	{
-		if (var[0] == '-')
+		if (var[0] == '-' && var[0] == '\0')
 		{
 			ft_putstr_fd("minishell: export: '", 2);
 			ft_putstr_fd("usage: export [with no options]", 2);

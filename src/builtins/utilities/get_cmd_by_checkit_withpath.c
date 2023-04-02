@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/27 15:46:24 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 12:10:46 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ static char	*join_cmd_with_path(char *path, char *cmd, int end)
 
 static char	*get_value_of_path(t_list *env)
 {
-	char	**buff;
-
-	buff = NULL;
 	while (env)
 	{
 		if (ft_strnstr(((t_env *)env->content)->env_var, "PATH", 4))
@@ -57,6 +54,8 @@ static char	*check_cmd_with_path(char *cmd, char *path)
 	int		i;
 
 	i = 0;
+	if (!path)
+		return (ft_puterror(&cmd[1], "no such file or directory", 127), NULL);
 	if (!cmd || !*cmd)
 		return (ft_putstr_fd("Error: memory allocation\n", 2), exit(1), NULL);
 	while (path[i])
