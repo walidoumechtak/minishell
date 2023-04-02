@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:57:39 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:14:59 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ typedef struct s_uncoted_expaind
 	int		i;
 	t_list	*exp;
 }			t_uncoted_expaind;
-
-// split the value and join it again
 
 void	init_st(t_minishell *ptr, char **str, t_uncoted_expaind *u_e)
 {

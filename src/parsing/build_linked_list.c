@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:05:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 10:33:43 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:51:01 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 *   Error infile -> 7
 *   Error outfile and append -> 8
 *   Error heredoc -> 9
+*   if (((t_cmd *)temp->content)->cmd[i][0] != '\b')
+*				fill_with2(&((t_cmd *)temp->content)->cmd[i++], '\b', ' ');
+*	{ in case of (\bstring) --> will be " string" exemple : echo $non$ will be " $"
+*	insted of "$"
+*	}
 */
 
 void	remove_del_from_res(t_minishell *ptr)
@@ -28,7 +33,12 @@ void	remove_del_from_res(t_minishell *ptr)
 	{
 		i = 0;
 		while (((t_cmd *)temp->content)->cmd[i])
-			fill_with2(&((t_cmd *)temp->content)->cmd[i++], '\t', ' ');
+		{
+			if (((t_cmd *)temp->content)->cmd[i] != NULL
+				&& ((t_cmd *)temp->content)->cmd[i][0] != '\b')
+				fill_with2(&((t_cmd *)temp->content)->cmd[i], '\b', ' ');
+			i++;
+		}
 		temp = temp->next;
 	}
 }
