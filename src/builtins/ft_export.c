@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/02 10:49:23 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:07:50 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,5 @@ int	ft_export(t_minishell *shell, char **args)
 		add_to_env(shell, temp);
 		args++;
 	}
-	free(temp);
 	return (EXIT_SUCCESS);
 }

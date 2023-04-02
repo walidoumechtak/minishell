@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:30:35 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/30 10:32:19 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/03/30 10:32:19by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,28 @@ static int	check_flag(char *arg)
 
 int	ft_echo(char **args)
 {
-	int	flag;
+	int	flag[2];
 
-	flag = 1;
+	flag[0] = 1;
+	flag[1] = 1;
 	if (*args)
 	{
 		while (args && *args)
 		{
-			if (check_flag(*args))
+			if (flag[1] && check_flag(*args))
 			{
-				flag = 0;
+				flag[0] = 0;
 				args++;
 				continue ;
 			}
+			flag[1] = 0;
 			printf("%s", *args);
 			args++;
 			if (args && *args)
 				printf(" ");
 		}
 	}
-	if (flag)
+	if (flag[0])
 		printf("\n");
 	return (0);
 }
