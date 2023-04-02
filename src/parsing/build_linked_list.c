@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:05:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 12:40:13 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:33:43 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 *   Error heredoc -> 9
 */
 
-void	remove_tab_from_res(t_minishell *ptr)
+void	remove_del_from_res(t_minishell *ptr)
 {
 	t_list	*temp;
 	int		i;
 
-	i = 0;
 	temp = ptr->list_cmd;
 	while (temp)
 	{
+		i = 0;
 		while (((t_cmd *)temp->content)->cmd[i])
 			fill_with2(&((t_cmd *)temp->content)->cmd[i++], '\t', ' ');
 		temp = temp->next;
@@ -66,7 +66,7 @@ int	build_linked_list(t_minishell *ptr)
 		return (state);
 	if (ptr->max_here > 16)
 	{
-		ft_putstr_fd("maximum here-document count exceeded", 2);
+		ft_putstr_fd("maximum here-document count exceeded\n", 2);
 		free_linked_lists(ptr, 0);
 		exit(2);
 	}
@@ -79,6 +79,6 @@ int	build_linked_list(t_minishell *ptr)
 	state = check_slach_symbole(ptr);
 	if (state != 0)
 		return (state);
-	remove_tab_from_res(ptr);
+	remove_del_from_res(ptr);
 	return (0);
 }

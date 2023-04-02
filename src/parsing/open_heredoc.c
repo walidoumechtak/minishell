@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:24 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/31 15:14:08 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 08:43:24 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	file_heredoc(int rand, char **file)
 	char	*char_rand;
 
 	char_rand = ft_itoa(rand);
-	*file = ft_strjoin("here_file", char_rand);
+	*file = ft_strjoin("/tmp/here_file", char_rand);
 	while (access(*file, F_OK) == 0)
 	{
 		free(*file);
 		free(char_rand);
 		char_rand = ft_itoa(rand++);
-		*file = ft_strjoin("here_file", char_rand);
+		*file = ft_strjoin("/tmp/here_file", char_rand);
 	}
 	free(char_rand);
 }
@@ -66,8 +66,9 @@ void	child_heredoc(t_minishell *ptr, char **arr, char *file, int *data)
 		if (data[1] == 0)
 			expaind_heredoc(ptr, &str);
 		ft_putstr_fd(str, fd_file);
-		free(str);
 		ft_putstr_fd(">> ", 1);
+		free(str);
+		free(temp);
 		str = get_next_line(0);
 		temp = ft_strtrim(str, "\n");
 	}

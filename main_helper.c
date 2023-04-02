@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:34:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 12:34:42 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 08:33:12 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	remove_heredoc_files(t_minishell *ptr)
 		while (temp2)
 		{
 			if (((t_open_file *)temp2->content)->mode == 4)
+			{
 				unlink(((t_open_file *)temp2->content)->file);
+			}
 			temp2 = temp2->next;
 		}
 		temp1 = temp1->next;

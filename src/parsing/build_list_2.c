@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:24:01 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:57:24 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:16:23 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,32 @@
  * with out open it 
  * the outfiles are opend in another step (function - open_out())
 */
+
+void	open_o_f(t_minishell *ptr, int mode, char **arr, int i)
+{
+	if (check_ambiguous(arr[i + 1]) != 0 || (arr[i + 1][0] == '\b' && arr[i
+			+ 1][1] == '\0'))
+		ptr->o_file->fd = -2;
+	else if (ft_strncmp(arr[i + 1], "/dev/stdin", ft_strlen(arr[i + 1])
+			+ ft_strlen("/dev/stdin")) == 0)
+		ptr->o_file->fd = 0;
+	else if (ft_strncmp(arr[i + 1], "/dev/stdout", ft_strlen(arr[i + 1])
+			+ ft_strlen("/dev/stdout")) == 0)
+		ptr->o_file->fd = 1;
+	else if (ft_strncmp(arr[i + 1], "/dev/stderr", ft_strlen(arr[i + 1])
+			+ ft_strlen("/dev/stderr")) == 0)
+		ptr->o_file->fd = 2;
+	else
+	{
+		if (mode == 2)
+			ptr->o_file->fd = open(arr[i + 1], O_WRONLY | O_CREAT | O_TRUNC,
+					0777);
+		else if (mode == 3)
+			ptr->o_file->fd = open(arr[i + 1], O_WRONLY | O_CREAT | O_APPEND,
+					0777);
+	}
+	ptr->o_file->mode = mode;
+}
 
 void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 {
@@ -40,9 +66,9 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 		ptr->o_file->mode = 1;
 	}
 	else if (mode == 2)
-		ptr->o_file->mode = 2;
+		open_o_f(ptr, 2, arr, i);
 	else if (mode == 3)
-		ptr->o_file->mode = 3;
+		open_o_f(ptr, 3, arr, i);
 	ptr->o_file->file = ft_strdup(arr[i + 1]);
 	free_and_shift(arr, i);
 }
@@ -59,7 +85,7 @@ void	open_file(t_minishell *ptr, char **arr, int mode, int i)
 * build_list_2 - building the final linked list that should be
 * sned to execute part we loop throw a linked list of file and 
 * their file descriptor and assigne to each node 
-* hes **cmd and in_fd and out_fd
+* his **cmd and in_fd and out_fd
 */
 
 void	failed_alloc_listv2(t_minishell *ptr)

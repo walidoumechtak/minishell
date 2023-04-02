@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:09:57 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 14:57:15 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 07:46:00 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	alloc_flag_redrection(t_cmd_v1 *node_v1, char *str)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, '\b', ' ');
 	arr = ft_split(str, ' ');
 	while (arr[j])
 	{
@@ -68,7 +67,6 @@ void	build_if_expaind_heredoc(t_cmd_v1 *node_v1, char *str, int i)
 
 	j = 0;
 	cpt = 0;
-	fill_with(str, '\b', ' ');
 	arr = ft_split(str, ' ');
 	while (arr[j++])
 	{
