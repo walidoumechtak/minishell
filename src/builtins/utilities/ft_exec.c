@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:51:17 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/02 10:55:00 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:01:45 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exec(t_minishell *shell)
 	if (ft_lstsize(shell->list_cmd) == 1)
 	{
 		if (((t_cmd *)shell->list_cmd->content)->fd_in == -1
-			|| ((t_cmd *)shell->list_cmd->content)->fd_in == -1)
+			|| ((t_cmd *)shell->list_cmd->content)->fd_out == -1)
 			return ;
 		std[0] = dup(STDIN_FILENO);
 		std[1] = dup(STDOUT_FILENO);
