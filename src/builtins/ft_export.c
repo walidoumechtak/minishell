@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:43:30 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/30 13:58:22 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/01 17:10:51 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_varaible(char *var)
 	int	i;
 
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while ((var[i] && var[i] != '=') || var[0] == '=')
 	{
 		if (var[0] == '-')
 		{
@@ -39,7 +39,9 @@ static int	check_varaible(char *var)
 			ft_putstr_fd("[name[=value] ...] or export\n", 2);
 			return (2);
 		}
-		if (ft_isdigit(var[i]) || (var[i] != '_' && !ft_isalpha(var[i])))
+		if (var[i] == '+' && var[i + 1] == '=')
+			;
+		else if (ft_isdigit(var[0]) || (var[i] != '_' && !ft_isalnum(var[i])))
 		{
 			ft_putstr_fd("minishell: export: '", 2);
 			ft_putstr_fd(var, 2);
