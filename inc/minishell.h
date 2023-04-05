@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 14:33:23 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:30:03 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void			free_linked_lists(t_minishell *ptr, int flag);
 void			free_list_v1(t_minishell *ptr, t_list *temp2);
 void			free_env(t_list **head);
 void			free_and_shift(char **arr, int i);
+void			shift_array_of_nullter(t_minishell *ptr);
 
 /* ===== readline func ======= */
 
