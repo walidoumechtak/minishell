@@ -6,7 +6,7 @@
 #    By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/17 15:56:25 by hbenfadd          #+#    #+#              #
-#    Updated: 2023/04/02 11:42:07 by woumecht         ###   ########.fr        #
+#    Updated: 2023/04/02 14:30:18 by woumecht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= minishell
 LIBREADLINE		= -L /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/lib -lreadline
 INCREADLINE		= -I /goinfre/$(USER)/homebrew/Cellar/readline/8.2.1/include
 HEADER			= -I./inc -I./libft/inc 
-CFLAGS			= -Wall -Wextra -Werror $(HEADER) -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror $(HEADER)
 LIBFT			= ./libft/libft.a
 CLIB			=  -L./libft -lft 
 
@@ -39,8 +39,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-# $(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
-	$(CC) $(CFLAGS) $(HEADER)  $(OBJ) $(CLIB)  -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(HEADER) $(INCREADLINE) $(OBJ) $(CLIB) $(LIBREADLINE) -o $(NAME)
 
 $(LIBFT):
 	@echo "$(YALLOW)\n[libft]:$(NONE)"

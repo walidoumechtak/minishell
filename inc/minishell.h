@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/01 11:47:06 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/02 14:33:23 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # ifndef FREE_FLAG
 #  define FREE_FLAG
 
-int				g_free_flag;
+int				g_state_sigint;
 
 # endif
 
