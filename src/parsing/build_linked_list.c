@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:05:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 13:20:44 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/05 10:45:34 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	remove_del_from_res(t_minishell *ptr)
 		i = 0;
 		while (((t_cmd *)temp->content)->cmd[i])
 		{
-			if (((t_cmd *)temp->content)->cmd[i] != NULL
+			if (((t_cmd *)temp->content)->cmd[i][0] == '\b')
+				((t_cmd *)temp->content)->cmd[i][0] = '\0';
+			else if (((t_cmd *)temp->content)->cmd[i] != NULL
 				&& ((t_cmd *)temp->content)->cmd[i][0] != '\b')
 				fill_with2(&((t_cmd *)temp->content)->cmd[i], '\b', ' ');
 			i++;
@@ -90,5 +92,24 @@ int	build_linked_list(t_minishell *ptr)
 	if (state != 0)
 		return (state);
 	remove_del_from_res(ptr);
+
+	/* ======= */
+
+	int w = 0;
+	t_list *temp;
+
+	temp = ptr->list_cmd;
+	while (temp)
+	{
+		w = 0;
+		while (((t_cmd *)temp->content)->cmd[w])
+		{
+			printf("cmd[%d] : --%s--\n",w, ((t_cmd *)temp->content)->cmd[w]);
+			w++;
+		}
+		temp = temp->next;
+	}
+
+	/* ======= */
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 14:33:23 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/05 07:24:09 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	main_support(t_minishell *ptr)
 		free_spilte(ptr->splited_pipe);
 		return (1);
 	}
-	else
-		ptr->exit_state = 0;
 	ft_exec(ptr);
 	end_of_program(ptr);
 	return (0);

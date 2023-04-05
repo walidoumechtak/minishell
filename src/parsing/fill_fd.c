@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 08:57:04 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 10:16:40 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/05 07:27:50 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	mode_here(t_minishell *ptr, t_cmd *link1, t_open_file *link2, int state)
 	return (state);
 }
 
-int	other_mode(t_cmd *link1, t_open_file *link2)
+int	other_mode(t_minishell *ptr, t_cmd *link1, t_open_file *link2)
 {
 	if ((link2->mode == 2 || link2->mode == 3))
 	{
@@ -66,6 +66,7 @@ int	other_mode(t_cmd *link1, t_open_file *link2)
 			else
 				perror(link2->file);
 			link1->fd_out = -1;
+			ptr->exit_state = 1;
 			return (8);
 		}
 		else
@@ -97,7 +98,7 @@ int	fill_fd(t_minishell *ptr)
 			link2 = ((t_open_file *)temp2->content);
 			if (link2->mode == 1 && mode1(ptr, link1, link2) == 7)
 				state = 7;
-			else if (other_mode(link1, link2) == 8)
+			else if (other_mode(ptr, link1, link2) == 8)
 				state = 8;
 			state = mode_here(ptr, link1, link2, state);
 			temp2 = temp2->next;

@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 08:44:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/28 09:45:59 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/05 07:23:54 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	expaind_heredoc(t_minishell *ptr, char **str)
 		exp->sub = ft_substr(exp->iter, exp->s, exp->e);
 		exp_result(ptr, exp->sub, &exp->res, &exp->temp);
 	}
+	free(*str);
 	*str = exp->res;
 	free(exp);
 }
