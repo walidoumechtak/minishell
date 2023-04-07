@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/05 11:30:03 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:54:04 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void			expaind_exit_state(t_minishell *ptr, char **str);
 void			expaind_heredoc(t_minishell *ptr, char **str);
 void			fill_with(char *str, char old, char c);
 void			fill_with2(char **str, char old, char c);
+char			*fill_with3(char *str, char old, char c);
 int				open_out_file(t_open_file *link2);
 void			reaper_cmd(t_minishell *ptr, char **str);
 int				open_heredoc(t_minishell *ptr, char **arr, int i, int is_exp);

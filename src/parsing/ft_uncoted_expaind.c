@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 08:57:37 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 11:14:59 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 07:13:09 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_uncoted_expaind
 	char	*temp2;
 	char	*res;
 	int		i;
+	char	*white_space;
 	t_list	*exp;
 }			t_uncoted_expaind;
 
@@ -33,8 +34,12 @@ void	init_st(t_minishell *ptr, char **str, t_uncoted_expaind *u_e)
 
 void	body_u_e(t_uncoted_expaind *u_e, char **str)
 {
-	u_e->split_var = ft_split(((t_env *)u_e->exp->content)->env_value,
-			' ');
+	u_e->white_space = ft_strdup(((t_env *)u_e->exp->content)->env_value);
+	fill_with2(&u_e->white_space, '\t', ' ');
+	if (!u_e->white_space)
+		exit (1);
+	u_e->split_var = ft_split(u_e->white_space, ' ');
+	free(u_e->white_space);
 	while (u_e->split_var[u_e->i])
 	{
 		u_e->temp2 = ft_strjoin(u_e->res,

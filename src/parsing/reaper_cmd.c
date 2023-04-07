@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:15:59 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 11:50:04 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 07:15:20 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	init_rep(t_repare_cmd *rep, char **str)
 
 void	end_of_while(t_repare_cmd *rep)
 {
-	if (rep->result != NULL && rep->result[0] != '\0' && rep->sub[0] == '\b'
-		&& rep->sub[1] == '\0')
+	if (rep->result != NULL && rep->result[0] != '\0' && rep->sub != NULL
+		&& rep->sub[0] == '\b' && rep->sub[1] == '\0')
 	{
 		rep->sub[0] = '\0';
 	}
