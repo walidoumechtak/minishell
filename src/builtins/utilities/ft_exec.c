@@ -6,46 +6,11 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:51:17 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/05 10:59:25 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 07:58:49 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	check_null_cmd(t_minishell *shell)
-{
-	t_list	*cmd_list;
-	int		i;
-	char	**args;
-
-	cmd_list = shell->list_cmd;
-	while (cmd_list)
-	{
-		i = 0;
-		while (((t_cmd *)cmd_list->content)->cmd[i])
-		{
-			printf("args[%d] = --%s--\n",i ,((t_cmd *)cmd_list->content)->cmd[i]);
-			i++;
-		}
-		i = 0;
-		args = ((t_cmd *)cmd_list->content)->cmd;
-		while (args[i][0] == '\0')
-		{
-			printf("dax num %d\n", i);
-			*((t_cmd *)cmd_list->content)->cmd = args[i + 1];
-			free(args[i]);
-		}
-		i = 0;
-		printf("------------\n");
-		while (((t_cmd *)cmd_list->content)->cmd[i])
-		{
-			printf("args[%d] = --%s--\n",i ,((t_cmd *)cmd_list->content)->cmd[i]);
-			i++;
-		}
-		
-		cmd_list = cmd_list->next;
-	}
-}
 
 void	ft_exec(t_minishell *shell)
 {
