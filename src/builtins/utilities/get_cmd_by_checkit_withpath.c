@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:08:01 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/02 12:10:46 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:22:16 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*check_cmd_with_path(char *cmd, char *path)
 				if (!access(joined_cmd, X_OK))
 					return (joined_cmd);
 				else
-					return (ft_puterror(&cmd[1], "permission denied", 1), NULL);
+					return (ft_puterror(&cmd[1], "permision denid", 126), NULL);
 			}
 			free(joined_cmd);
 		}
@@ -85,7 +85,7 @@ char	*get_cmd_by_checkit_withpath(char *cmd, t_list *env)
 			if (!access(cmd, X_OK))
 				return (cmd);
 			else
-				ft_puterror(cmd, "permission denied\n", 1);
+				ft_puterror(cmd, "permission denied\n", 126);
 		}
 		else
 		{

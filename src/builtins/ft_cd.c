@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 14:42:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/28 15:49:13 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:01:15 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	change_dir(t_minishell *shell, char *path)
 	}
 	if (update_value_var_env(shell, "PWD"))
 		return (EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_cd(t_minishell *shell, char **args)
