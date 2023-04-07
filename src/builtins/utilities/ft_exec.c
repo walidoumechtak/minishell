@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:51:17 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/04/07 07:58:49 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 08:00:38 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_exec(t_minishell *shell)
 {
 	int	std[2];
 
-	check_null_cmd(shell);
 	if (ft_lstsize(shell->list_cmd) == 1)
 	{
 		if (((t_cmd *)shell->list_cmd->content)->fd_in == -1
