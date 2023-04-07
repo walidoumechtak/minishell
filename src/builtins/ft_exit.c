@@ -6,19 +6,19 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 08:28:51 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/30 12:29:05 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 10:24:12 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(char **args)
+int	ft_exit(t_minishell *shell, char **args)
 {
 	int	i;
 
 	i = 0;
 	if (!args || !*args)
-		exit(0);
+		exit(shell->exit_state);
 	while ((*args)[i])
 	{
 		if (ft_isalpha((*args)[i]) || (((*args)[++i])

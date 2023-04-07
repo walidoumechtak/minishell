@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 15:14:47 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:04 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 10:22:50 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int				ft_cd(t_minishell *shell, char **args);
 void			ft_pipe(t_minishell *shell, t_list *cmd);
 int				ft_env(t_list *env);
 int				ft_unset(t_minishell *shell, char **agrs);
-int				ft_exit(char **args);
+int				ft_exit(t_minishell *shell, char **args);
 int				ft_export(t_minishell *shell, char **args);
 
 /* =====  Builtins Utilities ===== */

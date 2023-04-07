@@ -6,7 +6,7 @@
 /*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 10:30:59 by hbenfadd          #+#    #+#             */
-/*   Updated: 2023/03/29 13:25:06 by hbenfadd         ###   ########.fr       */
+/*   Updated: 2023/04/07 11:26:55 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ static pid_t	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 	char	*cmd;
 	int		pid;
 
-	pipe(fd);
-	pid = fork();
+	pid = (pipe(fd), fork());
 	if (!pid)
 	{
+		if (!s_cmd->cmd)
+			(close(0), exit(0));
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (s_cmd->fd_in == -1 || s_cmd->fd_out == -1)
@@ -44,8 +45,7 @@ static pid_t	exec_cmd(t_minishell *shell, t_cmd	*s_cmd, t_list *next)
 			dup2(fd[1], STDOUT_FILENO);
 		else
 			dup2(s_cmd->fd_out, STDOUT_FILENO);
-		close(fd[1]);
-		s = exec_is_builtins(shell, s_cmd->cmd, shell->env);
+		s = (close(fd[1]), exec_is_builtins(shell, s_cmd->cmd, shell->env));
 		if (s != -1)
 			exit(s);
 		cmd = get_cmd_by_checkit_withpath(*s_cmd->cmd, shell->env);
@@ -87,14 +87,11 @@ void	ft_pipe(t_minishell *shell, t_list *cmd)
 		dup2(((t_cmd *)(cmd->content))->fd_in, STDIN_FILENO);
 	while (cmd)
 	{
-		if (*((t_cmd *)cmd->content)->cmd)
-		{
-			if (((t_cmd *)cmd->content)->fd_in == 1)
-				dup2(stdin, STDIN_FILENO);
-			else if (((t_cmd *)cmd->content)->fd_in > 1)
-				dup2(((t_cmd *)cmd->content)->fd_in, STDIN_FILENO);
-			pid = exec_cmd(shell, cmd->content, cmd->next);
-		}
+		if (((t_cmd *)cmd->content)->fd_in == 1)
+			dup2(stdin, STDIN_FILENO);
+		else if (((t_cmd *)cmd->content)->fd_in > 1)
+			dup2(((t_cmd *)cmd->content)->fd_in, STDIN_FILENO);
+		pid = exec_cmd(shell, cmd->content, cmd->next);
 		cmd = cmd->next;
 	}
 	return_status(shell, pid, stdin);
