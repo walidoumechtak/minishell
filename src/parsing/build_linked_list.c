@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_linked_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbenfadd <hbenfadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 11:05:03 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/05 11:29:14 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:43:34 by hbenfadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_slach_symbole(t_minishell *ptr)
 	while (temp != NULL)
 	{
 		dir = opendir(((t_cmd *)temp->content)->cmd[0]);
-		if (dir != NULL)
+		if (dir != NULL && ft_strchr(((t_cmd *)temp->content)->cmd[0], '/'))
 		{
 			open_error(ptr, ((t_cmd *)temp->content)->cmd[0],
 				": is a directory\n", 126);
