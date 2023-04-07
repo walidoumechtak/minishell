@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:25:05 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/02 07:31:19 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:14:14 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ int	rederction_syntax(char *arr)
 	{
 		if (redirection_null(split, j) == 1)
 			return (free_spilte(split), 1);
-		if (((ft_strncmp(split[j], ">", 1) == 0 || ft_strncmp(split[j], "<",
-						1) == 0) && (ft_strncmp(split[j + 1], ">", 1) == 0
-					|| ft_strncmp(split[j + 1], "<", 1) == 0)))
+		if (split[j + 1] && ((ft_strncmp(split[j], ">", 1) == 0
+					|| ft_strncmp(split[j], "<", 1) == 0) && (ft_strncmp(split[j
+							+ 1], ">", 1) == 0 || ft_strncmp(split[j + 1], "<",
+						1) == 0)))
 			return (free_spilte(split), 1);
 		else if (count_rederction(split, j) == 1)
 			return (free_spilte(split), 1);

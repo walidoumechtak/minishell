@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:48:56 by woumecht          #+#    #+#             */
-/*   Updated: 2023/04/05 11:29:44 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:44:30 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 		if (ptr->str == NULL || ptr->str[0] == '\0')
 		{
 			if (ptr->str == NULL)
-				break ;
+				exit (ptr->exit_state);
 			free(ptr->str);
 			continue ;
 		}

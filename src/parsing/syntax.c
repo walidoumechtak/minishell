@@ -6,7 +6,7 @@
 /*   By: woumecht <woumecht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:30:46 by woumecht          #+#    #+#             */
-/*   Updated: 2023/03/29 11:19:40 by woumecht         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:10:59 by woumecht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,24 @@ int	check_pipe_syntax(char *str)
 	i = 0;
 	if (!str || str[0] == '\0')
 		return (0);
-	else
-	{
-		while (str[i] == ' ')
-			i++;
-		str = ft_strtrim(str + i, "time");
-		i = 0;
-		while (str[i] == ' ')
-			i++;
-		if (str[i] == '|')
-			return (free(str), 1);
-		temp = ft_strlen(str) - 1;
-		while (str[temp] == ' ')
-			temp--;
-		if (str[temp] == '|')
-			return (free(str), 1);
-		if (check_pipe_2(str, &i) == 1)
-			return (free(str), 1);
+	while (str[i] == ' ')
+		i++;
+	str = ft_strtrim(str + i, "time");
+	i = 0;
+	if (str[0] == '\0')
 		return (free(str), 0);
-	}
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '|')
+		return (free(str), 1);
+	temp = ft_strlen(str) - 1;
+	while (str[temp] == ' ')
+		temp--;
+	if (str[temp] == '|')
+		return (free(str), 1);
+	if (check_pipe_2(str, &i) == 1)
+		return (free(str), 1);
+	return (free(str), 0);
 }
 
 int	check_semi_colum(char **arr)
